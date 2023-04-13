@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {CustomMap, MapWrapper} from "./styles";
 import {TileLayer} from "react-leaflet";
 import 'leaflet/dist/leaflet.css'
+import {MapMarker} from "../MapMarker/MapMarker";
 
 
 const Map: FC = () => {
@@ -17,6 +18,7 @@ const Map: FC = () => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 />
+                <MapMarker/>
             </CustomMap>
         </MapWrapper>
     );
