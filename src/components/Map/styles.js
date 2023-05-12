@@ -14,3 +14,9 @@ export const CustomMap = styled(MapContainer)(({theme}) => ({
     width: '100%',
     position: 'relative'
 }))
+
+export const YandexMapContainer = styled('div')(({theme}) => ({
+    height: '100%',
+    width: '100%',
+    position: 'relative'
+}))

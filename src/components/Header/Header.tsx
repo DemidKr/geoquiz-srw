@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import {AppBar, Box, InputAdornment} from "@mui/material";
-import { Autocomplete } from '@react-google-maps/api';
 import SearchIcon from '@mui/icons-material/Search';
 import {HeaderInput, HeaderToolbar, HeaderTypography, SearchBox, SearchIconWrapper} from "./styles";
 
