@@ -1,7 +1,8 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
+import coordinatesReducer from "./reducers/CoordinatesSlice"
 
 const rootReducer = combineReducers({
-
+    coordinatesReducer
 })
 
 export const setupStore = () => {
