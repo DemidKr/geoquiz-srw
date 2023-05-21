@@ -1,8 +1,13 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
-import coordinatesReducer from "./reducers/CoordinatesSlice"
+import {userSlice} from "./reducers/UserSlice";
+import {coordinatesSlice} from "./reducers/CoordinatesSlice";
+import {snackbarSlice} from "./reducers/SnackbarSlice";
 
 const rootReducer = combineReducers({
-    coordinatesReducer
+    user: userSlice.reducer,
+    coordinates: coordinatesSlice.reducer,
+    snackbar: snackbarSlice.reducer,
+
 })
 
 export const setupStore = () => {

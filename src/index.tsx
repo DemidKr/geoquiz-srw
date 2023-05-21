@@ -4,6 +4,7 @@ import App from './App';
 import {Provider} from "react-redux";
 import {setupStore} from "./store/store";
 import {YMaps} from "@pbe/react-yandex-maps";
+import {SnackbarProvider} from "notistack";
 
 const store = setupStore()
 
@@ -16,7 +17,9 @@ root.render(
         preload={true}
     >
         <Provider store={store}>
-            <App />
+            <SnackbarProvider maxSnack={4}>
+                <App />
+            </SnackbarProvider>
         </Provider>
     </YMaps>
 );

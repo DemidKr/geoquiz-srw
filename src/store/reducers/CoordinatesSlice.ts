@@ -21,5 +21,3 @@ export const coordinatesSlice = createSlice({
         }
     }
 })
-
-export default coordinatesSlice.reducer;

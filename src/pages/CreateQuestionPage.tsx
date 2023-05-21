@@ -1,18 +1,18 @@
 import React, {FC, useEffect, useRef} from 'react';
-import {Button, CssBaseline, Grid} from "@mui/material";
-import Header from "../../components/Header/Header";
-import CreateQuestionBox from "../../components/CreateQuestionBox/CreateQuestionBox";
-import Map from "../../components/Map/Map";
-import {Panorama, useYMaps, withYMaps, YMaps} from "@pbe/react-yandex-maps";
-import {MapWrapper, YandexMapContainer} from "../../components/Map/styles";
-import {useAppSelector} from "../../shared/hooks/redux";
+import {CssBaseline, Grid} from "@mui/material";
+import {useYMaps} from "@pbe/react-yandex-maps";
+import {useAppSelector} from "../shared/hooks/redux";
+import Header from "../components/Header/Header";
+import {MapWrapper} from "../components/Map/styles";
+import CreateQuestionBox from "../components/CreateQuestionBox/CreateQuestionBox";
+
 
 const CreateQuestionPage: FC = () => {
     const ymaps = useYMaps(['package.full']);
     const panoramaRef = useRef<any>(null);
     const yplayer = useRef<any>(null)
 
-    const {coordinates} = useAppSelector(state => state.coordinatesReducer)
+    const {coordinates} = useAppSelector(state => state.coordinates)
 
 
     useEffect(() => {
@@ -31,7 +31,8 @@ const CreateQuestionPage: FC = () => {
                         // direction - направление взгляда.
                         direction: [10, 10],
                         controls: [],
-                        suppressMapOpenBlock: true
+                        suppressMapOpenBlock: true,
+                        hotkeysEnabled: false
                     });
                     yplayer.current = player
                 } else {
@@ -58,24 +59,7 @@ const CreateQuestionPage: FC = () => {
             <Grid container style={{width: '100%'}}>
                 <Grid item xs={12}>
                     <MapWrapper>
-                        {/*<Panorama*/}
-                        {/*    style={{height: '620px'*/}
-                        {/*        // `calc(100% - 64px)`*/}
-                        {/*        ,  width:*/}
-                        {/*            '100%'*/}
-                        {/*        ,*/}
-                        {/*        position: 'relative'}}*/}
-                        {/*    point={[55.733685, 37.588264]}*/}
-                        {/*    options={{*/}
-                        {/*        suppressMapOpenBlock: true,*/}
-                        {/*        controls: []*/}
-                        {/*    }}*/}
-                        {/*    instanceRef={ref => yplayer.current = ref}*/}
-                        {/*/>*/}
                         <div ref={panoramaRef} style={{ width: '100%', height: `calc(100% - 64px)` }} />
-                        {/*<h1>{coordinates}</h1>*/}
-                        {/*<Button variant='contained' onClick={() => yplayer.current.moveTo(coordinates)}>Move panorama</Button>*/}
-
                     </MapWrapper>
                 </Grid>
             </Grid>
