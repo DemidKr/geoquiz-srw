@@ -7,7 +7,7 @@ interface CoordinatesState {
 }
 
 const initialState: CoordinatesState = {
-    coordinates: [55.733685, 37.588264],
+    coordinates: [47.23620154498959, 39.712672605191955],
     isLoading: false,
     error: ''
 }

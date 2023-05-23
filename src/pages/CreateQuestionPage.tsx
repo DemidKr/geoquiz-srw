@@ -5,12 +5,15 @@ import {useAppSelector} from "../shared/hooks/redux";
 import Header from "../components/Header/Header";
 import {MapWrapper} from "../components/Map/styles";
 import CreateQuestionBox from "../components/CreateQuestionBox/CreateQuestionBox";
+import {useAction} from "../shared/hooks/useAction";
 
 
 const CreateQuestionPage: FC = () => {
     const ymaps = useYMaps(['package.full']);
     const panoramaRef = useRef<any>(null);
     const yplayer = useRef<any>(null)
+
+    const addSnack = useAction()
 
     const {coordinates} = useAppSelector(state => state.coordinates)
 
@@ -20,7 +23,7 @@ const CreateQuestionPage: FC = () => {
             return;
         }
 
-        let locateRequest = ymaps.panorama.locate([55.83403, 37.623370]);
+        let locateRequest = ymaps.panorama.locate([47.23620154498959, 39.712672605191955]);
 
         locateRequest.then(
             function (panoramas) {
@@ -29,18 +32,18 @@ const CreateQuestionPage: FC = () => {
                     let player = new ymaps.panorama.Player(panoramaRef.current, panoramas[0], {
                         // Опции панорамы.
                         // direction - направление взгляда.
-                        direction: [10, 10],
+                        direction: [-10, 0],
                         controls: [],
                         suppressMapOpenBlock: true,
                         hotkeysEnabled: false
                     });
                     yplayer.current = player
                 } else {
-                    console.log("Для заданной точки не найдено ни одной панорамы.");
+                    addSnack("Для заданной точки не найдено ни одной панорамы. Попробуйте обновить страницу", "error")
                 }
             },
             function (err) {
-                console.log("При попытке получить панораму возникла ошибка.");
+                addSnack("При попытке получить панораму возникла ошибка.", "error")
             }
         );
     }, [ymaps]);
