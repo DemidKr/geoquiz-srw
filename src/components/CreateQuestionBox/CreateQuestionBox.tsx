@@ -4,16 +4,25 @@ import {FormWrapper} from "./styles";
 import {Placemark, Map, TypeSelector, useYMaps} from "@pbe/react-yandex-maps";
 import {useAppDispatch, useAppSelector} from "../../shared/hooks/redux";
 import {coordinatesSlice} from "../../store/reducers/CoordinatesSlice";
+import {useNavigate} from "react-router-dom";
+import {getAuthDataFromLS} from "../../store/action-creators/auth";
+import {createQuestion, getQuestions} from "../../store/action-creators/questions";
+import {addSnack} from "../../store/action-creators/snackbar";
+import {useAction} from "../../shared/hooks/useAction";
 
 
 const CreateQuestionBox: FC = () => {
     const ymaps = useYMaps(['package.full']);
 
     const {coordinates} = useAppSelector(state => state.coordinates)
+    const {isLoading ,error} = useAppSelector(state => state.questions)
     const {changeCoordinates} = coordinatesSlice.actions
     const dispatch = useAppDispatch()
+    const addSnack = useAction()
 
-    const [type, setType] = useState<number>(1)
+    const navigate = useNavigate()
+
+    const [name, setName] = useState<string>('')
 
     const movePlacemark = (coord: any) => {
         if(ymaps !== null) {
@@ -36,29 +45,40 @@ const CreateQuestionBox: FC = () => {
         }
     }
 
+    const handleCreate = async () => {
+        const authData = dispatch(getAuthDataFromLS());
+
+        const question = await dispatch(createQuestion({
+            url: '/question',
+            question: {
+                name: name,
+                coordinates: coordinates,
+                date: new Date(Date.now())
+            },
+            token: authData.access_token
+        }));
+
+        if (!question) {
+            addSnack(`Ошибка в создании, попробуйте снова. ${error}`, 'error')
+        } else {
+            addSnack(`Успешно создан!`, 'success')
+            navigate('/main')
+        }
+    }
+
     return (
         <FormWrapper>
             <Grid container direction='column' alignItems='center' sx={{padding: '15px'}}>
-                <FormControl fullWidth variant='standard'>
-                    <InputLabel id='demo-simple-select-label'>Тип викторины</InputLabel>
-                    <Select
-                        labelId='demo-simple-select-label'
-                        id='demo-simple-select'
-                        value={type.toString()}
-                        label='Тип викторины'
-                    >
-                        <MenuItem value={1}>Угадай из списка</MenuItem>
-                        <MenuItem value={2}>Угадай локацию</MenuItem>
-                        <MenuItem value={3}>Угадай название</MenuItem>
-                    </Select>
-                </FormControl>
                 <TextField
                     required
                     sx={{ marginTop: '15px' }}
                     fullWidth
                     id="outlined-required"
-                    label="Название точки"
-                    defaultValue=""
+                    label="Название викторины"
+                    value={name}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                        setName(event.target.value)
+                    }
                 />
                 <Grid item xs={2} sx={{ marginTop: ' 15px' }}>
                     <Map
@@ -78,14 +98,8 @@ const CreateQuestionBox: FC = () => {
                         {coordinates?.length !== 0 && <Placemark options={{draggable: true}} geometry={coordinates}></Placemark>}
                     </Map>
                 </Grid>
-                <Grid item xs={2} sx={{ marginTop: ' 15px' }}>
-                    <Button>Сохранить и продолжить</Button>
-                </Grid>
-                <Grid item xs={3} sx={{ marginTop: '15px' }}>
-                    <Pagination count={15} color='primary' />
-                </Grid>
                 <Grid item xs={2} sx={{ marginTop: ' 15px'}}>
-                    <Button >Завершить создание викторины</Button>
+                    <Button disabled={isLoading} onClick={handleCreate}>Завершить создание викторины</Button>
                 </Grid>
             </Grid>
         </FormWrapper>

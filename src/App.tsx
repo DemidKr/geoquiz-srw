@@ -15,6 +15,7 @@ const App: FC = () => {
         if (!auth || !auth.access_token || !auth.refresh_token) {
             dispatch(userSlice.actions.removeUser())
         } else {
+
             dispatch(userSlice.actions.userFetchingSuccess(auth.username))
         }
     }, [])

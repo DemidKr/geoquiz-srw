@@ -10,8 +10,10 @@ export const login = (username: string, password: string) => async (dispatch: Ap
 
         dispatch(userSlice.actions.userFetchingSuccess(response.data.username))
         localStorage.setItem('auth', JSON.stringify(response.data));
+        return response
     } catch (e: any) {
         dispatch(userSlice.actions.userFetchingError(e.message))
+        return e
     }
 }
 
@@ -23,8 +25,10 @@ export const registration = (username: string, password: string) => async (dispa
 
         dispatch(userSlice.actions.userFetchingSuccess(response.data.username))
         localStorage.setItem('auth', JSON.stringify(response.data));
+        return response
     } catch (e: any) {
         dispatch(userSlice.actions.userFetchingError(e.message))
+        return e
     }
 }
 

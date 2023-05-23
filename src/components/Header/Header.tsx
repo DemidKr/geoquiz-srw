@@ -51,7 +51,7 @@ const Header: FC = () => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="static" sx={{backgroundColor: '#F36C41'}}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <PublicIcon sx={{ display: 'flex', mr: 1 }} />

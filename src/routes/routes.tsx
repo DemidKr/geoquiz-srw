@@ -4,6 +4,7 @@ import LoginPage from "../pages/LoginPage";
 import {Navigate} from "react-router-dom";
 import MainPage from "../pages/MainPage";
 import CreateQuestionPage from "../pages/CreateQuestionPage";
+import QuestionPage from "../pages/QuestionPage";
 
 interface IRouter {
     path: string
@@ -23,11 +24,10 @@ export const publicRoutes: Array<IRouter> = [
         path: '/main',
         element: <MainPage />,
     },
-    // {
-    //     path: '/quiz/:id',
-    //     element: <QuestionPage />,
-    // },
-
+    {
+        path: '/question/:id',
+        element: <QuestionPage />,
+    },
     { path: '*', element: <Navigate to='/main' replace /> },
 ]
 
@@ -40,10 +40,10 @@ export const userRoutes: Array<IRouter> = [
         path: '/main',
         element: <MainPage />,
     },
-    // {
-    //     path: '/quiz/:id',
-    //     element: <QuestionPage />,
-    // },
+    {
+        path: '/question/:id',
+        element: <QuestionPage />,
+    },
     {
         path: '/createQuestion',
         element: <CreateQuestionPage />,
