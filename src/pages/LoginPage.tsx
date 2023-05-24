@@ -1,11 +1,9 @@
 import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
-import {userSlice} from "../store/reducers/UserSlice";
 import {Button, CssBaseline, Grid, TextField, Typography} from "@mui/material";
 import Header from "../components/Header/Header";
-import {addSnack} from "../store/action-creators/snackbar";
 import {useAction} from "../shared/hooks/useAction";
-import {login, registration} from "../store/action-creators/auth";
+import {login} from "../store/action-creators/auth";
 import {useNavigate} from "react-router-dom";
 
 const LoginPage = () => {

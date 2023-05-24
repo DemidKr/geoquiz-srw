@@ -33,10 +33,6 @@ export const publicRoutes: Array<IRouter> = [
 ]
 
 export const userRoutes: Array<IRouter> = [
-    // {
-    //     path: '/profile',
-    //     element: <Profile />,
-    // },
     {
         path: '/main',
         element: <MainPage />,

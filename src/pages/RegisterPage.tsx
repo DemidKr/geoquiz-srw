@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
-import {userSlice} from "../store/reducers/UserSlice";
 import {Button, CssBaseline, Grid, TextField, Typography} from "@mui/material";
 import Header from "../components/Header/Header";
 import {useAction} from "../shared/hooks/useAction";

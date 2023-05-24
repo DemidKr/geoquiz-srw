@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {CssBaseline, Grid} from "@mui/material";
 import Header from "../components/Header/Header";
-import {getAuthDataFromLS} from "../store/action-creators/auth";
 import {getQuestions} from "../store/action-creators/questions";
 import {useAppDispatch} from "../shared/hooks/redux";
 import {useYMaps} from "@pbe/react-yandex-maps";
@@ -14,7 +13,6 @@ const QuestionPage = () => {
     const ymaps = useYMaps(['package.full']);
     const panoramaRef = useRef<any>(null);
     const yplayer = useRef<any>(null)
-    const shouldLoadQuestions = useRef(true)
     const [coordinates, setCoordinates] = useState<number[]>([55.83403, 37.623370])
     const [name, setName] = useState<string>('')
 
@@ -61,19 +59,6 @@ const QuestionPage = () => {
 
 
     }, [ymaps]);
-
-    // useEffect(() => {
-    //     if(shouldLoadQuestions.current) {
-    //         shouldLoadQuestions.current = false
-    //         handleGetQuestion()
-    //     }
-    // }, [])
-    //
-    // useEffect(() => {
-    //     if (yplayer.current) {
-    //         yplayer.current.moveTo(coordinates)
-    //     }
-    // }, [coordinates])
 
     const handleGetQuestion = async () => {
         const question = dispatch(getQuestions({

@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
-import {getQuestions, getUserQuestions} from "../store/action-creators/questions";
+import {getUserQuestions} from "../store/action-creators/questions";
 import {CssBaseline, Grid, Paper, Typography} from "@mui/material";
 import Header from "../components/Header/Header";
 import {QuestionCard} from "../components/QuestionCard/QuestionCard";

@@ -7,10 +7,9 @@ import {
     DialogContentText,
     DialogTitle,
     Grid,
-    TextField,
     Typography
 } from "@mui/material";
-import {Map, Placemark, TypeSelector, useYMaps} from "@pbe/react-yandex-maps";
+import {Map, Placemark, useYMaps} from "@pbe/react-yandex-maps";
 import {useAppDispatch} from "../../shared/hooks/redux";
 import {useAction} from "../../shared/hooks/useAction";
 import {useNavigate} from "react-router-dom";

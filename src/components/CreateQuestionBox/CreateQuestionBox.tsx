@@ -1,23 +1,17 @@
 import React, {FC, useState} from 'react';
 import {
     Button,
-    FormControl,
     Grid,
-    InputLabel,
-    MenuItem,
-    Pagination,
-    Select,
     TextField,
     Typography
 } from "@mui/material";
 import {FormWrapper} from "./styles";
-import {Placemark, Map, TypeSelector, useYMaps} from "@pbe/react-yandex-maps";
+import {Placemark, Map, useYMaps} from "@pbe/react-yandex-maps";
 import {useAppDispatch, useAppSelector} from "../../shared/hooks/redux";
 import {coordinatesSlice} from "../../store/reducers/CoordinatesSlice";
 import {useNavigate} from "react-router-dom";
 import {getAuthDataFromLS} from "../../store/action-creators/auth";
-import {createQuestion, getQuestions} from "../../store/action-creators/questions";
-import {addSnack} from "../../store/action-creators/snackbar";
+import {createQuestion} from "../../store/action-creators/questions";
 import {useAction} from "../../shared/hooks/useAction";
 
 

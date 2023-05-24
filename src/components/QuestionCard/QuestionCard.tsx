@@ -5,7 +5,7 @@ import {Button, Card, CardContent, CardMedia, Grid, Typography} from "@mui/mater
 import {useAppDispatch, useAppSelector} from "../../shared/hooks/redux";
 import {useAction} from "../../shared/hooks/useAction";
 import {getAuthDataFromLS} from "../../store/action-creators/auth";
-import {createQuestion, deleteQuestion} from "../../store/action-creators/questions";
+import {deleteQuestion} from "../../store/action-creators/questions";
 
 interface QuestionCardProps {
     question: IQuestion,

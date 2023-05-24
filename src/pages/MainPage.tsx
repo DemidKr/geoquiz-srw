@@ -2,7 +2,6 @@ import React, {useEffect, useRef} from 'react';
 import {CssBaseline, Grid, Paper, Typography} from "@mui/material";
 import Header from "../components/Header/Header";
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
-import {getAuthDataFromLS} from "../store/action-creators/auth";
 import {getQuestions} from "../store/action-creators/questions";
 import {QuestionCard} from "../components/QuestionCard/QuestionCard";
 

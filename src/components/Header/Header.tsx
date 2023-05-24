@@ -15,9 +15,6 @@ import PublicIcon from '@mui/icons-material/Public';
 import {useNavigate} from "react-router-dom";
 import {userSlice} from "../../store/reducers/UserSlice";
 
-const settings = ['Profile', 'Account', 'Dashboard'];
-
-
 const Header: FC = () => {
     const {isAuth} = useAppSelector(state => state.user)
 
