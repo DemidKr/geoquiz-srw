@@ -97,7 +97,11 @@ const RegisterPage = () => {
                     <Button
                         disabled={isLoading}
                         onClick={handleRegistration}
-                        sx={{backgroundColor: '#F36C41', color: 'white', minWidth: '200px'}}
+                        sx={{backgroundColor: '#F36C41', color: 'white', minWidth: '200px',
+                            '&.MuiButton-root:hover':{
+                                backgroundColor: '#e04819'
+                            },
+                        }}
                     >
                         Зарегистирироваться
                     </Button>

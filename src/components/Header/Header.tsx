@@ -69,6 +69,9 @@ const Header: FC = () => {
                                 letterSpacing: '.3rem',
                                 color: 'inherit',
                                 textDecoration: 'none',
+                                "&:hover": {
+                                    cursor: 'pointer',
+                                },
                             }}
                         >
                             Geoquiz
@@ -98,20 +101,20 @@ const Header: FC = () => {
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
                                 >
-                                    {/*{settings.map((setting) => (*/}
-                                    {/*    <MenuItem key={setting} onClick={handleCloseUserMenu}>*/}
-                                    {/*        <Typography textAlign="center">{setting}</Typography>*/}
-                                    {/*    </MenuItem>*/}
-                                    {/*))}*/}
                                     <MenuItem
                                         onClick={() => navigator('/createQuestion')}
                                     >
-                                        <Typography textAlign="center">Создать панораму</Typography>
+                                        <Typography textAlign="center">Создать геоквиз</Typography>
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() => navigator('/userQuestions')}
+                                    >
+                                        <Typography textAlign="center">Мои геоквизы</Typography>
                                     </MenuItem>
                                     <MenuItem
                                         onClick={logout}
                                     >
-                                        <Typography textAlign="center">Logout</Typography>
+                                        <Typography textAlign="center">Выйти</Typography>
                                     </MenuItem>
                                 </Menu>
                             </Box>
@@ -121,17 +124,25 @@ const Header: FC = () => {
                                     onClick={() => {
                                         navigator('/login')
                                     }}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                    sx={{ my: 2, marginRight: '8px', backgroundColor: 'white', color: '#F36C41', display: 'block',
+                                        '&.MuiButton-root:hover':{
+                                            backgroundColor: 'lightgrey'
+                                        },
+                                    }}
                                 >
-                                    Login
+                                    Логин
                                 </Button>
                                 <Button
                                     onClick={() => {
                                         navigator('/register')
                                     }}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                    sx={{ my: 2, backgroundColor: 'white', color: '#F36C41', display: 'block',
+                                        '&.MuiButton-root:hover':{
+                                            backgroundColor: 'lightgrey'
+                                        },
+                                    }}
                                 >
-                                    Register
+                                    Регистрация
                                 </Button>
                             </Box>
                         }

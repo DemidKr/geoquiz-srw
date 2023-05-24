@@ -92,7 +92,11 @@ const LoginPage = () => {
                     <Button
                         disabled={isLoading}
                         onClick={handleLogin}
-                        sx={{backgroundColor: '#F36C41', color: 'white', minWidth: '200px'}}
+                        sx={{backgroundColor: '#F36C41', color: 'white', minWidth: '200px',
+                            '&.MuiButton-root:hover':{
+                                backgroundColor: '#e04819'
+                            },
+                        }}
                     >
                         Войти
                     </Button>

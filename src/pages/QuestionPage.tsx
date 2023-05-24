@@ -16,6 +16,7 @@ const QuestionPage = () => {
     const yplayer = useRef<any>(null)
     const shouldLoadQuestions = useRef(true)
     const [coordinates, setCoordinates] = useState<number[]>([55.83403, 37.623370])
+    const [name, setName] = useState<string>('')
 
     const dispatch = useAppDispatch()
 
@@ -31,6 +32,7 @@ const QuestionPage = () => {
             console.log(coordinates)
             if(question) {
                 setCoordinates(question.data.coordinates)
+                setName(question.data.name)
             }
             console.log(coordinates)
 
@@ -92,7 +94,7 @@ const QuestionPage = () => {
                     </MapWrapper>
                 </Grid>
             </Grid>
-            <AnswerQuestionBox coord={coordinates}/>
+            <AnswerQuestionBox coord={coordinates} name={name}/>
         </>
     );
 };

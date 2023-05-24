@@ -51,6 +51,7 @@ export const deleteQuestion = ({ url, token, id }: IDeleteQuestion) => async (di
         const response = await api.delete(`${url}/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
         console.log("response", response)
         dispatch(questionsSlice.actions.questionsDeleteSuccess(response.data))
+        return response
     } catch (e: any) {
         dispatch(questionsSlice.actions.questionsFetchingError(e.message))
     }

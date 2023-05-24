@@ -91,14 +91,14 @@ const CreateQuestionBox: FC = () => {
                     component="div"
                     sx={{color: '#F36C41'}}
                 >
-                    Создание панорамы
+                    Создание геоквиза
                 </Typography>
                 <TextField
                     required
                     sx={{ marginTop: '15px' }}
                     fullWidth
                     id="outlined-required"
-                    label="Название викторины"
+                    label="Название геоквиза"
                     value={name}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                         setName(event.target.value)
@@ -136,16 +136,20 @@ const CreateQuestionBox: FC = () => {
                         // Function to add placemarks to the map; TODO: find type of event
                         onClick={(e: any) => movePlacemark(e._sourceEvent.originalEvent.coords)}
                     >
-                        {coordinates?.length !== 0 && <Placemark options={{draggable: true}} geometry={coordinates}></Placemark>}
+                        {coordinates?.length !== 0 && <Placemark geometry={coordinates}></Placemark>}
                     </Map>
                 </Grid>
                 <Grid item xs={2} sx={{ marginTop: ' 15px'}}>
                     <Button
                         disabled={isLoading}
                         onClick={handleCreate}
-                        sx={{backgroundColor: '#F36C41', color: 'white', minWidth: '200px'}}
+                        sx={{backgroundColor: '#F36C41', color: 'white', minWidth: '200px',
+                            '&.MuiButton-root:hover':{
+                                backgroundColor: '#e04819'
+                            },
+                        }}
                     >
-                        Завершить создание викторины
+                        Завершить создание геоквиза
                     </Button>
                 </Grid>
             </Grid>

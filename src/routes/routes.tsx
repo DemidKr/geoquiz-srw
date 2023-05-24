@@ -5,6 +5,7 @@ import {Navigate} from "react-router-dom";
 import MainPage from "../pages/MainPage";
 import CreateQuestionPage from "../pages/CreateQuestionPage";
 import QuestionPage from "../pages/QuestionPage";
+import UserQuestionPage from "../pages/UserQuestionPage";
 
 interface IRouter {
     path: string
@@ -47,6 +48,10 @@ export const userRoutes: Array<IRouter> = [
     {
         path: '/createQuestion',
         element: <CreateQuestionPage />,
+    },
+    {
+        path: '/userQuestions',
+        element: <UserQuestionPage />,
     },
     { path: '*', element: <Navigate to='/main' replace /> },
 ]
