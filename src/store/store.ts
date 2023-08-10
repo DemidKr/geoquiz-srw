@@ -3,12 +3,14 @@ import {userSlice} from "./reducers/UserSlice";
 import {coordinatesSlice} from "./reducers/CoordinatesSlice";
 import {snackbarSlice} from "./reducers/SnackbarSlice";
 import {questionsSlice} from "./reducers/QuestionsSlice";
+import {themeSlice} from "./reducers/ThemeSlice";
 
 const rootReducer = combineReducers({
     user: userSlice.reducer,
     coordinates: coordinatesSlice.reducer,
     snackbar: snackbarSlice.reducer,
     questions: questionsSlice.reducer,
+    theme: themeSlice.reducer
 })
 
 export const setupStore = () => {

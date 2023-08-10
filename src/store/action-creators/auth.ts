@@ -1,6 +1,6 @@
 import {AppDispatch} from "../store";
 import {userSlice} from "../reducers/UserSlice";
-import api from "../../api/axiosClient";
+import api from "../../services/axiosClient";
 
 export const login = (username: string, password: string) => async (dispatch: AppDispatch) => {
     try {

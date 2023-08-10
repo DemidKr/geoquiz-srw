@@ -1,152 +1,131 @@
-import React, {FC} from 'react';
-import {
-    AppBar, Avatar,
-    Box,
-    Button,
-    Container,
-    IconButton,
-    Menu,
-    MenuItem,
-    Toolbar, Tooltip,
-    Typography
-} from "@mui/material";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import Container from '@mui/material/Container';
+import MenuItem from '@mui/material/MenuItem';
+import {AccountCircle} from "@mui/icons-material";
+import {CustomAppBar, LogoTypography, UsernameTypography} from "./styled";
 import {useAppDispatch, useAppSelector} from "../../shared/hooks/redux";
-import PublicIcon from '@mui/icons-material/Public';
 import {useNavigate} from "react-router-dom";
 import {userSlice} from "../../store/reducers/UserSlice";
+import {Switch} from "@mui/material";
+import {themeSlice} from "../../store/reducers/ThemeSlice";
+import {FC} from "react";
 
-const Header: FC = () => {
-    const {isAuth} = useAppSelector(state => state.user)
+interface HeaderProps {
+    isTransparent?: boolean,
+    themeSwitcherOn?: boolean
+}
+
+interface IMenuItem {
+    title: string,
+    link: string
+}
+
+const accountItems: IMenuItem[] = [
+    {title: 'Мои геоквизы', link: '/userQuestions'},
+    {title: 'Профиль', link: '/profile'},
+];
+
+const authItems: IMenuItem[] = [
+    {title: 'Логин', link: '/login'},
+    {title: 'Регистрация', link: '/register'},
+]
+
+const Header: FC<HeaderProps> = ({isTransparent = false, themeSwitcherOn = false}) => {
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+    const {isAuth, username} = useAppSelector(state => state.user)
+    const {theme} = useAppSelector(state => state.theme)
 
     const navigator = useNavigate()
-
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-
     const dispatch = useAppDispatch()
 
     const logout = () => {
         dispatch(userSlice.actions.removeUser())
         localStorage.clear()
+        setAnchorEl(null);
     }
 
-
-    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElNav(event.currentTarget);
-    };
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElUser(event.currentTarget);
+    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+    const handleClose = () => {
+        setAnchorEl(null);
     };
 
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" sx={{backgroundColor: '#F36C41'}}>
-                <Container maxWidth="xl">
-                    <Toolbar disableGutters>
-                        <PublicIcon sx={{ display: 'flex', mr: 1 }} />
-                        <Typography
-                            onClick={() => navigator('/main')}
-                            variant="h6"
-                            noWrap
-                            component="a"
-                            sx={{
-                                mr: 2,
-                                display: 'flex',
-                                flexGrow: 1,
-                                fontFamily: 'monospace',
-                                fontWeight: 700,
-                                letterSpacing: '.3rem',
-                                color: 'inherit',
-                                textDecoration: 'none',
-                                "&:hover": {
-                                    cursor: 'pointer',
-                                },
-                            }}
-                        >
-                            Geoquiz
-                        </Typography>
-                        <Box sx={{ flexGrow: 1 }} />
-
-                        {isAuth ?
-                            <Box sx={{ display: 'flex' }}>
-                                <Tooltip title="Open settings">
-                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                        <Avatar alt="Remy Sharp" />
-                                    </IconButton>
-                                </Tooltip>
-                                <Menu
-                                    sx={{ mt: '45px' }}
-                                    id="menu-appbar"
-                                    anchorEl={anchorElUser}
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    open={Boolean(anchorElUser)}
-                                    onClose={handleCloseUserMenu}
-                                >
-                                    <MenuItem
-                                        onClick={() => navigator('/createQuestion')}
-                                    >
-                                        <Typography textAlign="center">Создать геоквиз</Typography>
-                                    </MenuItem>
-                                    <MenuItem
-                                        onClick={() => navigator('/userQuestions')}
-                                    >
-                                        <Typography textAlign="center">Мои геоквизы</Typography>
-                                    </MenuItem>
-                                    <MenuItem
-                                        onClick={logout}
-                                    >
-                                        <Typography textAlign="center">Выйти</Typography>
-                                    </MenuItem>
-                                </Menu>
-                            </Box>
-                            :
-                            <Box  sx={{ display: 'flex' }}>
-                                <Button
-                                    onClick={() => {
-                                        navigator('/login')
-                                    }}
-                                    sx={{ my: 2, marginRight: '8px', backgroundColor: 'white', color: '#F36C41', display: 'block',
-                                        '&.MuiButton-root:hover':{
-                                            backgroundColor: 'lightgrey'
-                                        },
-                                    }}
-                                >
-                                    Логин
-                                </Button>
-                                <Button
-                                    onClick={() => {
-                                        navigator('/register')
-                                    }}
-                                    sx={{ my: 2, backgroundColor: 'white', color: '#F36C41', display: 'block',
-                                        '&.MuiButton-root:hover':{
-                                            backgroundColor: 'lightgrey'
-                                        },
-                                    }}
-                                >
-                                    Регистрация
-                                </Button>
-                            </Box>
+        <CustomAppBar position="static" transparent={isTransparent}>
+            <Container
+                maxWidth="xl"
+                sx={{
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center'
+                }}
+            >
+                <Toolbar
+                    disableGutters
+                    sx={{
+                        display: 'flex',
+                        width: '100%',
+                        justifyContent: 'space-between'
+                    }}
+                >
+                    <LogoTypography variant="h1" component="div">
+                        Geoquiz
+                    </LogoTypography>
+                    <Box sx={{ flexGrow: 0, display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px'}}>
+                        {themeSwitcherOn &&
+                            <Switch
+                                checked={theme === 'light'}
+                                onChange={() => dispatch(themeSlice.actions.changeTheme())}
+                            />
                         }
-                    </Toolbar>
-                </Container>
-            </AppBar>
-        </Box>
+                        <UsernameTypography variant="h6" component="div">
+                            {username}
+                        </UsernameTypography>
+                        <>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleMenu}
+                                color="inherit"
+                            >
+                                <AccountCircle />
+                            </IconButton>
+                            <Menu
+                                sx={{ mt: '48px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorEl}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorEl)}
+                                onClose={handleClose}
+                            >
+                                {(isAuth ? accountItems : authItems).map((item, index) => (
+                                            <MenuItem key={index} onClick={() => navigator(item.link)}>{item.title}</MenuItem>
+                                ))}
+                                {isAuth && <MenuItem onClick={logout}>Выйти</MenuItem>}
+                            </Menu>
+                        </>
+                    </Box>
+                </Toolbar>
+            </Container>
+        </CustomAppBar>
     );
 };
 

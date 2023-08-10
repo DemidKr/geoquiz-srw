@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {CssBaseline, Grid} from "@mui/material";
-import Header from "../components/Header/Header";
+import LegacyHeader from "../components/LegacyHeader/LegacyHeader";
 import {getQuestions} from "../store/action-creators/questions";
 import {useAppDispatch} from "../shared/hooks/redux";
 import {useYMaps} from "@pbe/react-yandex-maps";
@@ -71,7 +71,7 @@ const QuestionPage = () => {
     return (
         <>
             <CssBaseline/>
-            <Header/>
+            <LegacyHeader/>
             <Grid container style={{width: '100%'}}>
                 <Grid item xs={12}>
                     <MapWrapper>

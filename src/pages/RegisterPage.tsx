@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
 import {Button, CssBaseline, Grid, TextField, Typography} from "@mui/material";
-import Header from "../components/Header/Header";
+import LegacyHeader from "../components/LegacyHeader/LegacyHeader";
 import {useAction} from "../shared/hooks/useAction";
 import {registration} from "../store/action-creators/auth";
 import {useNavigate} from "react-router-dom";
@@ -44,7 +44,7 @@ const RegisterPage = () => {
     return (
         <>
             <CssBaseline/>
-            <Header/>
+            <LegacyHeader/>
             <Grid
                 container
                 spacing={0}

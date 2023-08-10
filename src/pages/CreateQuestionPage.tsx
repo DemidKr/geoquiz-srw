@@ -2,7 +2,7 @@ import React, {FC, useEffect, useRef} from 'react';
 import {CssBaseline, Grid} from "@mui/material";
 import {useYMaps} from "@pbe/react-yandex-maps";
 import {useAppSelector} from "../shared/hooks/redux";
-import Header from "../components/Header/Header";
+import LegacyHeader from "../components/LegacyHeader/LegacyHeader";
 import {MapWrapper} from "../components/Map/styles";
 import CreateQuestionBox from "../components/CreateQuestionBox/CreateQuestionBox";
 import {useAction} from "../shared/hooks/useAction";
@@ -58,7 +58,7 @@ const CreateQuestionPage: FC = () => {
     return (
         <>
             <CssBaseline/>
-            <Header/>
+            <LegacyHeader/>
             <Grid container style={{width: '100%'}}>
                 <Grid item xs={12}>
                     <MapWrapper>

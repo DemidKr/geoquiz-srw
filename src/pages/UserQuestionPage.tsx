@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
 import {getUserQuestions} from "../store/action-creators/questions";
 import {CssBaseline, Grid, Paper, Typography} from "@mui/material";
-import Header from "../components/Header/Header";
+import LegacyHeader from "../components/LegacyHeader/LegacyHeader";
 import {QuestionCard} from "../components/QuestionCard/QuestionCard";
 import {getAuthDataFromLS} from "../store/action-creators/auth";
 
@@ -39,7 +39,7 @@ const UserQuestionPage = () => {
     return (
         <>
             <CssBaseline/>
-            <Header/>
+            <LegacyHeader/>
             <Grid container direction='column' alignItems='center' sx={{padding: '15px'}} >
                 <Paper elevation={3} sx={{padding: '15px'}}>
                     <Typography
