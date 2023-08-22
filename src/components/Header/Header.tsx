@@ -15,8 +15,9 @@ import {themeSlice} from "../../store/reducers/ThemeSlice";
 import {FC} from "react";
 
 interface HeaderProps {
-    isTransparent?: boolean,
-    themeSwitcherOn?: boolean
+    small?: boolean ,
+    themeSwitcherOn?: boolean,
+    textColor?: string
 }
 
 interface IMenuItem {
@@ -34,7 +35,7 @@ const authItems: IMenuItem[] = [
     {title: 'Регистрация', link: '/register'},
 ]
 
-const Header: FC<HeaderProps> = ({isTransparent = false, themeSwitcherOn = false}) => {
+const Header: FC<HeaderProps> = ({small = false, themeSwitcherOn = false, textColor}) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const {isAuth, username} = useAppSelector(state => state.user)
@@ -59,7 +60,7 @@ const Header: FC<HeaderProps> = ({isTransparent = false, themeSwitcherOn = false
 
 
     return (
-        <CustomAppBar position="static" transparent={isTransparent}>
+        <CustomAppBar position="static" small={small}>
             <Container
                 maxWidth="xl"
                 sx={{
@@ -76,7 +77,7 @@ const Header: FC<HeaderProps> = ({isTransparent = false, themeSwitcherOn = false
                         justifyContent: 'space-between'
                     }}
                 >
-                    <LogoTypography variant="h1" component="div">
+                    <LogoTypography textColor={textColor} variant='h1' onClick={() => navigator('/main')}>
                         Geoquiz
                     </LogoTypography>
                     <Box sx={{ flexGrow: 0, display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px'}}>
@@ -86,7 +87,7 @@ const Header: FC<HeaderProps> = ({isTransparent = false, themeSwitcherOn = false
                                 onChange={() => dispatch(themeSlice.actions.changeTheme())}
                             />
                         }
-                        <UsernameTypography variant="h6" component="div">
+                        <UsernameTypography textColor={textColor} variant="h6" >
                             {username}
                         </UsernameTypography>
                         <>
@@ -98,7 +99,11 @@ const Header: FC<HeaderProps> = ({isTransparent = false, themeSwitcherOn = false
                                 onClick={handleMenu}
                                 color="inherit"
                             >
-                                <AccountCircle />
+                                <AccountCircle
+                                    sx={{
+                                        color: theme === 'light' || textColor ? '#FFF' : '#000'
+                                    }}
+                                />
                             </IconButton>
                             <Menu
                                 sx={{ mt: '48px' }}

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Box, Container, CssBaseline, Grid, Typography} from "@mui/material";
-
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined';import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined';
 import backgroundImg from "../shared/images/moscow.jpg"
 import Header from "../components/Header/Header";
 import ImageBackground from "../components/ImageBackground/ImageBackground";
@@ -8,16 +9,16 @@ import {IMainPageCard} from "../shared/interfaces/IMainPageCard";
 import MainPageCard from "../components/MainPageCard/MainPageCard";
 
 const cardItems: IMainPageCard[] = [
-    {title: 'Обучение', desc: 'Прокачай свои знания', link: '/guide', icon: ''},
-    {title: 'Все викторины', desc: 'Открой огромный выбор', link: '/questions', icon: ''},
-    {title: 'Конструктор викторин', desc: 'Создай свою викторину', link: '/createQuestion', icon: '', isAuthRequired: true},
+    {title: 'Обучение', desc: 'Прокачай свои знания', link: '/guide', icon: <SchoolOutlinedIcon sx={{color: '#FFF', fontSize: '32px'}}/>},
+    {title: 'Все викторины', desc: 'Открой огромный выбор', link: '/questions', icon: <TravelExploreOutlinedIcon sx={{color: '#FFF', fontSize: '32px'}}/>},
+    {title: 'Конструктор викторин', desc: 'Создай свою викторину', link: '/createQuestion', icon: <AddLocationAltOutlinedIcon sx={{color: '#FFF', fontSize: '32px'}}/>, isAuthRequired: true},
 ];
 
 const MainPage = () => {
     return (
         <ImageBackground imageUrl={backgroundImg}>
             <CssBaseline />
-            <Header isTransparent={true}/>
+            <Header textColor='#FFF'/>
             <Container
                 sx={{
                     width:'100%',

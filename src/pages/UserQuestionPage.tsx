@@ -3,7 +3,7 @@ import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
 import {getUserQuestions} from "../store/action-creators/questions";
 import {CssBaseline, Grid, Paper, Typography} from "@mui/material";
 import LegacyHeader from "../components/LegacyHeader/LegacyHeader";
-import {QuestionCard} from "../components/QuestionCard/QuestionCard";
+import {LegacyQuestionCard} from "../components/LegacyQuestionCard/LegacyQuestionCard";
 import {getAuthDataFromLS} from "../store/action-creators/auth";
 
 const UserQuestionPage = () => {
@@ -55,7 +55,7 @@ const UserQuestionPage = () => {
             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} justifyContent="center" sx={{margin: '5px'}}>
                 {questions?.map((question, index) => (
                     <Grid item xs={2} sm={4} md={4} key={index} display="flex" justifyContent="center" sx={{marginTop: '10px'}}>
-                        <QuestionCard question={question} deleteButton={true}/>
+                        <LegacyQuestionCard question={question} deleteButton={true}/>
                     </Grid>
                 ))}
                 {questions.length === 0 && <Grid container direction='column' alignItems='center' sx={{padding: '15px'}} >

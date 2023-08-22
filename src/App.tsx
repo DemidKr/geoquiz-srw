@@ -20,7 +20,7 @@ const App: FC = () => {
 
     const lightTheme = createTheme({
         palette: {
-            mode:  'light',
+            mode: 'light',
         },
     });
 

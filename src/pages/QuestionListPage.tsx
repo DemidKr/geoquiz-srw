@@ -1,9 +1,11 @@
 import React, {useEffect, useRef} from 'react';
-import {CssBaseline, Grid, Paper, Typography} from "@mui/material";
+import {Box, Container, CssBaseline, Grid, Paper, Typography} from "@mui/material";
 import LegacyHeader from "../components/LegacyHeader/LegacyHeader";
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
 import {getQuestions} from "../store/action-creators/questions";
-import {QuestionCard} from "../components/QuestionCard/QuestionCard";
+import {LegacyQuestionCard} from "../components/LegacyQuestionCard/LegacyQuestionCard";
+import Header from "../components/Header/Header";
+import QuestionCard from "../components/QuextionCard/QuestionCard";
 
 const QuestionListPage = () => {
     const {isLoading, questions} = useAppSelector(state => state.questions)
@@ -35,26 +37,73 @@ const QuestionListPage = () => {
     return (
         <>
             <CssBaseline/>
-            <LegacyHeader/>
-            <Grid container direction='column' alignItems='center' sx={{padding: '15px'}} >
-                <Paper elevation={3} sx={{padding: '15px'}}>
-                    <Typography
-                        variant="h6"
-                        component="div"
-                        sx={{color: '#F36C41'}}
-                    >
-                        Испытайте себя в знаниях россии и ее географии!
-                        Любой пользователь может пройти Геоквиз,
-                        однако создание собственного Геоквиза возможно только после регистрации или логина.
-                    </Typography>
-                </Paper>
-            </Grid>
-            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} justifyContent="center" sx={{margin: '5px'}}>
-                {questions?.map((question, index) => (
-                    <Grid item xs={2} sm={4} md={4} key={index} display="flex" justifyContent="center" sx={{marginTop: '10px'}}>
-                        <QuestionCard question={question} deleteButton={false}/>
-                    </Grid>
-                ))}
+            <Header themeSwitcherOn={true} small={true}/>
+            <Container
+                sx={{
+                    width:'100%',
+                    height: '103px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}
+            >
+                <Typography
+                    component="div"
+                    sx={{
+                        fontFamily: 'Montserrat',
+                        fontSize: '16px',
+                        fontStyle: 'normal',
+                        lineHeight: 'normal',
+                        letterSpacing: '11.2px',
+                        fontWeight: 600,
+                        // color: '#474747',
+                        textDecoration: 'none',
+                    }}
+                >
+                    СОТНИ
+                </Typography>
+                <Typography
+                    component="div"
+                    sx={{
+                        marginTop: '27px',
+                        fontFamily: 'Montserrat',
+                        fontSize: '46px',
+                        fontStyle: 'normal',
+                        lineHeight: 'normal',
+                        letterSpacing: '3.6px',
+                        fontWeight: 700,
+                        // color: '#2D2D2D',
+                        textDecoration: 'none',
+                    }}
+                >
+                    БЕСПЛАТНЫХ КВЕСТОВ
+                </Typography>
+
+            </Container>
+            <Grid container sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '25px',
+                justifyContent: 'center',
+                maxWidth: '1350px',
+                marginTop: '50px',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+            }}>
+                <QuestionCard/>
+                <QuestionCard/>
+                <QuestionCard/>
+                <QuestionCard/>
+                <QuestionCard/>
+                <QuestionCard/>
+                <QuestionCard/>
+                <QuestionCard/>
+                {/*{questions?.map((question, index) => (*/}
+                {/*    <Grid item xs={2} sm={4} md={4} key={index} display="flex" justifyContent="center" sx={{marginTop: '10px'}}>*/}
+                {/*        <LegacyQuestionCard question={question} deleteButton={false}/>*/}
+                {/*    </Grid>*/}
+                {/*))}*/}
                 {questions.length === 0 && <Grid container direction='column' alignItems='center' sx={{padding: '15px'}} >
                         <Typography
                             variant="h5"

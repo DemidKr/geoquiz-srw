@@ -12,7 +12,7 @@ interface QuestionCardProps {
     deleteButton: boolean
 }
 
-export const QuestionCard: FC<QuestionCardProps> = ({question, deleteButton}) => {
+export const LegacyQuestionCard: FC<QuestionCardProps> = ({question, deleteButton}) => {
     const {isLoading ,error} = useAppSelector(state => state.questions)
     const dispatch = useAppDispatch()
     const addSnack = useAction()
