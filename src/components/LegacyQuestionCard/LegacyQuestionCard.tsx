@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import {useNavigate} from "react-router-dom";
-import {IQuestion} from "../../shared/interfaces/IQuestion";
+import {ILegacyQuestion} from "../../shared/interfaces/ILegacyQuestion";
 import {Button, Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../shared/hooks/redux";
 import {useAction} from "../../shared/hooks/useAction";
@@ -8,7 +8,7 @@ import {getAuthDataFromLS} from "../../store/action-creators/auth";
 import {deleteQuestion} from "../../store/action-creators/questions";
 
 interface QuestionCardProps {
-    question: IQuestion,
+    question: ILegacyQuestion,
     deleteButton: boolean
 }
 

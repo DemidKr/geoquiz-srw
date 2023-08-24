@@ -1,6 +1,6 @@
 import {IGetUserQuestions} from "./IGetQuestions";
-import {IQuestion} from "./IQuestion";
+import {ILegacyQuestion} from "./ILegacyQuestion";
 
 export interface ICreateQuestion extends IGetUserQuestions {
-    question: IQuestion;
+    question: ILegacyQuestion;
 }

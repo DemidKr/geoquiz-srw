@@ -13,6 +13,8 @@ import {userSlice} from "../../store/reducers/UserSlice";
 import {Switch} from "@mui/material";
 import {themeSlice} from "../../store/reducers/ThemeSlice";
 import {FC} from "react";
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 interface HeaderProps {
     small?: boolean ,
@@ -82,10 +84,13 @@ const Header: FC<HeaderProps> = ({small = false, themeSwitcherOn = false, textCo
                     </LogoTypography>
                     <Box sx={{ flexGrow: 0, display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px'}}>
                         {themeSwitcherOn &&
-                            <Switch
-                                checked={theme === 'light'}
-                                onChange={() => dispatch(themeSlice.actions.changeTheme())}
-                            />
+                            <IconButton onClick={() => dispatch(themeSlice.actions.changeTheme())}>
+                                {theme === 'light' ? <LightModeIcon sx={{color: '#FFF'}}/> : <DarkModeIcon sx={{color: '#000'}}/>}
+                            </IconButton>
+                            // <Switch
+                            //     checked={theme === 'light'}
+                            //     onChange={() => dispatch(themeSlice.actions.changeTheme())}
+                            // />
                         }
                         <UsernameTypography textColor={textColor} variant="h6" >
                             {username}

@@ -1,16 +1,20 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {CssBaseline, Grid} from "@mui/material";
+import {Box, CssBaseline, Grid} from "@mui/material";
 import LegacyHeader from "../components/LegacyHeader/LegacyHeader";
 import {getQuestions} from "../store/action-creators/questions";
-import {useAppDispatch} from "../shared/hooks/redux";
+import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
 import {useYMaps} from "@pbe/react-yandex-maps";
 import {MapWrapper} from "../components/Map/styles";
 import AnswerQuestionBox from "../components/AnswerQuestionBox/AnswerQuestionBox";
+import Header from "../components/Header/Header";
+import LoadingScreen from "../components/LoadingScreen/LoadingScreen";
 
 const QuestionPage = () => {
     const { id } = useParams()
+    const {isLoading, error} = useAppSelector(state => state.questions)
     const ymaps = useYMaps(['package.full']);
+
     const panoramaRef = useRef<any>(null);
     const yplayer = useRef<any>(null)
     const [coordinates, setCoordinates] = useState<number[]>([55.83403, 37.623370])
@@ -62,16 +66,20 @@ const QuestionPage = () => {
 
     const handleGetQuestion = async () => {
         const question = dispatch(getQuestions({
-            url: '/question/'+id,
+            url: '/question/' + id,
         }))
 
         return question
     }
 
+    if (isLoading || error) {
+        return <LoadingScreen/>
+    }
+
     return (
         <>
             <CssBaseline/>
-            <LegacyHeader/>
+            <Header small={true} themeSwitcherOn={true}/>
             <Grid container style={{width: '100%'}}>
                 <Grid item xs={12}>
                     <MapWrapper>

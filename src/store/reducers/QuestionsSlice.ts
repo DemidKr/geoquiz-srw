@@ -1,8 +1,8 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IQuestion} from "../../shared/interfaces/IQuestion";
+import {ILegacyQuestion} from "../../shared/interfaces/ILegacyQuestion";
 
 interface QuestionsState {
-    questions: IQuestion[];
+    questions: ILegacyQuestion[];
     isLoading: boolean;
     error: string;
 }
@@ -20,12 +20,12 @@ export const questionsSlice = createSlice({
         questionsFetching(state) {
             state.isLoading = true
         },
-        questionsFetchingSuccess(state, action: PayloadAction<IQuestion[]>) {
+        questionsFetchingSuccess(state, action: PayloadAction<ILegacyQuestion[]>) {
             state.isLoading = false
             state.error = ''
             state.questions = action.payload
         },
-        questionsCreatingSuccess(state, action: PayloadAction<IQuestion>) {
+        questionsCreatingSuccess(state, action: PayloadAction<ILegacyQuestion>) {
             state.isLoading = false
             state.error = ''
             state.questions = [...state.questions, action.payload]

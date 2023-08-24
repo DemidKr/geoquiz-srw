@@ -1,4 +1,4 @@
-export interface IQuestion {
+export interface ILegacyQuestion {
     id?: number;
     name: string;
     coordinates: number[];

@@ -6,7 +6,7 @@ export const FormWrapper = styled(Box)(({ theme }) => ({
     right: "35px",
     bottom: "50px",
     // create theme later
-    backgroundColor: 'white',
+    backgroundColor: theme.palette.background.default,
     zIndex: "450",
     borderRadius: "8px",
     padding: "10px 15px"

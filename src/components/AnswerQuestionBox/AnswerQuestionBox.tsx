@@ -89,7 +89,6 @@ const AnswerQuestionBox = ({coord, name}: AnswerQuestionBoxProps) => {
                 <Typography
                     variant="h5"
                     component="div"
-                    sx={{color: '#F36C41'}}
                 >
                     {name}
                 </Typography>
@@ -139,11 +138,6 @@ const AnswerQuestionBox = ({coord, name}: AnswerQuestionBoxProps) => {
                         disabled={open}
                         onClick={handleAnswer}
                         variant='contained'
-                        sx={{backgroundColor: '#F36C41', color: 'white', minWidth: '200px',
-                            '&.MuiButton-contained:hover':{
-                                backgroundColor: '#e04819'
-                            },
-                        }}
                     >
                         Подтвердить ответ
                     </Button>

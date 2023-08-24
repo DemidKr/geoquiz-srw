@@ -1,11 +1,88 @@
 import React, {useEffect, useRef} from 'react';
-import {Box, Container, CssBaseline, Grid, Paper, Typography} from "@mui/material";
-import LegacyHeader from "../components/LegacyHeader/LegacyHeader";
+import { Container, CssBaseline, Grid, Typography} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
 import {getQuestions} from "../store/action-creators/questions";
-import {LegacyQuestionCard} from "../components/LegacyQuestionCard/LegacyQuestionCard";
 import Header from "../components/Header/Header";
 import QuestionCard from "../components/QuextionCard/QuestionCard";
+import {IQuestion} from "../shared/interfaces/IQuestion";
+import pic from "../shared/images/TemporaryPicture.jpg"
+import secondPic from "../shared/images/TempPic2.jpg"
+import LoadingScreen from "../components/LoadingScreen/LoadingScreen";
+
+const hardcodedQuestions: IQuestion[] = [
+    {
+        id: 0,
+        title: 'Название',
+        description: 'Описание',
+        username: 'Пользователь',
+        time: 90,
+        stars: 4.3,
+        timesFinished: 54,
+        steps: 6,
+        coordinates: [1,1],
+        imageUrl: pic
+    },
+    {
+        id: 1,
+        title: 'Название два',
+        description: 'Описание два',
+        username: 'Димас123',
+        time: 45,
+        stars: 5,
+        timesFinished: 10,
+        steps: 10,
+        coordinates: [1,1],
+        imageUrl: secondPic
+    },
+    {
+        id: 0,
+        title: 'Название',
+        description: 'Описание',
+        username: 'Пользователь',
+        time: 90,
+        stars: 1,
+        timesFinished: 54,
+        steps: 6,
+        coordinates: [1,1],
+        imageUrl: pic
+    },
+    {
+        id: 1,
+        title: 'Название два',
+        description: 'Описание два',
+        username: 'Димас123',
+        time: 45,
+        stars: 2.6,
+        timesFinished: 10,
+        steps: 10,
+        coordinates: [1,1],
+        imageUrl: secondPic
+    },
+    {
+        id: 0,
+        title: 'Название',
+        description: 'Описание',
+        username: 'Пользователь',
+        time: 90,
+        stars: 2.45,
+        timesFinished: 54,
+        steps: 6,
+        coordinates: [1,1],
+        imageUrl: pic
+    },
+    {
+        id: 1,
+        title: 'Название два',
+        description: 'Описание два',
+        username: 'Димас123',
+        time: 45,
+        stars: 4.44,
+        timesFinished: 10,
+        steps: 10,
+        coordinates: [1,1],
+        imageUrl: secondPic
+    },
+]
 
 const QuestionListPage = () => {
     const {isLoading, questions} = useAppSelector(state => state.questions)
@@ -31,7 +108,7 @@ const QuestionListPage = () => {
 
 
     if (isLoading || shouldLoadQuestions.current) {
-        return <h1>Loading...</h1>
+        return <LoadingScreen/>
     }
 
     return (
@@ -79,7 +156,6 @@ const QuestionListPage = () => {
                 >
                     БЕСПЛАТНЫХ КВЕСТОВ
                 </Typography>
-
             </Container>
             <Grid container sx={{
                 display: 'flex',
@@ -91,19 +167,9 @@ const QuestionListPage = () => {
                 marginLeft: 'auto',
                 marginRight: 'auto',
             }}>
-                <QuestionCard/>
-                <QuestionCard/>
-                <QuestionCard/>
-                <QuestionCard/>
-                <QuestionCard/>
-                <QuestionCard/>
-                <QuestionCard/>
-                <QuestionCard/>
-                {/*{questions?.map((question, index) => (*/}
-                {/*    <Grid item xs={2} sm={4} md={4} key={index} display="flex" justifyContent="center" sx={{marginTop: '10px'}}>*/}
-                {/*        <LegacyQuestionCard question={question} deleteButton={false}/>*/}
-                {/*    </Grid>*/}
-                {/*))}*/}
+                {hardcodedQuestions?.map((question, index) => (
+                    <QuestionCard question={question}/>
+                ))}
                 {questions.length === 0 && <Grid container direction='column' alignItems='center' sx={{padding: '15px'}} >
                         <Typography
                             variant="h5"
