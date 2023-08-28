@@ -19,7 +19,7 @@ const hardcodedQuestions: IQuestion[] = [
         stars: 4.3,
         timesFinished: 54,
         steps: 6,
-        coordinates: [1,1],
+        coordinates: [[1,1]],
         imageUrl: pic
     },
     {
@@ -31,7 +31,7 @@ const hardcodedQuestions: IQuestion[] = [
         stars: 5,
         timesFinished: 10,
         steps: 10,
-        coordinates: [1,1],
+        coordinates: [[1,1]],
         imageUrl: secondPic
     },
     {
@@ -43,7 +43,7 @@ const hardcodedQuestions: IQuestion[] = [
         stars: 1,
         timesFinished: 54,
         steps: 6,
-        coordinates: [1,1],
+        coordinates: [[1,1]],
         imageUrl: pic
     },
     {
@@ -55,7 +55,7 @@ const hardcodedQuestions: IQuestion[] = [
         stars: 2.6,
         timesFinished: 10,
         steps: 10,
-        coordinates: [1,1],
+        coordinates: [[1,1]],
         imageUrl: secondPic
     },
     {
@@ -67,7 +67,7 @@ const hardcodedQuestions: IQuestion[] = [
         stars: 2.45,
         timesFinished: 54,
         steps: 6,
-        coordinates: [1,1],
+        coordinates: [[1,1]],
         imageUrl: pic
     },
     {
@@ -79,7 +79,7 @@ const hardcodedQuestions: IQuestion[] = [
         stars: 4.44,
         timesFinished: 10,
         steps: 10,
-        coordinates: [1,1],
+        coordinates: [[1,1]],
         imageUrl: secondPic
     },
 ]

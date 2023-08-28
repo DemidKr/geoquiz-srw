@@ -5,7 +5,7 @@ import {
     TextField,
     Typography
 } from "@mui/material";
-import {FormWrapper} from "./styles";
+import {FormWrapper} from "./styled";
 import {Placemark, Map, useYMaps} from "@pbe/react-yandex-maps";
 import {useAppDispatch, useAppSelector} from "../../shared/hooks/redux";
 import {coordinatesSlice} from "../../store/reducers/CoordinatesSlice";

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FormWrapper} from "../CreateQuestionBox/styles";
+import {FormWrapper} from "../CreateQuestionBox/styled";
 import {
     Button,
     Dialog, DialogActions,
@@ -13,15 +13,32 @@ import {Map, Placemark, useYMaps} from "@pbe/react-yandex-maps";
 import {useAppDispatch} from "../../shared/hooks/redux";
 import {useAction} from "../../shared/hooks/useAction";
 import {useNavigate} from "react-router-dom";
+import secondPic from "../../shared/images/TempPic2.jpg";
 
 interface AnswerQuestionBoxProps {
     coord: number[],
     name: string
 }
 
+const hardcodedQuestion = {
+        id: 1,
+        title: 'Название два',
+        description: 'Описание два',
+        username: 'Димас123',
+        time: 45,
+        stars: 5,
+        timesFinished: 10,
+        steps: 3,
+        coordinates: [[47.250073801272386, 39.849086235290045], [47.26830478974905, 39.722743461852545], [47.213592874536324, 39.72291512322952]],
+        imageUrl: secondPic
+    }
+
 const AnswerQuestionBox = ({coord, name}: AnswerQuestionBoxProps) => {
     const ymaps = useYMaps(['package.full']);
-    const [coordinates, setCoordinates] = useState<number[]>([])
+
+    const [currentAnswer, setCurrentAnswer] = useState<number[]>([])
+    const [currentStep, setCurrentStep] = useState<number>(1)
+
     const [show, setShow] = useState<boolean>(true)
     const [open, setOpen] = useState<boolean>(false);
     const [timerClock, setTimerClock] = useState<number>(90)
@@ -51,36 +68,45 @@ const AnswerQuestionBox = ({coord, name}: AnswerQuestionBoxProps) => {
         }
     }, [timerClock]);
 
-    const handleAnswer = () => {
-        console.log(coord)
-        console.log(coordinates)
-        if(coordinates.length === 0) {
-            setText(text + 'Вы не дали ответ')
-        } else {
-            setText(text + 'Ваш ответ принят')
-            let lat = Math.floor((5 - Math.abs(coordinates[0] - coord[0]))/5 * 1000)
-            let lng = Math.floor((10 - Math.abs(coordinates[1] - coord[1]))/10 * 1000)
-            console.log('lat', lat)
-            console.log('lng', lng)
+    const finishGame = () => {
 
-            let res = Math.floor((lat + lng) / 2)
-            if (lat < 0 || lng < 0) {
-                setZoomLevel(2)
-                setResult(0)
+    }
+
+    const handleAnswer = () => {
+        if (currentStep >= hardcodedQuestion.steps) {
+            finishGame()
+        } else {
+            console.log(coord)
+            console.log(currentAnswer)
+
+            if(currentAnswer.length === 0) {
+                setText(text + 'Вы не дали ответ')
             } else {
-                setResult(res)
-                if (res > 900) {
-                    setZoomLevel(6)
+                setText(text + 'Ваш ответ принят')
+                let lat = Math.floor((5 - Math.abs(currentAnswer[0] - coord[0]))/5 * 1000)
+                let lng = Math.floor((10 - Math.abs(currentAnswer[1] - coord[1]))/10 * 1000)
+                console.log('lat', lat)
+                console.log('lng', lng)
+
+                let res = Math.floor((lat + lng) / 2)
+                if (lat < 0 || lng < 0) {
+                    setZoomLevel(2)
+                    setResult(0)
                 } else {
-                    setZoomLevel(4)
+                    setResult(res)
+                    if (res > 900) {
+                        setZoomLevel(6)
+                    } else {
+                        setZoomLevel(4)
+                    }
                 }
             }
+            setOpen(true)
         }
-        setOpen(true)
     }
 
     const handleClose = () => {
-        navigate('/main')
+
     }
 
     return (
@@ -121,9 +147,9 @@ const AnswerQuestionBox = ({coord, name}: AnswerQuestionBoxProps) => {
                             suppressMapOpenBlock: true,
                         }}
                         // Function to add placemarks to the map; TODO: find type of event
-                        onClick={(e: any) => setCoordinates(e._sourceEvent.originalEvent.coords)}
+                        onClick={(e: any) => setCurrentAnswer(e._sourceEvent.originalEvent.coords)}
                     >
-                        {coordinates?.length !== 0 && <Placemark geometry={coordinates}></Placemark>}
+                        {currentAnswer?.length !== 0 && <Placemark geometry={currentAnswer}></Placemark>}
                     </Map>
                 </Grid>
                 <Typography
@@ -165,11 +191,11 @@ const AnswerQuestionBox = ({coord, name}: AnswerQuestionBoxProps) => {
                                     suppressMapOpenBlock: true,
                                 }}
                             >
-                                {coordinates?.length !== 0 && <Placemark
+                                {currentAnswer?.length !== 0 && <Placemark
                                     options={{
                                         preset: 'islands#redIcon'
                                     }}
-                                    geometry={coordinates}
+                                    geometry={currentAnswer}
                                 ></Placemark>}
                                 {coord?.length !== 0 && <Placemark
                                     options={{

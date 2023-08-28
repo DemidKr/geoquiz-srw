@@ -7,7 +7,7 @@ export interface IQuestion {
     stars: number;
     timesFinished: number;
     steps: number;
-    coordinates: number[];
+    coordinates: number[][];
     imageUrl: any;
 
     // don't sure about this
