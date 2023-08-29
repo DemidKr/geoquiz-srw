@@ -210,7 +210,7 @@ const QuestionPage = () => {
             <Grid container style={{width: '100%'}}>
                 <Grid item xs={12}>
                     <MapWrapper>
-                        <Panorama point={game.coordinates} style={{ width: '100%', height: `calc(100% - 64px)` }}
+                        <Panorama point={game.coordinates} style={{ width: '100%', height: `calc(100% - 80px)` }}
                                   defaultOptions={{
                                       direction: [-10, 0],
                                       controls: [],
@@ -218,7 +218,6 @@ const QuestionPage = () => {
                                       hotkeysEnabled: false
                                   }}
                         />
-                        {/*<div ref={panoramaRef}  style={{ width: '100%', height: `calc(100% - 64px)` }}/>*/}
                     </MapWrapper>
                 </Grid>
             </Grid>

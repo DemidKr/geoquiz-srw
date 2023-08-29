@@ -7,7 +7,7 @@ export const CustomDialogBox = styled(Dialog)(({ theme }) => ({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: '16px',
-        width: '540px'
+        width: '500px'
     }
 })) as typeof Dialog
 
@@ -44,7 +44,7 @@ export const DialogButton = styled(Button)(({ theme }) => ({
     fontFamily: 'Montserrat',
     fontSize: '18px',
     fontStyle: 'normal',
-    ontWeight: '600',
+    fontWeight: '600',
     lineHeight: 'normal',
     letterSpacing: '3px',
     marginBottom: '10px',

@@ -64,7 +64,7 @@ export const GameButton = styled(Button)(({ theme }) => ({
     fontFamily: 'Montserrat',
     fontSize: '18px',
     fontStyle: 'normal',
-    ontWeight: '600',
+    fontWeight: '600',
     lineHeight: 'normal',
     letterSpacing: '3px',
     marginBottom: '10px',

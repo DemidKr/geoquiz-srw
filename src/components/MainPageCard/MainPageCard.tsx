@@ -41,27 +41,6 @@ const MainPageCard: FC<MainPageCardProps> = ({props}) => {
                 }}
                 onClick={() =>  navigate(props.isAuthRequired && !isAuth ? '/login' : props.link)}
             />
-            {/*<Button*/}
-            {/*    sx={{*/}
-            {/*        position: 'absolute',*/}
-            {/*        top: '50%',*/}
-            {/*        left: '50%',*/}
-            {/*        transform: 'translate(-50%, -50%)',*/}
-            {/*        // zIndex: 2,*/}
-            {/*        width: '80%',*/}
-            {/*        padding: '20px',*/}
-            {/*        textAlign: 'center',*/}
-            {/*        margin: 0,*/}
-            {/*        fontFamily: 'Montserrat',*/}
-            {/*        fontSize: '20px',*/}
-            {/*        fontStyle: 'normal',*/}
-            {/*        lineHeight: 'normal',*/}
-            {/*        mb: '4px',*/}
-            {/*        fontWeight: 700,*/}
-            {/*    }}*/}
-            {/*>*/}
-            {/*    Text*/}
-            {/*</Button>*/}
             <Box
                 sx={{
                     display: 'flex',
