@@ -21,11 +21,12 @@ export const CustomDialogTitle = styled(DialogTitle)(({ theme }) => ({
 })) as typeof DialogTitle
 
 export const CustomDialogContent = styled(DialogContent)(({ theme }) => ({
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '500px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '500px',
+    gap: '10px',
 
 })) as typeof DialogContent
 

@@ -5,6 +5,8 @@ import LegacyHeader from "../components/LegacyHeader/LegacyHeader";
 import {useAction} from "../shared/hooks/useAction";
 import {registration} from "../store/action-creators/auth";
 import {useNavigate} from "react-router-dom";
+import Header from "../components/Header/Header";
+import {AuthBox, AuthButton, AuthHint, AuthHintButton, AuthInput, AuthTitle} from "../components/AuthBox/styled";
 
 const RegisterPage = () => {
     const {isLoading} = useAppSelector(state => state.user)
@@ -43,86 +45,62 @@ const RegisterPage = () => {
 
     return (
         <>
-            <CssBaseline/>
-            <LegacyHeader/>
-            <Grid
-                container
-                spacing={0}
-                direction="column"
-                alignItems="center"
-                justifyContent="center"
-                sx={{ minHeight: `calc(100vh - 69px)` }}
-            >
-                <Grid item xs={3} margin='6px'>
-                    <Typography
-                        gutterBottom
-                        variant="h3"
-                        component="div"
-                        sx={{color: '#F36C41'}}
-                    >
-                        Регистрация
-                    </Typography>
-                </Grid>
-                <Grid item xs={3} margin='6px'>
-                    <TextField
-                        id="outlined-password-input"
-                        label="Username"
-                        inputProps={{
-                            autoComplete: 'off',
-                        }}
-                        value={username}
-                        sx={{minWidth: '500px'}}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                            setUsername(event.target.value)
-                        }
-                    />
-                </Grid>
-                <Grid item xs={3} margin='6px'>
-                    <TextField
-                        id="outlined-password-input"
-                        label="Password"
-                        type="password"
-                        inputProps={{
-                            autoComplete: 'off',
-                        }}
-                        value={password}
-                        sx={{minWidth: '500px'}}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                            setPassword(event.target.value)
-                        }
-                    />
-                </Grid>
-                <Grid item xs={3} margin='6px'>
-                    <Button
-                        disabled={isLoading}
-                        onClick={handleRegistration}
-                        sx={{backgroundColor: '#F36C41', color: 'white', minWidth: '200px',
-                            '&.MuiButton-root:hover':{
-                                backgroundColor: '#e04819'
-                            },
-                        }}
-                    >
-                        Зарегистирироваться
-                    </Button>
-                </Grid>
-                <Grid item xs={3} margin='6px'>
-                    <Typography
-                        gutterBottom
-                        variant="body1"
-                        component="div"
-                    >
-                        Уже есть аккаунт?
-                        <Button
+            <Grid container component="main" sx={{ height: 'calc(100vh - 80px)' }}>
+                <Header themeSwitcherOn={true} small={true}/>
+                <CssBaseline/>
+                <Grid
+                    item
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '100%',
+                        height: '100%',
+                        backgroundImage: 'url(https://images.unsplash.com/photo-1535557142533-b5e1cc6e2a5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2458&q=80)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundColor: (t) =>
+                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'top',
+                    }}
+                >
+                    <AuthBox>
+                        <AuthTitle component="div">
+                            Регистрация
+                        </AuthTitle>
+                        <AuthInput
+                            label="Username"
+                            inputProps={{autoComplete: 'off',}}
+                            value={username}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                                setUsername(event.target.value)
+                            }
+                        />
+                        <AuthInput
+                            label="Password"
+                            type="password"
+                            inputProps={{autoComplete: 'off',}}
+                            value={password}
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                                setPassword(event.target.value)
+                            }
+                        />
+                        <AuthButton
                             disabled={isLoading}
-                            onClick={() => navigate('/login')}
-                            sx={{marginLeft: '3px'}}
+                            onClick={handleRegistration}
+                            variant="contained"
                         >
-                            Войти
-                        </Button>
-                    </Typography>
+                            Зарегистирироваться
+                        </AuthButton>
+                        <AuthHint component="div">
+                            Уже есть аккаунт?
+                            <AuthHintButton component='span' onClick={() => navigate('/login')}>
+                                Войти
+                            </AuthHintButton>
+                        </AuthHint>
+                    </AuthBox>
                 </Grid>
             </Grid>
-
         </>
     );
 };
