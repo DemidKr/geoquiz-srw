@@ -10,8 +10,7 @@ import {CustomAppBar, LogoTypography, UsernameTypography} from "./styled";
 import {useAppDispatch, useAppSelector} from "../../shared/hooks/redux";
 import {useNavigate} from "react-router-dom";
 import {userSlice} from "../../store/reducers/UserSlice";
-import {Switch} from "@mui/material";
-import {themeSlice} from "../../store/reducers/ThemeSlice";
+import {Theme, themeSlice} from "../../store/reducers/ThemeSlice";
 import {FC} from "react";
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -85,12 +84,8 @@ const Header: FC<HeaderProps> = ({small = false, themeSwitcherOn = false, textCo
                     <Box sx={{ flexGrow: 0, display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px'}}>
                         {themeSwitcherOn &&
                             <IconButton onClick={() => dispatch(themeSlice.actions.changeTheme())}>
-                                {theme === 'light' ? <LightModeIcon sx={{color: '#FFF'}}/> : <DarkModeIcon sx={{color: '#000'}}/>}
+                                {theme === Theme.DARK ? <LightModeIcon sx={{color: '#FFF'}}/> : <DarkModeIcon sx={{color: '#000'}}/>}
                             </IconButton>
-                            // <Switch
-                            //     checked={theme === 'light'}
-                            //     onChange={() => dispatch(themeSlice.actions.changeTheme())}
-                            // />
                         }
                         <UsernameTypography textColor={textColor} variant="h6" >
                             {username}
@@ -106,7 +101,7 @@ const Header: FC<HeaderProps> = ({small = false, themeSwitcherOn = false, textCo
                             >
                                 <AccountCircle
                                     sx={{
-                                        color: theme === 'light' || textColor ? '#FFF' : '#000'
+                                        color: theme === Theme.DARK || textColor ? '#FFF' : '#000'
                                     }}
                                 />
                             </IconButton>

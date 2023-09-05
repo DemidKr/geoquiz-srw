@@ -5,7 +5,10 @@ import {useAppDispatch, useAppSelector} from "./shared/hooks/redux";
 import {userSlice} from "./store/reducers/UserSlice";
 import {getAuthDataFromLS} from "./store/action-creators/auth";
 import {createTheme, ThemeProvider} from "@mui/material";
-import {themeSlice} from "./store/reducers/ThemeSlice";
+import {LOCAL_STORAGE_THEME_KEY, Theme, themeSlice} from "./store/reducers/ThemeSlice";
+
+
+const defaultTheme = localStorage.getItem(LOCAL_STORAGE_THEME_KEY) as Theme || Theme.LIGHT
 
 const App: FC = () => {
     const {theme} = useAppSelector(state => state.theme)
@@ -25,25 +28,22 @@ const App: FC = () => {
     });
 
     useEffect(() => {
-        const theme = JSON.parse(localStorage.getItem('theme') as string);
-
-        if (theme === 'dark' || 'light') {
-            dispatch(themeSlice.actions.setTheme(theme))
+        if (theme !== defaultTheme) {
+            dispatch(themeSlice.actions.setTheme(defaultTheme))
         }
 
-        const auth: any = dispatch(getAuthDataFromLS());
+        const auth = dispatch(getAuthDataFromLS());
         console.log('auth', auth)
 
         if (!auth || !auth.access_token || !auth.refresh_token) {
             dispatch(userSlice.actions.removeUser())
         } else {
-
             dispatch(userSlice.actions.userFetchingSuccess(auth.username))
         }
     }, [])
 
     return (
-        <ThemeProvider theme={theme === 'light' ? darkTheme : lightTheme}>
+        <ThemeProvider theme={theme === Theme.DARK ? darkTheme : lightTheme}>
             <Router>
                 <AppRouter/>
             </Router>

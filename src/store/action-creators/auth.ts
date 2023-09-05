@@ -38,7 +38,7 @@ export const getAuthDataFromLS = () => (dispatch: AppDispatch) => {
 
         if (!lSData) {
             dispatch(userSlice.actions.removeUser())
-            return;
+            return false;
         }
 
         return lSData;

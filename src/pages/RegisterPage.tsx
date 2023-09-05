@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
-import {Button, CssBaseline, Grid, TextField, Typography} from "@mui/material";
-import LegacyHeader from "../components/LegacyHeader/LegacyHeader";
+import {CssBaseline, Grid} from "@mui/material";
 import {useAction} from "../shared/hooks/useAction";
 import {registration} from "../store/action-creators/auth";
 import {useNavigate} from "react-router-dom";

@@ -2,8 +2,6 @@ import React, {useEffect, useRef} from 'react';
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
 import {getUserQuestions} from "../store/action-creators/questions";
 import {Container, CssBaseline, Grid, Paper, Typography} from "@mui/material";
-import LegacyHeader from "../components/LegacyHeader/LegacyHeader";
-import {LegacyQuestionCard} from "../components/LegacyQuestionCard/LegacyQuestionCard";
 import {getAuthDataFromLS} from "../store/action-creators/auth";
 import Header from "../components/Header/Header";
 import {IQuestion} from "../shared/interfaces/IQuestion";

@@ -1,12 +1,10 @@
 import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
-import {Box, Button, CssBaseline, Grid, TextField, Typography} from "@mui/material";
-import LegacyHeader from "../components/LegacyHeader/LegacyHeader";
+import { CssBaseline, Grid } from "@mui/material";
 import {useAction} from "../shared/hooks/useAction";
 import {login} from "../store/action-creators/auth";
 import {useNavigate} from "react-router-dom";
 import Header from "../components/Header/Header";
-import ImageBackground from "../components/ImageBackground/ImageBackground";
 import {AuthBox, AuthButton, AuthHint, AuthHintButton, AuthInput, AuthTitle} from "../components/AuthBox/styled";
 
 const LoginPage = () => {

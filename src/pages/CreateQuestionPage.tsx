@@ -2,10 +2,8 @@ import React, {FC, useEffect, useRef} from 'react';
 import {Box, CssBaseline, Grid} from "@mui/material";
 import {Panorama, useYMaps} from "@pbe/react-yandex-maps";
 import {useAppSelector} from "../shared/hooks/redux";
-import LegacyHeader from "../components/LegacyHeader/LegacyHeader";
 import {MapWrapper} from "../components/Map/styles";
 import CreateQuestionBox from "../components/CreateQuestionBox/CreateQuestionBox";
-import {useAction} from "../shared/hooks/useAction";
 import Header from "../components/Header/Header";
 
 

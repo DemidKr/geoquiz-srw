@@ -7,6 +7,8 @@ import CreateQuestionPage from "../pages/CreateQuestionPage";
 import QuestionPage from "../pages/QuestionPage";
 import UserQuestionPage from "../pages/UserQuestionPage";
 import MainPage from "../pages/MainPage";
+import GuidePage from "../pages/GuidePage";
+import ProfilePage from "../pages/ProfilePage";
 
 interface IRouter {
     path: string
@@ -27,6 +29,10 @@ export const publicRoutes: Array<IRouter> = [
         element: <LoginPage />,
     },
     {
+        path: '/guide',
+        element: <GuidePage />,
+    },
+    {
         path: '/questions',
         element: <QuestionListPage />,
     },
@@ -43,6 +49,14 @@ export const userRoutes: Array<IRouter> = [
         element: <MainPage />,
     },
     {
+        path: '/profile',
+        element: <ProfilePage />,
+    },
+    {
+        path: '/guide',
+        element: <GuidePage />,
+    },
+    {
         path: '/questions',
         element: <QuestionListPage />,
     },
@@ -57,6 +71,10 @@ export const userRoutes: Array<IRouter> = [
     {
         path: '/userQuestions',
         element: <UserQuestionPage />,
+    },
+    {
+        path: '/guide',
+        element: <GuidePage />,
     },
     { path: '*', element: <Navigate to='/main' replace /> },
 ]
