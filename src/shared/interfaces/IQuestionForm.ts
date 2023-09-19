@@ -4,5 +4,6 @@ export interface IQuestionForm {
     time: number;
     steps: number;
     coordinates: number[][];
-    // imageUrl: any; // later
+    // ToDo: add upload images as a card background
+    // imageUrl: any;
 }

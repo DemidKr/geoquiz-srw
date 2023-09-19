@@ -1,5 +1,4 @@
 import React, {FC, ReactNode} from 'react';
-import backgroundImg from "../../shared/images/moscow.jpg";
 import {Grid} from "@mui/material";
 
 interface ImageBackgroundProps {

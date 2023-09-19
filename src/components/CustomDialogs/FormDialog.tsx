@@ -1,5 +1,5 @@
 import React, {Dispatch, FC, SetStateAction} from 'react';
-import {CustomDialogBox, CustomDialogContent, CustomDialogContentText, CustomDialogTitle, DialogButton} from "./styled";
+import {CustomDialogBox, CustomDialogContent, CustomDialogTitle, DialogButton} from "./styled";
 import {Box, DialogActions, Slider, TextField} from "@mui/material";
 import {Map, Placemark} from "@pbe/react-yandex-maps";
 import {IQuestionForm} from "../../shared/interfaces/IQuestionForm";

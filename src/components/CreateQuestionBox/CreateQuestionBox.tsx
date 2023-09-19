@@ -2,7 +2,6 @@ import React, {FC, useState} from 'react';
 import {
     Box,
     Grid,
-    TextField,
 } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -69,6 +68,7 @@ const CreateQuestionBox: FC = () => {
     const handleCreate = async () => {
         // for testing
         console.log('question create', question)
+        navigate('/main')
         return;
 
         if (question.title.length === 0) {

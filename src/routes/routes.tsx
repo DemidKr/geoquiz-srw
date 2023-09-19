@@ -76,6 +76,7 @@ export const userRoutes: Array<IRouter> = [
         path: '/guide',
         element: <GuidePage />,
     },
+    // ToDo: add not found page
     { path: '*', element: <Navigate to='/main' replace /> },
 ]
 //

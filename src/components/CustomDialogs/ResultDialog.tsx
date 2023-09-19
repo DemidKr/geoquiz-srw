@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
+import {Box, DialogActions} from "@mui/material";
 import {Map, Placemark} from "@pbe/react-yandex-maps";
 import {IGame} from "../../shared/interfaces/IGame";
 import {IQuestion} from "../../shared/interfaces/IQuestion";

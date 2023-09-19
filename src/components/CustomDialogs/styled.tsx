@@ -1,4 +1,4 @@
-import {Button, Dialog, DialogContent, DialogContentText, DialogTitle, styled, Typography} from "@mui/material";
+import {Button, Dialog, DialogContent, DialogContentText, DialogTitle, styled} from "@mui/material";
 
 export const CustomDialogBox = styled(Dialog)(({ theme }) => ({
     '& .MuiDialog-paper': {

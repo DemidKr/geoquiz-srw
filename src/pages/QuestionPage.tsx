@@ -2,19 +2,13 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import {
     Box,
-    Button,
     CssBaseline,
-    Dialog, DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
     Grid,
-    Typography
 } from "@mui/material";
 import {getQuestions} from "../store/action-creators/questions";
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
 import {Map, Panorama, Placemark, useYMaps} from "@pbe/react-yandex-maps";
-import {MapWrapper} from "../components/Map/styles";
+import {MapWrapper} from "../components/Map/styled";
 import Header from "../components/Header/Header";
 import LoadingScreen from "../components/LoadingScreen/LoadingScreen";
 import secondPic from "../shared/images/TempPic2.jpg";
@@ -23,21 +17,9 @@ import {GameBox, GameButton, GameText, GameTitle, HideHintButton, HintText} from
 import {IGame, IGameInterface} from "../shared/interfaces/IGame";
 import '../Map.css'
 import StepDialog from "../components/CustomDialogs/StepDialog";
-import {IQuestion} from "../shared/interfaces/IQuestion";
 import ResultDialog from "../components/CustomDialogs/ResultDialog";
+import {hardcodedQuestion} from "../temporary/data/questionData";
 
-const hardcodedQuestion : IQuestion = {
-    id: 1,
-    title: 'Название два',
-    description: 'Описание два',
-    username: 'Димас123',
-    time: 45,
-    stars: 5,
-    timesFinished: 10,
-    steps: 3,
-    coordinates: [[47.21706929180965, 39.7120816141971], [47.26830478974905, 39.722743461852545], [47.213592874536324, 39.72291512322952]],
-    imageUrl: secondPic
-}
 
 const QuestionPage = () => {
     const ymaps = useYMaps(['package.full']);

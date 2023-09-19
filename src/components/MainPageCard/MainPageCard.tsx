@@ -1,7 +1,6 @@
-import React, {FC, ReactNode} from 'react';
-import {Box, Button, SvgIconTypeMap, Typography} from "@mui/material";
+import React, {FC} from 'react';
+import {Box, Typography} from "@mui/material";
 import {IMainPageCard} from "../../shared/interfaces/IMainPageCard";
-import {OverridableComponent} from "@mui/material/OverridableComponent";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../shared/hooks/redux";
 

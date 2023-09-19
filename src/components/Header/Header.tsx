@@ -84,7 +84,7 @@ const Header: FC<HeaderProps> = ({small = false, themeSwitcherOn = false, textCo
                     <Box sx={{ flexGrow: 0, display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px'}}>
                         {themeSwitcherOn &&
                             <IconButton onClick={() => dispatch(themeSlice.actions.changeTheme())}>
-                                {theme === Theme.DARK ? <LightModeIcon sx={{color: '#FFF'}}/> : <DarkModeIcon sx={{color: '#000'}}/>}
+                                {theme === Theme.DARK ? <DarkModeIcon sx={{color: '#FFF'}}/> : <LightModeIcon sx={{color: '#000'}}/>}
                             </IconButton>
                         }
                         <UsernameTypography textColor={textColor} variant="h6" >
@@ -92,7 +92,6 @@ const Header: FC<HeaderProps> = ({small = false, themeSwitcherOn = false, textCo
                         </UsernameTypography>
                         <>
                             <IconButton
-                                size="large"
                                 aria-label="account of current user"
                                 aria-controls="menu-appbar"
                                 aria-haspopup="true"

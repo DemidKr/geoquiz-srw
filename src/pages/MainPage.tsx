@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Container, CssBaseline, Grid, Typography} from "@mui/material";
+import {Container, CssBaseline, Typography} from "@mui/material";
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined';import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined';
 import backgroundImg from "../shared/images/moscow.jpg"

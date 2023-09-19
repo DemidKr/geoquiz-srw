@@ -1,10 +1,9 @@
-import {Route, Routes, useNavigate} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
 import {publicRoutes, userRoutes} from "./routes";
 import React, {useEffect} from "react";
 import {useSnackbar} from "notistack";
 import {getAuthDataFromLS} from "../store/action-creators/auth";
-import {userSlice} from "../store/reducers/UserSlice";
 
 const AppRouter = () => {
     const { isAuth } = useAppSelector(store => store.user)
@@ -28,16 +27,12 @@ const AppRouter = () => {
         console.log('auth', auth)
 
         if (!auth || !auth.access_token || !auth.refresh_token) {
+            // ToDo: validate data and token
+
             return publicRoutes
         } else {
             return userRoutes
         }
-        // console.log('isAuth', isAuth)
-        // if (isAuth) {
-        //    return userRoutes
-        // } else {
-        //     return publicRoutes
-        // }
     }
 
     return (
