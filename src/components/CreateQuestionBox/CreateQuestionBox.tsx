@@ -1,10 +1,12 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useCallback, useState} from 'react';
 import {
     Box,
     Grid,
 } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import SettingsIcon from '@mui/icons-material/Settings';
+import PlaceIcon from '@mui/icons-material/Place';
 import {Placemark, Map, useYMaps} from "@pbe/react-yandex-maps";
 import {useAppDispatch, useAppSelector} from "../../shared/hooks/redux";
 import {coordinatesSlice} from "../../store/reducers/CoordinatesSlice";
@@ -13,10 +15,13 @@ import {getAuthDataFromLS} from "../../store/action-creators/auth";
 import {createQuestion} from "../../store/action-creators/questions";
 import {useAction} from "../../shared/hooks/useAction";
 import {GameBox, GameButton, GameText, GameTitle, HideHintButton, HintText} from "../GameBox/styled";
-import {AddStepBox, DeleteButton, StepBox, StepBoxesWrapper} from "./styled";
+import {AbsolutButton, AddStepBox, StepBox, StepBoxesWrapper} from "./styled";
 import warningSound from '../../shared/sounds/warning.wav'
 import {IQuestionForm} from "../../shared/interfaces/IQuestionForm";
-import FormDialog from "../CustomDialogs/FormDialog";
+import FormDialog from "../Dialogs/FormDialog";
+import CreateStepDialog from "../Dialogs/CreateStepDialog";
+import StepSettingDialog from "../Dialogs/StepSettingDialog";
+import {IStep} from "../../shared/interfaces/IStep";
 
 
 const CreateQuestionBox: FC = () => {
@@ -26,12 +31,15 @@ const CreateQuestionBox: FC = () => {
         title: '',
         description: '',
         time: 90,
-        steps: 0,
-        coordinates: [],
+        steps: [],
     })
 
+    const [descToChange, setDescToChange] = useState<string>('')
+    const [stepToChange, setStepToChange] = useState<number>(0)
     const [showHint, setShowHint] = useState<boolean>(true)
     const [showModal, setShowModal] = useState<boolean>(false)
+    const [showSettingModal, setShowSettingModal] = useState<boolean>(false)
+    const [showStepModal, setShowStepModal] = useState<boolean>(false)
 
     const {coordinates} = useAppSelector(state => state.coordinates)
     const {isLoading ,error} = useAppSelector(state => state.questions)
@@ -41,6 +49,11 @@ const CreateQuestionBox: FC = () => {
     const addSnack = useAction()
     const navigate = useNavigate()
 
+
+
+    const isSameCoord = useCallback((step: IStep) => {
+        return step.coordinates[0] === coordinates[0] && step.coordinates[1] === coordinates[1]
+    }, [coordinates, question.steps]);
 
     const movePlacemark = (coord: any) => {
         if(ymaps !== null) {
@@ -96,11 +109,32 @@ const CreateQuestionBox: FC = () => {
         }
     }
 
+    const handleOpenSetting = (index: number) => {
+        setStepToChange(index)
+        setDescToChange(question.steps[index].desc)
+        setShowSettingModal(true)
+    }
+
+    const handleStepChanges = (doesCoordChange: boolean, newDesc: string) => {
+        let steps: IStep[] = [...question.steps];
+
+        let step: IStep = {...steps[stepToChange]};
+        step.desc = newDesc;
+        console.log(doesCoordChange)
+        if (doesCoordChange) {
+            console.log('inside')
+            step.coordinates = coordinates;
+        }
+        steps[stepToChange] = step;
+
+        setQuestion({...question, steps});
+    }
+
     const handleRemove = (index: number) => {
-        let array = [...question.coordinates]; // make a separate copy of the array
+        let array = [...question.steps]; // make a separate copy of the array
         if (index !== -1) {
             array.splice(index, 1);
-            setQuestion({...question, coordinates: array, steps: question.steps - 1})
+            setQuestion({...question, steps: array})
         }
     }
 
@@ -137,16 +171,28 @@ const CreateQuestionBox: FC = () => {
                             {coordinates?.length !== 0 && <Placemark geometry={coordinates}></Placemark>}
                         </Map>
                     </Box>
-                    <GameText component='div'>{question.coordinates.length}/10 этапов</GameText>
+                    <GameText component='div'>{question.steps.length}/10 этапов</GameText>
                     <StepBoxesWrapper>
-                        {question.coordinates.map((stepCoordinates, index) =>
-                            <StepBox key={index} onClick={() => dispatch(changeCoordinates(stepCoordinates))}>
+                        {question.steps.map((step, index) =>
+                            <StepBox key={index}>
                                 {index + 1}
-                                <DeleteButton color="error" variant="contained" onClick={() => handleRemove(index)}>
+                                <AbsolutButton
+                                    color={isSameCoord(step) ? "success" : "primary"}
+                                    variant="contained"
+                                    left={'4px'}
+                                    top={'4px'}
+                                    onClick={() => dispatch(changeCoordinates(step.coordinates))}
+                                >
+                                    <PlaceIcon sx={{width: '20px', height: '20px', color: '#FFFFFF'}}/>
+                                </AbsolutButton>
+                                <AbsolutButton variant="contained" right={'4px'} top={'4px'} onClick={() => handleOpenSetting(index)}>
+                                    <SettingsIcon sx={{width: '20px', height: '20px', color: '#FFFFFF'}}/>
+                                </AbsolutButton>
+                                <AbsolutButton color="error" variant="contained" right={'4px'} bottom={'4px'} onClick={() => handleRemove(index)}>
                                     <DeleteIcon sx={{width: '20px', height: '20px'}}/>
-                                </DeleteButton>
+                                </AbsolutButton>
                             </StepBox>)}
-                        {question.coordinates.length < 10 && <AddStepBox onClick={() => setQuestion({...question, coordinates: [...question.coordinates, coordinates], steps: question.steps + 1})}>
+                        {question.steps.length < 10 && <AddStepBox onClick={() => setShowStepModal(true)}>
                             <AddIcon/>
                         </AddStepBox>}
                     </StepBoxesWrapper>
@@ -161,6 +207,23 @@ const CreateQuestionBox: FC = () => {
                     </Grid>
                 </Grid>
             </GameBox>
+            <CreateStepDialog
+                isOpen={showStepModal}
+                setIsOpen={setShowStepModal}
+                question={question}
+                setQuestion={setQuestion}
+                coordinates={coordinates}
+            />
+            {question.steps.length > 0 &&
+                <StepSettingDialog
+                    isOpen={showSettingModal}
+                    setIsOpen={setShowSettingModal}
+                    question={question}
+                    handleStepChanges={handleStepChanges}
+                    coordinates={coordinates}
+                    index={stepToChange}
+                    description={descToChange}
+                />}
             <FormDialog
                 question={question}
                 setQuestion={setQuestion}

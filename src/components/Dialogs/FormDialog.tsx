@@ -4,6 +4,10 @@ import {Box, DialogActions, Slider, TextField} from "@mui/material";
 import {Map, Placemark} from "@pbe/react-yandex-maps";
 import {IQuestionForm} from "../../shared/interfaces/IQuestionForm";
 import {GameText} from "../GameBox/styled";
+import CloseIcon from "@mui/icons-material/Close";
+import {Theme} from "../../store/reducers/ThemeSlice";
+import {AbsolutButton} from "../CreateQuestionBox/styled";
+import {useAppSelector} from "../../shared/hooks/redux";
 
 interface FormDialogProps {
     question: IQuestionForm,
@@ -25,14 +29,22 @@ const marks = [
 ];
 
 const FormDialog: FC<FormDialogProps> = ({question, setQuestion, isOpen, setIsOpen, handleCreate}) => {
+    const {theme} = useAppSelector(state => state.theme)
 
     const handleSliderChange = (event: Event, newValue: number | number[]) => {
         setQuestion({...question, time: newValue as number});
     };
 
+    const handleClose = () => {
+        setIsOpen(false)
+    }
+
     return (
         <CustomDialogBox open={isOpen}>
             <CustomDialogTitle>Завершение создания</CustomDialogTitle>
+            <AbsolutButton right={'8px'} top={'8px'} onClick={handleClose}>
+                <CloseIcon sx={{width: '20px', height: '20px', color: theme === Theme.DARK ? '#FFF' : '#000'}}/>
+            </AbsolutButton>
             <CustomDialogContent>
                 <TextField
                     fullWidth
@@ -67,7 +79,7 @@ const FormDialog: FC<FormDialogProps> = ({question, setQuestion, isOpen, setIsOp
                         sx={{width: '100%', height: '100%'}}
                         className="rounded-map"
                         defaultState={{
-                            center: question.coordinates.length ? question.coordinates[0] : [47.23620154498959, 39.712672605191955],
+                            center: question.steps.length ? question.steps[0].coordinates : [47.23620154498959, 39.712672605191955],
                             zoom: 9,
                             controls: []
                         }}
@@ -78,15 +90,16 @@ const FormDialog: FC<FormDialogProps> = ({question, setQuestion, isOpen, setIsOp
                             suppressMapOpenBlock: true,
                         }}
                     >
-                        {question.coordinates.map((coord, index) =>
+                        {question.steps.map((step, index) =>
                             <Placemark
                                 key={index}
                                 options={{preset: 'islands#greenIcon'}}
-                                geometry={coord}
+                                geometry={step.coordinates}
+                                properties={{iconContent: index + 1, hintContent: 'Нажми, чтобы открыть описание', balloonContent: 'Очень длиннный, но невероятно интересный текст' }}
                             ></Placemark>)}
                     </Map>
                 </Box>
-                <GameText component='div'>Количество этапов: {question.steps}</GameText>
+                <GameText component='div'>Количество этапов: {question.steps.length}</GameText>
             </CustomDialogContent>
             <DialogActions>
                 <DialogButton onClick={handleCreate} variant="contained">Завершить</DialogButton>

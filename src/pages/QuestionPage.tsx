@@ -16,8 +16,8 @@ import {useAction} from "../shared/hooks/useAction";
 import {GameBox, GameButton, GameText, GameTitle, HideHintButton, HintText} from "../components/GameBox/styled";
 import {IGame, IGameInterface} from "../shared/interfaces/IGame";
 import '../Map.css'
-import StepDialog from "../components/CustomDialogs/StepDialog";
-import ResultDialog from "../components/CustomDialogs/ResultDialog";
+import StepDialog from "../components/Dialogs/StepDialog";
+import ResultDialog from "../components/Dialogs/ResultDialog";
 import {hardcodedQuestion} from "../temporary/data/questionData";
 
 
