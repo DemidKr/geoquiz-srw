@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
 import {useAction} from "../shared/hooks/useAction";
-import {useNavigate} from "react-router-dom";
 import {login, registration} from "../store/action-creators/auth";
 import {CssBaseline, Grid} from "@mui/material";
 import Header from "../components/Header/Header";
@@ -17,7 +16,6 @@ const AuthPage = () => {
     const dispatch = useAppDispatch()
 
     const addSnack = useAction()
-    const navigate = useNavigate()
 
     const [auth, setAuth] = useState<AuthType>(AuthType.LOGIN)
     const [password, setPassword] = useState<string>('')

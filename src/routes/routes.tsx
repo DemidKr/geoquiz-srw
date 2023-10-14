@@ -1,6 +1,4 @@
-import RegisterPage from "../pages/RegisterPage";
 import React from "react";
-import LoginPage from "../pages/LoginPage";
 import {Navigate} from "react-router-dom";
 import QuestionListPage from "../pages/QuestionListPage";
 import CreateQuestionPage from "../pages/CreateQuestionPage";
