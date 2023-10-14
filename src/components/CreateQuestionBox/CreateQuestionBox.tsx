@@ -57,8 +57,6 @@ const CreateQuestionBox: FC = () => {
 
     const movePlacemark = (coord: any) => {
         if(ymaps !== null) {
-            console.log("coord", coord)
-
             let locateRequest = ymaps.panorama.locate( coord);
 
             locateRequest.then(
@@ -67,7 +65,6 @@ const CreateQuestionBox: FC = () => {
                     if (panoramas.length) {
                         dispatch(changeCoordinates(coord))
                     } else {
-                        console.log("В заданной точке нет панорам.");
                         new Audio(warningSound).play()
                         addSnack("Для заданной точки не найдено ни одной панорамы", "warning")
                     }
@@ -80,7 +77,6 @@ const CreateQuestionBox: FC = () => {
 
     const handleCreate = async () => {
         // for testing
-        console.log('question create', question)
         navigate('/main')
         return;
 
@@ -120,10 +116,8 @@ const CreateQuestionBox: FC = () => {
 
         let step: IStep = {...steps[stepToChange]};
         step.desc = newDesc;
-        console.log(doesCoordChange)
         if (doesCoordChange) {
-            console.log('inside')
-            step.coordinates = coordinates;
+            step.coordinates = [...coordinates];
         }
         steps[stepToChange] = step;
 

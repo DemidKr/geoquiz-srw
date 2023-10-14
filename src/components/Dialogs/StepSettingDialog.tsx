@@ -35,7 +35,6 @@ const CreateStepDialog: FC<CreateStepDialogProps> = (props) => {
     }, [description, isOpen])
 
     const handleSave = () => {
-        console.log(doesCoordChange)
         handleStepChanges(doesCoordChange, desc)
         setIsOpen(false)
         setDoesCoordChange(false)
