@@ -32,8 +32,7 @@ const accountItems: IMenuItem[] = [
 ];
 
 const authItems: IMenuItem[] = [
-    {title: 'Логин', link: '/login'},
-    {title: 'Регистрация', link: '/register'},
+    {title: 'Войти', link: '/auth'},
 ]
 
 const Header: FC<HeaderProps> = ({small = false, themeSwitcherOn = false, textColor}) => {

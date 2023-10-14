@@ -9,6 +9,7 @@ import UserQuestionPage from "../pages/UserQuestionPage";
 import MainPage from "../pages/MainPage";
 import GuidePage from "../pages/GuidePage";
 import ProfilePage from "../pages/ProfilePage";
+import AuthPage from "../pages/AuthPage";
 
 interface IRouter {
     path: string
@@ -21,12 +22,8 @@ export const publicRoutes: Array<IRouter> = [
         element: <MainPage />,
     },
     {
-        path: '/register',
-        element: <RegisterPage />,
-    },
-    {
-        path: '/login',
-        element: <LoginPage />,
+        path: '/auth',
+        element: <AuthPage />,
     },
     {
         path: '/guide',

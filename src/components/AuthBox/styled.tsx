@@ -20,7 +20,7 @@ export const AuthTitle = styled(Typography)(({ theme }) => ({
 })) as typeof Typography
 
 export const AuthInput = styled(TextField)(({ theme }) => ({
-    width: '390px',
+    width: '395px',
     '& label': {
         fontFamily: 'Montserrat',
         fontWeight: '500',
