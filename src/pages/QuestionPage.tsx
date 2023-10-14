@@ -49,7 +49,6 @@ const QuestionPage = () => {
     const [timerClock, setTimerClock] = useState<number>(-1)
 
     const addSnack = useAction()
-    const navigate = useNavigate()
     const { id } = useParams()
     const {isLoading, error} = useAppSelector(state => state.questions)
 
@@ -150,7 +149,6 @@ const QuestionPage = () => {
     const finishGame = () => {
         setGameInterface({...gameInterface, showResultWindow: true})
         // send result
-
     }
 
     const handleAnswer = () => {
@@ -162,7 +160,8 @@ const QuestionPage = () => {
         let lat = Math.floor((5 - Math.abs(game.answer[0] - game.coordinates[0]))/5 * 1000)
         let lng = Math.floor((10 - Math.abs(game.answer[1] - game.coordinates[1]))/10 * 1000)
         let res = Math.floor((lat + lng) / 2)
-        if (lat < 0 || lng < 0) {
+        console.log('res', res)
+        if (lat < 0 || lng < 0 || isNaN(res)) {
             setGame({...game, zoomLevel: 2, scores: [...game.scores, 0]})
         } else {
             setGame({...game, zoomLevel: res > 900 ? 6 : 4, scores: [...game.scores, res], finalScore: game.finalScore + res})
