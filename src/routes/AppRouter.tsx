@@ -1,12 +1,12 @@
 import {Route, Routes} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
-import {publicRoutes, userRoutes} from "./routes";
+import {adminRoutes, publicRoutes, userRoutes} from "./routes";
 import React, {useEffect} from "react";
 import {useSnackbar} from "notistack";
 import {getAuthDataFromLS} from "../store/action-creators/auth";
 
 const AppRouter = () => {
-    const { isAuth } = useAppSelector(store => store.user)
+    const { isAuth, role } = useAppSelector(store => store.user)
     const { snack } = useAppSelector(store => store.snackbar)
     const { enqueueSnackbar } = useSnackbar()
 
@@ -24,13 +24,12 @@ const AppRouter = () => {
 
     const getRouts = () => {
         const auth: any = dispatch(getAuthDataFromLS());
-        console.log('auth', auth)
 
         if (!auth || !auth.access_token || !auth.refresh_token) {
             // ToDo: validate data and token
-
             return publicRoutes
         } else {
+            if (role === 'admin') return adminRoutes
             return userRoutes
         }
     }

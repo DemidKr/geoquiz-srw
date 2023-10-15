@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import StarIcon from "@mui/icons-material/Star";
 import {Box} from "@mui/material";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
-import {IStars} from "../../shared/interfaces/IStars";
+import {IStars} from "../../shared/entities/IStars";
 
 interface StarsProps {
     stars: IStars

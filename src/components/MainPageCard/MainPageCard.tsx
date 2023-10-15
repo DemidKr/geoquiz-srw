@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {Box, Typography} from "@mui/material";
-import {IMainPageCard} from "../../shared/interfaces/IMainPageCard";
+import {IMainPageCard} from "../../shared/entities/IMainPageCard";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../shared/hooks/redux";
 

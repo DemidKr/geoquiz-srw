@@ -8,6 +8,7 @@ import MainPage from "../pages/MainPage";
 import GuidePage from "../pages/GuidePage";
 import ProfilePage from "../pages/ProfilePage";
 import AuthPage from "../pages/AuthPage";
+import AdminPage from "../pages/AdminPage";
 
 interface IRouter {
     path: string
@@ -74,4 +75,45 @@ export const userRoutes: Array<IRouter> = [
     // ToDo: add not found page
     { path: '*', element: <Navigate to='/main' replace /> },
 ]
-//
+
+
+export const adminRoutes: Array<IRouter> = [
+    {
+        path: '/main',
+        element: <MainPage />,
+    },
+    {
+        path: '/profile',
+        element: <ProfilePage />,
+    },
+    {
+        path: '/guide',
+        element: <GuidePage />,
+    },
+    {
+        path: '/questions',
+        element: <QuestionListPage />,
+    },
+    {
+        path: '/question/:id',
+        element: <QuestionPage />,
+    },
+    {
+        path: '/createQuestion',
+        element: <CreateQuestionPage />,
+    },
+    {
+        path: '/userQuestions',
+        element: <UserQuestionPage />,
+    },
+    {
+        path: '/guide',
+        element: <GuidePage />,
+    },
+    {
+        path: '/admin',
+        element: <AdminPage />,
+    },
+    // ToDo: add not found page
+    { path: '*', element: <Navigate to='/main' replace /> },
+]

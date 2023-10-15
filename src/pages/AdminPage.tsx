@@ -2,7 +2,7 @@ import React from 'react';
 import {Container, CssBaseline, Typography} from "@mui/material";
 import Header from "../components/Header/Header";
 
-const GuidePage = () => {
+const AdminPage = () => {
     return (
         <>
             <CssBaseline/>
@@ -36,4 +36,4 @@ const GuidePage = () => {
     );
 };
 
-export default GuidePage;
+export default AdminPage;

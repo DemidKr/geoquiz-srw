@@ -2,7 +2,7 @@ import React, {Dispatch, FC, SetStateAction} from 'react';
 import {CustomDialogBox, CustomDialogContent, CustomDialogTitle, DialogButton} from "./styled";
 import {Box, DialogActions, Slider, TextField} from "@mui/material";
 import {Map, Placemark} from "@pbe/react-yandex-maps";
-import {IQuestionForm} from "../../shared/interfaces/IQuestionForm";
+import {IQuestionForm} from "../../shared/entities/IQuestionForm";
 import {GameText} from "../GameBox/styled";
 import CloseIcon from "@mui/icons-material/Close";
 import {Theme} from "../../store/reducers/ThemeSlice";

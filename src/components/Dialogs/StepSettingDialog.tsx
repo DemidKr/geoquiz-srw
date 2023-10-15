@@ -2,7 +2,7 @@ import React, {Dispatch, FC, SetStateAction, useEffect, useMemo, useState} from 
 import {CustomDialogBox, CustomDialogContent, CustomDialogContentText, CustomDialogTitle, DialogButton} from "./styled";
 import {Box, DialogActions, FormControlLabel, Switch, TextField} from "@mui/material";
 import {Map, Placemark} from "@pbe/react-yandex-maps";
-import {IQuestionForm} from "../../shared/interfaces/IQuestionForm";
+import {IQuestionForm} from "../../shared/entities/IQuestionForm";
 import {GameText} from "../GameBox/styled";
 import CloseIcon from '@mui/icons-material/Close';
 import {AbsolutButton} from "../CreateQuestionBox/styled";

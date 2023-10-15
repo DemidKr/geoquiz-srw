@@ -17,11 +17,11 @@ import {useAction} from "../../shared/hooks/useAction";
 import {GameBox, GameButton, GameText, GameTitle, HideHintButton, HintText} from "../GameBox/styled";
 import {AbsolutButton, AddStepBox, StepBox, StepBoxesWrapper} from "./styled";
 import warningSound from '../../shared/sounds/warning.wav'
-import {IQuestionForm} from "../../shared/interfaces/IQuestionForm";
+import {IQuestionForm} from "../../shared/entities/IQuestionForm";
 import FormDialog from "../Dialogs/FormDialog";
 import CreateStepDialog from "../Dialogs/CreateStepDialog";
 import StepSettingDialog from "../Dialogs/StepSettingDialog";
-import {IStep} from "../../shared/interfaces/IStep";
+import {IStep} from "../../shared/entities/IStep";
 
 
 const CreateQuestionBox: FC = () => {

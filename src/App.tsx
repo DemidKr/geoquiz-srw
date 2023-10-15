@@ -6,6 +6,7 @@ import {userSlice} from "./store/reducers/UserSlice";
 import {getAuthDataFromLS} from "./store/action-creators/auth";
 import {createTheme, ThemeProvider} from "@mui/material";
 import {LOCAL_STORAGE_THEME_KEY, Theme, themeSlice} from "./store/reducers/ThemeSlice";
+import {RoleTypes} from "./shared/entities/role";
 
 
 const defaultTheme = localStorage.getItem(LOCAL_STORAGE_THEME_KEY) as Theme || Theme.LIGHT
@@ -33,12 +34,12 @@ const App: FC = () => {
         }
 
         const auth = dispatch(getAuthDataFromLS());
-        console.log('auth', auth)
 
         if (!auth || !auth.access_token || !auth.refresh_token) {
             dispatch(userSlice.actions.removeUser())
         } else {
-            dispatch(userSlice.actions.userFetchingSuccess(auth.username))
+            // ToDo: get role from backend
+            dispatch(userSlice.actions.userFetchingSuccess({ username: auth.username, role: 'user' }))
         }
     }, [])
 

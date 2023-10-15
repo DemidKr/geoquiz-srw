@@ -1,9 +1,9 @@
-import {IGetQuestions, IGetUserQuestions} from "../../shared/interfaces/IGetQuestions";
+import {IGetQuestions, IGetUserQuestions} from "../../shared/entities/IGetQuestions";
 import {AppDispatch} from "../store";
 import {questionsSlice} from "../reducers/QuestionsSlice";
 import api from "../../services/axiosClient";
-import {ICreateQuestion} from "../../shared/interfaces/ICreateQuestion";
-import {IDeleteQuestion} from "../../shared/interfaces/IDeleteQuestion";
+import {ICreateQuestion} from "../../shared/entities/ICreateQuestion";
+import {IDeleteQuestion} from "../../shared/entities/IDeleteQuestion";
 
 
 export const getQuestions = ({ url}: IGetQuestions) => async (dispatch: AppDispatch) => {

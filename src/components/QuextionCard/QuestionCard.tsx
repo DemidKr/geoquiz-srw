@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 
-import {IQuestion} from "../../shared/interfaces/IQuestion";
-import {IStars} from "../../shared/interfaces/IStars";
+import {IQuestion} from "../../shared/entities/IQuestion";
+import {IStars} from "../../shared/entities/IStars";
 
 import PersonIcon from '@mui/icons-material/Person';
 import TimerIcon from '@mui/icons-material/Timer';

@@ -14,6 +14,7 @@ import {Theme, themeSlice} from "../../store/reducers/ThemeSlice";
 import {FC} from "react";
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import {getMenuItemsByAuthAndRole} from "../../shared/utils/helpers";
 
 interface HeaderProps {
     small?: boolean ,
@@ -21,24 +22,10 @@ interface HeaderProps {
     textColor?: string
 }
 
-interface IMenuItem {
-    title: string,
-    link: string
-}
-
-const accountItems: IMenuItem[] = [
-    {title: 'Мои геоквизы', link: '/userQuestions'},
-    {title: 'Профиль', link: '/profile'},
-];
-
-const authItems: IMenuItem[] = [
-    {title: 'Войти', link: '/auth'},
-]
-
 const Header: FC<HeaderProps> = ({small = false, themeSwitcherOn = false, textColor}) => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-    const {isAuth, username} = useAppSelector(state => state.user)
+    const {isAuth, username, role} = useAppSelector(state => state.user)
     const {theme} = useAppSelector(state => state.theme)
 
     const navigator = useNavigate()
@@ -119,7 +106,7 @@ const Header: FC<HeaderProps> = ({small = false, themeSwitcherOn = false, textCo
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                {(isAuth ? accountItems : authItems).map((item, index) => (
+                                {getMenuItemsByAuthAndRole(isAuth, role).map((item, index) => (
                                             <MenuItem key={index} onClick={() => navigator(item.link)}>{item.title}</MenuItem>
                                 ))}
                                 {isAuth && <MenuItem onClick={logout}>Выйти</MenuItem>}

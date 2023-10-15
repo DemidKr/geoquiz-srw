@@ -8,7 +8,10 @@ export const login = (username: string, password: string) => async (dispatch: Ap
         const response = await api.post('/auth/login', {username, password})
         console.log("response", response)
 
-        dispatch(userSlice.actions.userFetchingSuccess(response.data.username))
+        dispatch(userSlice.actions.userFetchingSuccess({
+            username: response.data.username,
+            role: response.data.role
+        }))
         localStorage.setItem('auth', JSON.stringify(response.data));
         return response
     } catch (e: any) {
@@ -23,7 +26,10 @@ export const registration = (username: string, password: string) => async (dispa
         const response = await api.post('/auth/registration', {username, password})
         console.log("response", response)
 
-        dispatch(userSlice.actions.userFetchingSuccess(response.data.username))
+        dispatch(userSlice.actions.userFetchingSuccess({
+            username: response.data.username,
+            role: response.data.role
+        }))
         localStorage.setItem('auth', JSON.stringify(response.data));
         return response
     } catch (e: any) {
