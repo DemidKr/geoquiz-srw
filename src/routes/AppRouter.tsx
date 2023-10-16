@@ -23,10 +23,7 @@ const AppRouter = () => {
     }, [snack, enqueueSnackbar])
 
     const getRouts = () => {
-        const auth: any = dispatch(getAuthDataFromLS());
-
-        if (!auth || !auth.access_token || !auth.refresh_token) {
-            // ToDo: validate data and token
+        if (!isAuth) {
             return publicRoutes
         } else {
             if (role === 'admin') return adminRoutes

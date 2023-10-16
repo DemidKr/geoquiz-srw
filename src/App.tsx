@@ -3,10 +3,11 @@ import {BrowserRouter as Router} from 'react-router-dom'
 import AppRouter from "./routes/AppRouter";
 import {useAppDispatch, useAppSelector} from "./shared/hooks/redux";
 import {userSlice} from "./store/reducers/UserSlice";
-import {getAuthDataFromLS} from "./store/action-creators/auth";
+import {getAuthDataFromLS, getUserByToken} from "./store/action-creators/auth";
 import {createTheme, ThemeProvider} from "@mui/material";
 import {LOCAL_STORAGE_THEME_KEY, Theme, themeSlice} from "./store/reducers/ThemeSlice";
 import {RoleTypes} from "./shared/entities/role";
+import {getUserQuestions} from "./store/action-creators/questions";
 
 
 const defaultTheme = localStorage.getItem(LOCAL_STORAGE_THEME_KEY) as Theme || Theme.LIGHT
@@ -32,14 +33,11 @@ const App: FC = () => {
         if (theme !== defaultTheme) {
             dispatch(themeSlice.actions.setTheme(defaultTheme))
         }
-
         const auth = dispatch(getAuthDataFromLS());
-
-        if (!auth || !auth.access_token || !auth.refresh_token) {
-            dispatch(userSlice.actions.removeUser())
+        if (auth && auth.access_token ) {
+            dispatch(getUserByToken(auth.access_token))
         } else {
-            // ToDo: get role from backend
-            dispatch(userSlice.actions.userFetchingSuccess({ username: auth.username, role: 'user' }))
+            dispatch(userSlice.actions.removeUser())
         }
     }, [])
 

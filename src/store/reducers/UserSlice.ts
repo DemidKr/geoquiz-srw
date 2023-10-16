@@ -25,10 +25,11 @@ export const userSlice = createSlice({
             state.isLoading = true
         },
         userFetchingSuccess(state, action: PayloadAction<{ username: string, role: RoleTypes }>) {
+            const {username, role} = action.payload
             state.isLoading = false
             state.error = ''
-            state.username = action.payload.username
-            state.role = action.payload.role
+            state.username = username
+            state.role = role
             state.isAuth = true
         },
         userFetchingError(state, action: PayloadAction<string>) {
