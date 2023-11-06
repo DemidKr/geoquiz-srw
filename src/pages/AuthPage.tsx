@@ -1,25 +1,88 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
 import {useAction} from "../shared/hooks/useAction";
-import {login, registration} from "../store/action-creators/auth";
 import {CssBaseline, Grid} from "@mui/material";
 import Header from "../components/Header/Header";
-import {AuthBox, AuthButton, AuthHint, AuthHintButton, AuthInput, AuthTitle} from "../components/AuthBox/styled";
+import {AuthBox, AuthButton, AuthHint, AuthHintButton, AuthInput, AuthTitle} from "../components/Auth/Auth.styled";
+import {useLoginMutation, useRegistrationMutation} from "../store/api/authApi";
 
 enum AuthType {
     LOGIN = 'login',
     REGISTRATION = 'registration',
 }
 
+interface IErrorResponce {
+    statusCode?: number;
+    message?: string;
+    error?: string;
+}
+
 const AuthPage = () => {
-    const {isLoading} = useAppSelector(state => state.user)
+    // const {isLoading} = useAppSelector(state => state.user)
     const dispatch = useAppDispatch()
 
     const addSnack = useAction()
 
+    const [
+        login,
+        {
+            data: loginData,
+            isLoading: isLoginLoading,
+            isSuccess: isLoginSuccess,
+            isError: isLoginError,
+            error: loginError
+        }
+    ] = useLoginMutation()
+    const [
+        registration,
+        {
+            data: registrationData,
+            isLoading: isRegistrationLoading,
+            isSuccess: isRegistrationSuccess,
+            isError: isRegistrationError,
+            error: registrationError
+        }
+    ] = useRegistrationMutation()
+
     const [auth, setAuth] = useState<AuthType>(AuthType.LOGIN)
     const [password, setPassword] = useState<string>('')
     const [username, setUsername] = useState<string>('')
+
+    useEffect(() => {
+        console.log('registrationData', registrationData)
+        console.log('registrationError', registrationError)
+        if (isRegistrationSuccess) {
+            addSnack('Успешная регистрация', 'success')
+        }
+
+        if (registrationError && AuthType.REGISTRATION) {
+            if ('status' in registrationError) {
+                const data = registrationError.data as IErrorResponce
+                console.log('data?.message', data?.message)
+                addSnack(data?.message || 'Что-то пошло не так...', 'error')
+            } else {
+                addSnack( 'Что-то пошло не так...', 'error')
+            }
+        }
+    }, [isRegistrationLoading])
+
+    useEffect(() => {
+        console.log('loginData', loginData)
+        console.log('loginError', loginError)
+        if (isLoginSuccess) {
+            addSnack('Успешный вход', 'success')
+        }
+
+        if (loginError && AuthType.LOGIN) {
+            if ('status' in loginError) {
+                const data = loginError.data as IErrorResponce
+                console.log('data?.message', data?.message)
+                addSnack(data?.message || 'Что-то пошло не так...', 'error')
+            } else {
+                addSnack( 'Что-то пошло не так...', 'error')
+            }
+        }
+    }, [isLoginLoading])
 
     const handleAuth = async () => {
         if (!username || !password) {
@@ -33,30 +96,9 @@ const AuthPage = () => {
         }
 
         if (auth === AuthType.LOGIN) {
-            await dispatch(login(username, password)).then(value => {
-                if (value.message) {
-                    addSnack(value.response?.data?.message || 'Неверный логин или пароль', 'error')
-                }
-                if (value.data) {
-                    addSnack('Успешный вход', 'success')
-                }
-                if (!value.message && !value.data) {
-                    addSnack('Что-то пошло не так...', 'error')
-                }
-            })
+            login({username, password})
         } else {
-            await dispatch(registration(username, password)).then(value => {
-                if (value.message) {
-                    addSnack(value.response?.data?.message || 'Неверный логин или пароль', 'error')
-                    console.log('value.message', value.message)
-                }
-                if (value.data) {
-                    addSnack('Успешная регистрация', 'success')
-                }
-                if (!value.message && !value.data) {
-                    addSnack('Что-то пошло не так...', 'error')
-                }
-            })
+            registration({username, password})
         }
 
     }
@@ -104,7 +146,7 @@ const AuthPage = () => {
                             }
                         />
                         <AuthButton
-                            disabled={isLoading}
+                            disabled={isLoginLoading || isRegistrationLoading}
                             onClick={handleAuth}
                             variant="contained"
                         >

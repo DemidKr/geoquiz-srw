@@ -1,12 +1,12 @@
 import React, {Dispatch, FC, SetStateAction} from 'react';
-import {CustomDialogBox, CustomDialogContent, CustomDialogTitle, DialogButton} from "./styled";
+import {CustomDialogBox, CustomDialogContent, CustomDialogTitle, DialogButton} from "./Dialog.styled";
 import {Box, DialogActions, Slider, TextField} from "@mui/material";
 import {Map, Placemark} from "@pbe/react-yandex-maps";
-import {IQuestionForm} from "../../shared/entities/IQuestionForm";
-import {GameText} from "../GameBox/styled";
+import {IQuestionForm} from "../../shared/types/IQuestionForm";
+import {GameText} from "../GameBox/GameBox.styled";
 import CloseIcon from "@mui/icons-material/Close";
 import {Theme} from "../../store/reducers/ThemeSlice";
-import {AbsolutButton} from "../CreateQuestionBox/styled";
+import {AbsolutButton} from "../CreateQuestionBox/CreateQuestionBox.styled";
 import {useAppSelector} from "../../shared/hooks/redux";
 
 interface FormDialogProps {

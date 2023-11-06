@@ -8,13 +8,13 @@ import {
 import {getQuestions} from "../store/action-creators/questions";
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
 import {Map, Panorama, Placemark, useYMaps} from "@pbe/react-yandex-maps";
-import {MapWrapper} from "../components/Map/styled";
+import {MapWrapper} from "../components/Map/Map.styled";
 import Header from "../components/Header/Header";
 import LoadingScreen from "../components/LoadingScreen/LoadingScreen";
 import secondPic from "../shared/images/TempPic2.jpg";
 import {useAction} from "../shared/hooks/useAction";
-import {GameBox, GameButton, GameText, GameTitle, HideHintButton, HintText} from "../components/GameBox/styled";
-import {IGame, IGameInterface} from "../shared/entities/IGame";
+import {GameBox, GameButton, GameText, GameTitle, HideHintButton, HintText} from "../components/GameBox/GameBox.styled";
+import {IGame, IGameInterface} from "../shared/types/IGame";
 import '../Map.css'
 import StepDialog from "../components/Dialogs/StepDialog";
 import ResultDialog from "../components/Dialogs/ResultDialog";

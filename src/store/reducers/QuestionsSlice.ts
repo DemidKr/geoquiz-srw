@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {ILegacyQuestion} from "../../shared/entities/ILegacyQuestion";
+import {ILegacyQuestion} from "../../shared/types/ILegacyQuestion";
 
 interface QuestionsState {
     questions: ILegacyQuestion[];

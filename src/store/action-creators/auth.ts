@@ -1,7 +1,7 @@
 import {AppDispatch} from "../store";
 import {userSlice} from "../reducers/UserSlice";
 import api from "../../services/axiosClient";
-import {IGetUserQuestions} from "../../shared/entities/IGetQuestions";
+import {IGetUserQuestions} from "../../shared/types/IGetQuestions";
 import {questionsSlice} from "../reducers/QuestionsSlice";
 
 export const login = (username: string, password: string) => async (dispatch: AppDispatch) => {

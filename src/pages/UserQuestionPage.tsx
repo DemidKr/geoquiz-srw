@@ -4,7 +4,7 @@ import {getUserQuestions} from "../store/action-creators/questions";
 import {Container, CssBaseline, Grid, Paper, Typography} from "@mui/material";
 import {getAuthDataFromLS} from "../store/action-creators/auth";
 import Header from "../components/Header/Header";
-import {IQuestion} from "../shared/entities/IQuestion";
+import {IQuestion} from "../shared/types/IQuestion";
 import pic from "../shared/images/TemporaryPicture.jpg";
 import secondPic from "../shared/images/TempPic2.jpg";
 import QuestionCard from "../components/QuextionCard/QuestionCard";

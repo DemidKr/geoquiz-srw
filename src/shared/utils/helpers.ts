@@ -1,4 +1,4 @@
-import {RoleTypes} from "../entities/role";
+import {RoleTypes} from "../types/IRole";
 
 interface IMenuItem {
     title: string,

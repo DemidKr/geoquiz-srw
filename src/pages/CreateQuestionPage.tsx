@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import { CssBaseline, Grid} from "@mui/material";
 import {Panorama, useYMaps} from "@pbe/react-yandex-maps";
 import {useAppSelector} from "../shared/hooks/redux";
-import {MapWrapper} from "../components/Map/styled";
+import {MapWrapper} from "../components/Map/Map.styled";
 import CreateQuestionBox from "../components/CreateQuestionBox/CreateQuestionBox";
 import Header from "../components/Header/Header";
 

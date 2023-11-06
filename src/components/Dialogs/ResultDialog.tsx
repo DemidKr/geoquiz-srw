@@ -1,10 +1,10 @@
 import React, {FC} from 'react';
 import {Box, DialogActions} from "@mui/material";
 import {Map, Placemark} from "@pbe/react-yandex-maps";
-import {IGame} from "../../shared/entities/IGame";
-import {IQuestion} from "../../shared/entities/IQuestion";
+import {IGame} from "../../shared/types/IGame";
+import {IQuestion} from "../../shared/types/IQuestion";
 import {useNavigate} from "react-router-dom";
-import {CustomDialogBox, CustomDialogContent, CustomDialogContentText, CustomDialogTitle, DialogButton} from "./styled";
+import {CustomDialogBox, CustomDialogContent, CustomDialogContentText, CustomDialogTitle, DialogButton} from "./Dialog.styled";
 
 interface ResultDialogProps {
     game: IGame,

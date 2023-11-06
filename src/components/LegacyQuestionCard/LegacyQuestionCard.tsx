@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 import {useNavigate} from "react-router-dom";
-import {ILegacyQuestion} from "../../shared/entities/ILegacyQuestion";
+import {ILegacyQuestion} from "../../shared/types/ILegacyQuestion";
 import {Button, Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../shared/hooks/redux";
 import {useAction} from "../../shared/hooks/useAction";

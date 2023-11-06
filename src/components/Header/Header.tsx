@@ -6,7 +6,7 @@ import Menu from '@mui/material/Menu';
 import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
 import {AccountCircle} from "@mui/icons-material";
-import {CustomAppBar, LogoTypography, UsernameTypography} from "./styled";
+import {CustomAppBar, LogoTypography, UsernameTypography} from "./Header.styled";
 import {useAppDispatch, useAppSelector} from "../../shared/hooks/redux";
 import {useNavigate} from "react-router-dom";
 import {userSlice} from "../../store/reducers/UserSlice";

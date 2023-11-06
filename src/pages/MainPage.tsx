@@ -5,7 +5,7 @@ import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined
 import backgroundImg from "../shared/images/moscow.jpg"
 import Header from "../components/Header/Header";
 import ImageBackground from "../components/ImageBackground/ImageBackground";
-import {IMainPageCard} from "../shared/entities/IMainPageCard";
+import {IMainPageCard} from "../shared/types/IMainPageCard";
 import MainPageCard from "../components/MainPageCard/MainPageCard";
 
 const cardItems: IMainPageCard[] = [

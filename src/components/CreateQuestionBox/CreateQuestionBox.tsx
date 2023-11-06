@@ -14,14 +14,14 @@ import {useNavigate} from "react-router-dom";
 import {getAuthDataFromLS} from "../../store/action-creators/auth";
 import {createQuestion} from "../../store/action-creators/questions";
 import {useAction} from "../../shared/hooks/useAction";
-import {GameBox, GameButton, GameText, GameTitle, HideHintButton, HintText} from "../GameBox/styled";
-import {AbsolutButton, AddStepBox, StepBox, StepBoxesWrapper} from "./styled";
+import {GameBox, GameButton, GameText, GameTitle, HideHintButton, HintText} from "../GameBox/GameBox.styled";
+import {AbsolutButton, AddStepBox, StepBox, StepBoxesWrapper} from "./CreateQuestionBox.styled";
 import warningSound from '../../shared/sounds/warning.wav'
-import {IQuestionForm} from "../../shared/entities/IQuestionForm";
+import {IQuestionForm} from "../../shared/types/IQuestionForm";
 import FormDialog from "../Dialogs/FormDialog";
 import CreateStepDialog from "../Dialogs/CreateStepDialog";
 import StepSettingDialog from "../Dialogs/StepSettingDialog";
-import {IStep} from "../../shared/entities/IStep";
+import {IStep} from "../../shared/types/IStep";
 
 
 const CreateQuestionBox: FC = () => {

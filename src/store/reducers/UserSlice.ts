@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {RoleTypes} from "../../shared/entities/role";
+import {RoleTypes} from "../../shared/types/IRole";
 
 interface UserState {
     isAuth: boolean;

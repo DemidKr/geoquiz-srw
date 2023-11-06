@@ -1,1 +1,0 @@
-export type RoleTypes = 'user'|'admin';

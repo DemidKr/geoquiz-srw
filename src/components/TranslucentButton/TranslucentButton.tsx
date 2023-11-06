@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import {useNavigate} from "react-router-dom";
-import {TranslucentButtonBackground, TranslucentButtonContainer} from "./styled";
+import {TranslucentButtonBackground, TranslucentButtonContainer} from "./TranslucentButton.styled";
 
 interface TranslucentButtonProps {
     link: string
