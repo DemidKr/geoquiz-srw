@@ -5,6 +5,7 @@ import {CssBaseline, Grid} from "@mui/material";
 import Header from "../components/Header/Header";
 import {AuthBox, AuthButton, AuthHint, AuthHintButton, AuthInput, AuthTitle} from "../components/Auth/Auth.styled";
 import {useLoginMutation, useRegistrationMutation} from "../store/api/authApi";
+import {userSlice} from "../store/reducers/UserSlice";
 
 enum AuthType {
     LOGIN = 'login',
@@ -51,8 +52,14 @@ const AuthPage = () => {
     useEffect(() => {
         console.log('registrationData', registrationData)
         console.log('registrationError', registrationError)
-        if (isRegistrationSuccess) {
-            addSnack('Успешная регистрация', 'success')
+        if (registrationData && AuthType.LOGIN) {
+            addSnack('Успешный регистрация', 'success')
+            dispatch(userSlice.actions.userFetchingSuccess({
+                username: registrationData.username,
+                role: registrationData.role.name
+            }))
+            localStorage.setItem('auth', JSON.stringify(registrationData.access_token))
+            console.log('loginData.access_token', registrationData.access_token)
         }
 
         if (registrationError && AuthType.REGISTRATION) {
@@ -69,8 +76,14 @@ const AuthPage = () => {
     useEffect(() => {
         console.log('loginData', loginData)
         console.log('loginError', loginError)
-        if (isLoginSuccess) {
+        if (loginData && AuthType.LOGIN) {
             addSnack('Успешный вход', 'success')
+            dispatch(userSlice.actions.userFetchingSuccess({
+                username: loginData.username,
+                role: loginData.role.name
+            }))
+            localStorage.setItem('auth', JSON.stringify(loginData.access_token))
+            console.log('loginData.access_token', loginData.access_token)
         }
 
         if (loginError && AuthType.LOGIN) {

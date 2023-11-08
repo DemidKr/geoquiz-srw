@@ -34,8 +34,9 @@ const App: FC = () => {
             dispatch(themeSlice.actions.setTheme(defaultTheme))
         }
         const auth = dispatch(getAuthDataFromLS());
-        if (auth && auth.access_token ) {
-            dispatch(getUserByToken(auth.access_token))
+        console.log('auth', auth)
+        if (auth ) {
+            dispatch(getUserByToken(auth))
         } else {
             dispatch(userSlice.actions.removeUser())
         }

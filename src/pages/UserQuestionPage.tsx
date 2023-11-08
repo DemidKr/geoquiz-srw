@@ -122,9 +122,9 @@ const UserQuestionPage = () => {
                 marginLeft: 'auto',
                 marginRight: 'auto',
             }}>
-                {hardcodedQuestions?.map((question, index) => (
-                    <QuestionCard question={question}/>
-                ))}
+                {/*{hardcodedQuestions?.map((question, index) => (*/}
+                {/*    <QuestionCard question={question}/>*/}
+                {/*))}*/}
                 {questions.length === 0 && <Grid container direction='column' alignItems='center' sx={{padding: '15px'}} >
                     <Typography
                         variant="h5"

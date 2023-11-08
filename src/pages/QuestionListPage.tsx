@@ -6,31 +6,24 @@ import Header from "../components/Header/Header";
 import QuestionCard from "../components/QuextionCard/QuestionCard";
 import LoadingScreen from "../components/LoadingScreen/LoadingScreen";
 import {hardcodedQuestions} from "../temporary/data/questionListData";
+import {useFetchAllQuestionsQuery} from "../store/api/questionApi";
+import {userSlice} from "../store/reducers/UserSlice";
+import {useAction} from "../shared/hooks/useAction";
 
 const QuestionListPage = () => {
-    const {isLoading, questions} = useAppSelector(state => state.questions)
-    const dispatch = useAppDispatch()
+    const addSnack = useAction()
 
-    const shouldLoadQuestions = useRef(true)
+    const {data: questions, error, isLoading} = useFetchAllQuestionsQuery()
 
     useEffect(() => {
-        if(shouldLoadQuestions.current) {
-            handleLoad()
+        console.log('questions', questions)
+        console.log('error', error)
+        if (error) {
+            addSnack('Не удалось загрузить квизы...', 'error')
         }
+    }, [isLoading])
 
-
-    }, [shouldLoadQuestions.current])
-
-    const handleLoad = async () => {
-        const questions = dispatch(getQuestions({
-            url: '/question',
-        }))
-        console.log(questions)
-        shouldLoadQuestions.current = false
-    }
-
-
-    if (isLoading || shouldLoadQuestions.current) {
+    if (isLoading) {
         return <LoadingScreen/>
     }
 
@@ -57,11 +50,11 @@ const QuestionListPage = () => {
                         lineHeight: 'normal',
                         letterSpacing: '11.2px',
                         fontWeight: 600,
-                        // color: '#474747',
                         textDecoration: 'none',
+                        textTransform: 'uppercase'
                     }}
                 >
-                    СОТНИ
+                    сотни
                 </Typography>
                 <Typography
                     component="div"
@@ -73,11 +66,11 @@ const QuestionListPage = () => {
                         lineHeight: 'normal',
                         letterSpacing: '3.6px',
                         fontWeight: 700,
-                        // color: '#2D2D2D',
                         textDecoration: 'none',
+                        textTransform: 'uppercase'
                     }}
                 >
-                    БЕСПЛАТНЫХ КВЕСТОВ
+                    бесплатных квестов
                 </Typography>
             </Container>
             <Grid container sx={{
@@ -90,10 +83,10 @@ const QuestionListPage = () => {
                 marginLeft: 'auto',
                 marginRight: 'auto',
             }}>
-                {hardcodedQuestions?.map((question, index) => (
+                {questions && questions?.map((question, index) => (
                     <QuestionCard question={question}/>
                 ))}
-                {questions.length === 0 && <Grid container direction='column' alignItems='center' sx={{padding: '15px'}} >
+                {questions && questions.length === 0 && <Grid container direction='column' alignItems='center' sx={{padding: '15px'}} >
                         <Typography
                             variant="h5"
                             component="div"
