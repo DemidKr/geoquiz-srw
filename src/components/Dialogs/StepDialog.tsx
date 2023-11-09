@@ -2,29 +2,43 @@ import React, {FC} from 'react';
 import {Box, DialogActions} from "@mui/material";
 import {Map, Placemark} from "@pbe/react-yandex-maps";
 import {IGame} from "../../shared/types/IGame";
-import {IQuestion} from "../../shared/types/IQuestion";
+import {IQuestion, IQuestionResponse} from "../../shared/types/IQuestion";
 import {CustomDialogBox, CustomDialogContent, CustomDialogContentText, CustomDialogTitle, DialogButton} from "./Dialog.styled";
 
 interface StepDialogProps {
-    game: IGame,
-    question: IQuestion,
-    isOpen: boolean,
-    close: () => void
+    currentStep: number;
+    scores: number[];
+    panoramaCoordinates: number[];
+    zoomLevel: number;
+    answer: number[];
+    question: IQuestionResponse;
+    isOpen: boolean;
+    close: () => void;
 }
 
-const StepDialog: FC<StepDialogProps> = ({game, question, isOpen, close}) => {
+const StepDialog: FC<StepDialogProps> = (
+    {
+        currentStep,
+        scores,
+        panoramaCoordinates,
+        zoomLevel,
+        answer,
+        question,
+        isOpen,
+        close
+    }) => {
     return (
         <CustomDialogBox open={isOpen}>
-            <CustomDialogTitle>Этап {game.step}/{question.steps}</CustomDialogTitle>
+            <CustomDialogTitle>Этап {currentStep}/{question.coordinates.length}</CustomDialogTitle>
             <CustomDialogContent>
                 <CustomDialogContentText>
-                    Ваш результат составил {game.scores[game.step - 1]}/1000. {game.scores[game.step - 1] > 900 ? 'Вы очень хороши в географии!' : 'Попробуйте еще!'}
+                    Ваш результат составил {scores[currentStep - 1]}/1000. {scores[currentStep - 1] > 900 ? 'Вы очень хороши в географии!' : 'Попробуйте еще!'}
                 </CustomDialogContentText>
                 <Box sx={{ width: '100%', height: '200px' }}>
                     <Map
                         sx={{width: '100%', height: '100%'}}
                         className="rounded-map"
-                        defaultState={{ center: game.coordinates, zoom: game.zoomLevel, controls: [] }}
+                        defaultState={{ center: panoramaCoordinates, zoom: zoomLevel, controls: [] }}
                         options={{
                             copyrightLogoVisible: false,
                             copyrightUaVisible: false,
@@ -32,15 +46,15 @@ const StepDialog: FC<StepDialogProps> = ({game, question, isOpen, close}) => {
                             suppressMapOpenBlock: true,
                         }}
                     >
-                        {game.answer?.length !== 0 &&
+                        {answer.length !== 0 &&
                             <Placemark
                                 options={{preset: 'islands#redIcon'}}
-                                geometry={game.answer}
+                                geometry={answer}
                             ></Placemark>}
-                        {game.coordinates?.length !== 0 &&
+                        {panoramaCoordinates.length !== 0 &&
                             <Placemark
                                 options={{preset: 'islands#greenIcon'}}
-                                geometry={game.coordinates}
+                                geometry={panoramaCoordinates}
                             ></Placemark>}
                     </Map>
                 </Box>

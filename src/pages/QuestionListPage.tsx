@@ -1,13 +1,9 @@
 import React, {useEffect, useRef} from 'react';
 import { Container, CssBaseline, Grid, Typography} from "@mui/material";
-import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
-import {getQuestions} from "../store/action-creators/questions";
 import Header from "../components/Header/Header";
 import QuestionCard from "../components/QuextionCard/QuestionCard";
 import LoadingScreen from "../components/LoadingScreen/LoadingScreen";
-import {hardcodedQuestions} from "../temporary/data/questionListData";
 import {useFetchAllQuestionsQuery} from "../store/api/questionApi";
-import {userSlice} from "../store/reducers/UserSlice";
 import {useAction} from "../shared/hooks/useAction";
 
 const QuestionListPage = () => {

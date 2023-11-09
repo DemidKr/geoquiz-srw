@@ -14,6 +14,11 @@ export const questionApi = createApi({
                 url: '',
             }),
         }),
+        fetchQuestion: build.query<IQuestionResponse, number>({
+            query: (id) => ({
+                url: `/${id}`,
+            }),
+        }),
         // createPost: build.mutation<IPost, IPost>({
         //     query: (post) => ({
         //         url: `/posts`,
@@ -32,4 +37,4 @@ export const questionApi = createApi({
     })
 })
 
-export const { useFetchAllQuestionsQuery } = questionApi
+export const { useFetchAllQuestionsQuery , useFetchQuestionQuery} = questionApi

@@ -1,17 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {useNavigate, useParams} from "react-router-dom";
-import {
-    Box,
-    CssBaseline,
-    Grid,
-} from "@mui/material";
+import {useParams} from "react-router-dom";
+import {Box, CssBaseline, Grid,} from "@mui/material";
 import {getQuestions} from "../store/action-creators/questions";
-import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
+import {useAppDispatch} from "../shared/hooks/redux";
 import {Map, Panorama, Placemark, useYMaps} from "@pbe/react-yandex-maps";
 import {MapWrapper} from "../components/Map/Map.styled";
 import Header from "../components/Header/Header";
 import LoadingScreen from "../components/LoadingScreen/LoadingScreen";
-import secondPic from "../shared/images/TempPic2.jpg";
 import {useAction} from "../shared/hooks/useAction";
 import {GameBox, GameButton, GameText, GameTitle, HideHintButton, HintText} from "../components/GameBox/GameBox.styled";
 import {IGame, IGameInterface} from "../shared/types/IGame";
@@ -19,114 +14,86 @@ import '../Map.css'
 import StepDialog from "../components/Dialogs/StepDialog";
 import ResultDialog from "../components/Dialogs/ResultDialog";
 import {hardcodedQuestion} from "../temporary/data/questionData";
+import {useFetchQuestionQuery} from "../store/api/questionApi";
+import warningSound from "../shared/sounds/warning.wav";
+import {ICoordinates} from "../shared/types/ICoordinates";
 
 
 const QuestionPage = () => {
     const ymaps = useYMaps(['package.full']);
-    const panoramaRef = useRef<any>(null);
-    const yplayer = useRef<any>(null)
+    const addSnack = useAction()
+    const dispatch = useAppDispatch()
 
-    const [questionData, setQuestionData] = useState<any>({})
-    const [isParsing, setIsParsing] = useState<boolean>(true)
+    const { id } = useParams()
 
-    const [game, setGame] = useState<IGame>({
-        coordinates: [],
-        answer: [],
-        step: 1,
-        scores: [],
-        answersArray: [],
-        finalScore: 0,
-        stepText: '',
-        zoomLevel: 6,
-    })
+    const {data: question, error, isLoading} = useFetchQuestionQuery(Number(id))
 
-    const [gameInterface, setGameInterface] = useState<IGameInterface>({
-        showHint: true,
-        showStepWindow: false,
-        showResultWindow: false,
-    })
+    const [panoramaCoordinates, setPanoramaCoordinates] = useState<number[]>([])
+    const [answer, setAnswer] = useState<number[]>([])
+    const [scores, setScores] = useState<number[]>([])
+    const [answersArray, setAnswersArray] = useState<number[][]>([])
+    const [finalScore, setFinalScore] = useState<number>(0)
+    const [stepText, setStepText] = useState<string>('')
+    const [zoomLevel, setZoomLevel] = useState<number>(6)
+    const [currentStep, setCurrentStep] = useState<number>(1)
+
+    const [showHint, setShowHint] = useState<boolean>(true)
+    const [showStepWindow, setShowStepWindow] = useState<boolean>(false)
+    const [showResultWindow, setShowResultWindow] = useState<boolean>(false)
 
     const [timerClock, setTimerClock] = useState<number>(-1)
 
-    const addSnack = useAction()
-    const { id } = useParams()
-    const {isLoading, error} = useAppSelector(state => state.questions)
-
-
-    const dispatch = useAppDispatch()
-
     useEffect(() => {
-        setGame({
-            ...game,
-            coordinates: hardcodedQuestion.coordinates[0],
-            //question.data.coordinates
-        })
-        setTimerClock(
-            //question.data.time
-            hardcodedQuestion.time
-        )
-        setIsParsing(false)
-    }, [])
+        console.log('question', question)
+        console.log('error', error)
+        console.log('ymaps', ymaps )
 
-    useEffect(() => {
-        if (!ymaps || !panoramaRef.current) {
-            return;
+        if (error) {
+            addSnack('Не удалось загрузить квиз...', 'error')
         }
 
-        handleGetQuestion().then(function (question) {
-            console.log(question)
-            // @ts-ignore
-            let locateRequest = ymaps.panorama.locate(
-                //question.data.coordinates
-                hardcodedQuestion.coordinates[0]
-            );
-
-            if(question) {
-                setQuestionData(question.data)
-                setTimerClock(
-                    //question.data.time
-                    hardcodedQuestion.time
-                )
-                console.log(question.data)
+        if(ymaps && question) {
+            if(question.coordinates.length === 0 ) {
+                console.log('coordinates return')
+                return;
             }
 
+            const lat = question.coordinates[0].lat
+            const lng = question.coordinates[0].lng
+            console.log('lat', lat)
+            console.log('lng', lng)
+
+            setTimerClock(question.time)
+
+            let locateRequest = ymaps.panorama.locate( [lat, lng]);
 
             locateRequest.then(
+                // @ts-ignore
                 function (panoramas) {
+                    console.log('panoramas', panoramas)
+
                     if (panoramas.length) {
                         console.log("Ура, нашлась панорама " + panoramas[0]);
-                        let player = new ymaps.panorama.Player(panoramaRef.current, panoramas[0], {
-                            direction: [10, 10],
-                            controls: [],
-                            suppressMapOpenBlock: true,
-                            hotkeysEnabled: false
-                        });
-                        yplayer.current = player
-                        console.log('game changed')
-                        setGame({
-                            ...game,
-                            coordinates: hardcodedQuestion.coordinates[0],
-                            //question.data.coordinates
-                        })
+                        setPanoramaCoordinates([lat, lng])
                     } else {
-                        console.log("Для заданной точки не найдено ни одной панорамы.");
+                        addSnack("Для заданной точки не найдено ни одной панорамы", "warning")
                     }
-
                 },
                 function (err) {
                     console.log("При попытке получить панораму возникла ошибка.");
                 }
-
             );
-        })
-    }, [ymaps]);
+        } else {
+            console.log('YPlayer or ymaps is null')
+        }
+    }, [ymaps, isLoading]);
 
     useEffect(() => {
-        if (timerClock === 0 && !gameInterface.showStepWindow) {
+        if (timerClock === 0 && showStepWindow) {
             addSnack('Время вышло!', 'info')
             handleAnswer()
         }
-        if (timerClock > 0 && !gameInterface.showStepWindow) {
+        if (timerClock > 0 && showStepWindow) {
             const timer = setTimeout(function() {
                 console.log("minus: ", timerClock)
                 setTimerClock(timerClock - 1);
@@ -138,49 +105,52 @@ const QuestionPage = () => {
         }
     }, [timerClock]);
 
-    const handleGetQuestion = async () => {
-        const question = dispatch(getQuestions({
-            url: '/question/' + id,
-        }))
-
-        return question
-    }
-
     const finishGame = () => {
-        setGameInterface({...gameInterface, showResultWindow: true})
-        // send result
+        setShowResultWindow(true)
+        // send result here
     }
 
     const handleAnswer = () => {
-        setGame({
-            ...game,
-            stepText: game.answer.length === 0 ? game.stepText + 'Вы не дали ответ' : game.stepText + 'Ваш ответ принят',
-            answersArray: [...game.answersArray, game.answer]
-        })
-        let lat = Math.floor((5 - Math.abs(game.answer[0] - game.coordinates[0]))/5 * 1000)
-        let lng = Math.floor((10 - Math.abs(game.answer[1] - game.coordinates[1]))/10 * 1000)
-        let res = Math.floor((lat + lng) / 2)
-        console.log('res', res)
-        if (lat < 0 || lng < 0 || isNaN(res)) {
-            setGame({...game, zoomLevel: 2, scores: [...game.scores, 0]})
-        } else {
-            setGame({...game, zoomLevel: res > 900 ? 6 : 4, scores: [...game.scores, res], finalScore: game.finalScore + res})
-        }
-        if (game.step >= hardcodedQuestion.steps) {
-            finishGame()
-        } else {
-            setGameInterface({...gameInterface, showStepWindow: true})
+        setStepText(answer.length === 0 ? stepText + 'Вы не дали ответ' : stepText + 'Ваш ответ принят')
+        setAnswersArray([...answersArray, answer])
+        if (question) {
+            // check with right coordinates instead of 0
+            let lat = Math.floor((5 - Math.abs(answer[0] - question.coordinates[currentStep - 1].lat))/5 * 1000)
+            let lng = Math.floor((10 - Math.abs(answer[1] - question.coordinates[currentStep - 1].lng))/10 * 1000)
+            let res = Math.floor((lat + lng) / 2)
+            console.log('res', res)
+
+            if (lat < 0 || lng < 0 || isNaN(res)) {
+                setZoomLevel(2)
+                setScores([...scores, 0])
+            } else {
+                setZoomLevel(res > 900 ? 6 : 4)
+                setScores([...scores, res])
+                setFinalScore(finalScore + res)
+            }
+            if (currentStep >= question.coordinates.length) {
+                finishGame()
+            } else {
+                setShowStepWindow(true)
+            }
         }
     }
 
     const handleClose = () => {
-        const currentStep = game.step
-        setGameInterface({...gameInterface, showStepWindow: false})
-        setGame({...game, coordinates: hardcodedQuestion.coordinates[currentStep], stepText: '', answer: [], step: game.step + 1})
-        setTimerClock(hardcodedQuestion.time)
+        const curStep = currentStep
+        setShowStepWindow(false)
+        if(question) {
+            const coordinatesObj: ICoordinates = question.coordinates[curStep]
+            console.log('coordinatesObj', coordinatesObj)
+            setPanoramaCoordinates([coordinatesObj.lat, coordinatesObj.lng])
+            setStepText('')
+            setAnswer([])
+            setCurrentStep(currentStep + 1)
+            setTimerClock(question.time)
+        }
     }
 
-    if (isLoading || error || isParsing) {
+    if (isLoading || panoramaCoordinates.length === 0 || !question) {
         return <LoadingScreen/>
     }
 
@@ -191,7 +161,7 @@ const QuestionPage = () => {
             <Grid container style={{width: '100%'}}>
                 <Grid item xs={12}>
                     <MapWrapper>
-                        <Panorama point={game.coordinates} style={{ width: '100%', height: `calc(100% - 80px)` }}
+                        <Panorama point={panoramaCoordinates} style={{ width: '100%', height: `calc(100% - 80px)` }}
                                   defaultOptions={{
                                       direction: [-10, 0],
                                       controls: [],
@@ -204,15 +174,15 @@ const QuestionPage = () => {
             </Grid>
             <GameBox>
                 <Grid container direction='column' alignItems='center' gap='10px'>
-                    <GameTitle component="div">{hardcodedQuestion.title}</GameTitle>
-                    <GameText component='div'>{game.step}/{hardcodedQuestion.steps} этап</GameText>
-                    {gameInterface.showHint && <HintText component="div">
+                    <GameTitle component="div">{question.title}</GameTitle>
+                    <GameText component='div'>{currentStep}/{question.coordinates.length} этап</GameText>
+                    {showHint && <HintText component="div">
                         Подсказка: Перед вами панорама,
                         ваша задача как можно точнее определить где на карте находится это место.
                         Вы можете перемещаться с помощью стрелок на панораме или курсора с кружком.
                         Подсказки могут быть на билбордах, дорожных знаках и в прочих особенностях.
                         Удачи в поиске!
-                        <HideHintButton component="span" onClick={() => setGameInterface({...gameInterface, showHint: false})}>
+                        <HideHintButton component="span" onClick={() => setShowHint(false)}>
                             Скрыть
                         </HideHintButton>
                     </HintText>}
@@ -228,14 +198,14 @@ const QuestionPage = () => {
                                 suppressMapOpenBlock: true,
                             }}
                             // Function to add placemarks to the map; TODO: find type of event
-                            onClick={(e: any) => setGame({...game, answer: e._sourceEvent.originalEvent.coords})}
+                            onClick={(e: any) => setAnswer(e._sourceEvent.originalEvent.coords)}
                         >
-                            {game.answer?.length !== 0 && <Placemark geometry={game.answer}></Placemark>}
+                            {answer?.length !== 0 && <Placemark geometry={answer}></Placemark>}
                         </Map>
                     </Box>
                     <GameText component="div">Осталось времени: {timerClock} сек</GameText>
                     <GameButton
-                        disabled={gameInterface.showStepWindow}
+                        disabled={showStepWindow}
                         onClick={handleAnswer}
                         variant='contained'
                     >
@@ -243,8 +213,25 @@ const QuestionPage = () => {
                     </GameButton>
                 </Grid>
             </GameBox>
-            <StepDialog game={game} question={hardcodedQuestion} isOpen={gameInterface.showStepWindow} close={handleClose}/>
-            <ResultDialog game={game} question={hardcodedQuestion} isOpen={gameInterface.showResultWindow}/>
+            <StepDialog
+                currentStep={currentStep}
+                scores={scores}
+                panoramaCoordinates={panoramaCoordinates}
+                zoomLevel={zoomLevel}
+                answer={answer}
+                question={question}
+                isOpen={showStepWindow}
+                close={handleClose}
+            />
+            <ResultDialog
+                currentStep={currentStep}
+                finalScore={finalScore}
+                panoramaCoordinates={panoramaCoordinates}
+                zoomLevel={zoomLevel}
+                answer={answer}
+                question={question}
+                isOpen={showResultWindow}
+            />
         </>
     );
 };

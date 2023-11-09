@@ -160,7 +160,7 @@ const CreateQuestionBox: FC = () => {
                                 suppressMapOpenBlock: true,
                             }}
                             // Function to add placemarks to the map; TODO: find type of event
-                            onClick={(e: any) => movePlacemark(e._sourceEvent.originalEvent.coords)}
+                            onClick={(e: any) => console.log(e._sourceEvent.originalEvent.coords)}
                         >
                             {coordinates?.length !== 0 && <Placemark geometry={coordinates}></Placemark>}
                         </Map>

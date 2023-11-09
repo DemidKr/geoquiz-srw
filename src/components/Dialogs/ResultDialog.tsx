@@ -2,18 +2,31 @@ import React, {FC} from 'react';
 import {Box, DialogActions} from "@mui/material";
 import {Map, Placemark} from "@pbe/react-yandex-maps";
 import {IGame} from "../../shared/types/IGame";
-import {IQuestion} from "../../shared/types/IQuestion";
+import {IQuestion, IQuestionResponse} from "../../shared/types/IQuestion";
 import {useNavigate} from "react-router-dom";
 import {CustomDialogBox, CustomDialogContent, CustomDialogContentText, CustomDialogTitle, DialogButton} from "./Dialog.styled";
 
 interface ResultDialogProps {
-    game: IGame,
-    question: IQuestion,
+    currentStep: number;
+    finalScore: number;
+    panoramaCoordinates: number[];
+    zoomLevel: number;
+    answer: number[];
+    question: IQuestionResponse,
     isOpen: boolean,
 
 }
 
-const ResultDialog: FC<ResultDialogProps> = ({game, question, isOpen}) => {
+const ResultDialog: FC<ResultDialogProps> = (
+    {
+        currentStep,
+        finalScore,
+        panoramaCoordinates,
+        zoomLevel,
+        answer,
+        question,
+        isOpen
+    }) => {
     const navigate = useNavigate()
 
     return (
@@ -21,13 +34,13 @@ const ResultDialog: FC<ResultDialogProps> = ({game, question, isOpen}) => {
             <CustomDialogTitle>Результат</CustomDialogTitle>
             <CustomDialogContent>
                 <CustomDialogContentText>
-                    Ваш финальный результат составил {game.finalScore}/{game.step * 1000}
+                    Ваш финальный результат составил {finalScore}/{currentStep * 1000}
                 </CustomDialogContentText>
                 <Box sx={{ width: '100%', height: '200px' }}>
                     <Map
                         sx={{width: '100%', height: '100%'}}
                         className="rounded-map"
-                        defaultState={{ center: game.coordinates, zoom: game.zoomLevel, controls: [] }}
+                        defaultState={{ center: panoramaCoordinates, zoom: zoomLevel, controls: [] }}
                         options={{
                             copyrightLogoVisible: false,
                             copyrightUaVisible: false,
@@ -35,14 +48,14 @@ const ResultDialog: FC<ResultDialogProps> = ({game, question, isOpen}) => {
                             suppressMapOpenBlock: true,
                         }}
                     >
-                        {game.answer?.length !== 0 && <Placemark
+                        {answer?.length !== 0 && <Placemark
                             options={{preset: 'islands#redIcon'}}
-                            geometry={game.answer}
+                            geometry={answer}
                         ></Placemark>}
                         {question.coordinates.map((item, index) => <Placemark
                             key={index}
                             options={{preset: 'islands#greenIcon'}}
-                            geometry={item}
+                            geometry={[item.lat, item.lng]}
                         ></Placemark>)}
                     </Map>
                 </Box>
