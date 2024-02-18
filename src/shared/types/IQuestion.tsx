@@ -1,5 +1,6 @@
 import {ICoordinates} from "./ICoordinates";
 
+// TODO: remove this later
 export interface IQuestion {
     id?: number;
     title: string;
@@ -17,6 +18,7 @@ export interface IQuestion {
     userId?: number;
 }
 
+// TODO: change name to IQuestion
 export interface IQuestionResponse {
     id?: number;
     title: string;
@@ -33,4 +35,15 @@ export interface IQuestionResponse {
     }
     coordinates: ICoordinates[]
     userId?: number;
+}
+
+export interface IGetAllQuestionsResponse {
+    pageCount: number,
+    questions: IQuestionResponse[]
+}
+
+export interface IGetAllQuestionsDto {
+    search?: string;
+    page?: number;
+    perPage?: number;
 }

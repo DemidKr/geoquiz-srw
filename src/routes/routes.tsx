@@ -1,6 +1,6 @@
 import React from "react";
 import {Navigate} from "react-router-dom";
-import QuestionListPage from "../pages/QuestionListPage";
+import QuestionListPage from "../pages/QuestionListPage/QuestionListPage";
 import CreateQuestionPage from "../pages/CreateQuestionPage";
 import QuestionPage from "../pages/QuestionPage";
 import UserQuestionPage from "../pages/UserQuestionPage";

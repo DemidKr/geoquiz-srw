@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {IQuestionResponse} from "../../shared/types/IQuestion";
+import {IGetAllQuestionsDto, IGetAllQuestionsResponse, IQuestionResponse} from "../../shared/types/IQuestion";
 
 const BASE_URL = process.env.REACT_APP_SERVER_URL as string;
 
@@ -9,9 +9,10 @@ export const questionApi = createApi({
         baseUrl: `${BASE_URL}/question`
     }),
     endpoints: (build) => ({
-        fetchAllQuestions: build.query<IQuestionResponse[], void>({
-            query: () => ({
+        fetchAllQuestions: build.query<IGetAllQuestionsResponse, IGetAllQuestionsDto>({
+            query: (params) => ({
                 url: '',
+                params: params
             }),
         }),
         fetchQuestion: build.query<IQuestionResponse, number>({
