@@ -1,22 +1,17 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {Box, CssBaseline, Grid,} from "@mui/material";
-import {getQuestions} from "../store/action-creators/questions";
+import {Box, Grid,} from "@mui/material";
 import {useAppDispatch} from "../shared/hooks/redux";
 import {Map, Panorama, Placemark, useYMaps} from "@pbe/react-yandex-maps";
 import {MapWrapper} from "../components/Map/Map.styled";
-import Header from "../components/Header/Header";
-import LoadingScreen from "../components/LoadingScreen/LoadingScreen";
 import {useAction} from "../shared/hooks/useAction";
 import {GameBox, GameButton, GameText, GameTitle, HideHintButton, HintText} from "../components/GameBox/GameBox.styled";
-import {IGame, IGameInterface} from "../shared/types/IGame";
 import '../Map.css'
 import StepDialog from "../components/Dialogs/StepDialog";
 import ResultDialog from "../components/Dialogs/ResultDialog";
-import {hardcodedQuestion} from "../temporary/data/questionData";
 import {useFetchQuestionQuery} from "../store/api/questionApi";
-import warningSound from "../shared/sounds/warning.wav";
 import {ICoordinates} from "../shared/types/ICoordinates";
+import Loader from "../components/Loader/Loader";
 
 
 const QuestionPage = () => {
@@ -151,13 +146,11 @@ const QuestionPage = () => {
     }
 
     if (isLoading || panoramaCoordinates.length === 0 || !question) {
-        return <LoadingScreen/>
+        return <Loader/>
     }
 
     return (
         <>
-            <CssBaseline/>
-            <Header small={true} themeSwitcherOn={true}/>
             <Grid container style={{width: '100%'}}>
                 <Grid item xs={12}>
                     <MapWrapper>

@@ -1,6 +1,5 @@
 import React from 'react';
-import {Avatar, Box, Button, CssBaseline, Grid, Paper, Typography} from "@mui/material";
-import Header from "../components/Header/Header";
+import {Avatar, Box, Button, Grid, Paper, Typography} from "@mui/material";
 import {useAppSelector} from "../shared/hooks/redux";
 
 const ProfilePage = () => {
@@ -8,8 +7,6 @@ const ProfilePage = () => {
 
     return (
         <>
-            <CssBaseline/>
-            <Header themeSwitcherOn={true} small={true}/>
             <Paper
                 sx={{
                     margin: 'auto',

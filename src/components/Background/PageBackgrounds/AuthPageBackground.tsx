@@ -1,22 +1,21 @@
 import React, {FC, ReactNode} from 'react';
 import {Grid} from "@mui/material";
 
-interface ImageBackgroundProps {
-    imageUrl: any,
+interface IAuthPageBackgroundProps {
     children?: ReactNode
 }
 
-const ImageBackground: FC<ImageBackgroundProps> = ({imageUrl, children}) => {
+const AuthPageBackground: FC<IAuthPageBackgroundProps> = ({children}) => {
     return (
         <Grid
             container
             component="main"
             sx={{
                 height: '100vh',
-                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.527), rgba(0, 0, 0, 0.5)), url(${imageUrl})`,
+                backgroundImage: 'url(https://images.unsplash.com/photo-1535557142533-b5e1cc6e2a5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2458&q=80)',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                backgroundPosition: '0 80px',
                 overflow: 'hidden'
             }}
         >
@@ -25,4 +24,4 @@ const ImageBackground: FC<ImageBackgroundProps> = ({imageUrl, children}) => {
     );
 };
 
-export default ImageBackground;
+export default AuthPageBackground;

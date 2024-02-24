@@ -15,7 +15,6 @@ export const CustomAppBar = styled(AppBar, {
     })((prop: CustomAppBarProps) => ({
     backgroundImage: 'none',
     height: prop.small ? '80px' : '130px',
-    backgroundColor: 'transparent',
     boxShadow: 'none' ,
 }))
 

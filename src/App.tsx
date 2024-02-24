@@ -6,8 +6,7 @@ import {userSlice} from "./store/reducers/UserSlice";
 import {getAuthDataFromLS, getUserByToken} from "./store/action-creators/auth";
 import {createTheme, ThemeProvider} from "@mui/material";
 import {LOCAL_STORAGE_THEME_KEY, Theme, themeSlice} from "./store/reducers/ThemeSlice";
-import {RoleTypes} from "./shared/types/IRole";
-import {getUserQuestions} from "./store/action-creators/questions";
+import BasePage from "./pages/BasePage/BasePage";
 
 
 const defaultTheme = localStorage.getItem(LOCAL_STORAGE_THEME_KEY) as Theme || Theme.LIGHT
@@ -45,7 +44,9 @@ const App: FC = () => {
     return (
         <ThemeProvider theme={theme === Theme.DARK ? darkTheme : lightTheme}>
             <Router>
-                <AppRouter/>
+                <BasePage>
+                    <AppRouter/>
+                </BasePage>
             </Router>
         </ThemeProvider>
     );

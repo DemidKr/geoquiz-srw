@@ -1,12 +1,9 @@
 import React from 'react';
-import {Container, CssBaseline, Typography} from "@mui/material";
-import Header from "../components/Header/Header";
+import {Container, Typography} from "@mui/material";
 
 const GuidePage = () => {
     return (
         <>
-            <CssBaseline/>
-            <Header themeSwitcherOn={true} small={true}/>
             <Container
                 sx={{
                     display: 'flex',

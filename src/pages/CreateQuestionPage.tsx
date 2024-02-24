@@ -1,10 +1,9 @@
 import React, {FC} from 'react';
-import { CssBaseline, Grid} from "@mui/material";
-import {Panorama, useYMaps} from "@pbe/react-yandex-maps";
+import {Grid} from "@mui/material";
+import {Panorama} from "@pbe/react-yandex-maps";
 import {useAppSelector} from "../shared/hooks/redux";
 import {MapWrapper} from "../components/Map/Map.styled";
 import CreateQuestionBox from "../components/CreateQuestionBox/CreateQuestionBox";
-import Header from "../components/Header/Header";
 
 
 const CreateQuestionPage: FC = () => {
@@ -12,8 +11,6 @@ const CreateQuestionPage: FC = () => {
 
     return (
         <>
-            <CssBaseline/>
-            <Header small={true} themeSwitcherOn={true}/>
             <Grid container style={{width: '100%'}}>
                 <Grid item xs={12}>
                     <MapWrapper>

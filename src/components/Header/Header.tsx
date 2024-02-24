@@ -15,18 +15,14 @@ import {FC} from "react";
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import {getMenuItemsByAuthAndRole} from "../../shared/utils/helpers";
+import {useHeaderStyles} from "../../shared/hooks/useHeaderStyles";
 
-interface HeaderProps {
-    small?: boolean ,
-    themeSwitcherOn?: boolean,
-    textColor?: string
-}
-
-const Header: FC<HeaderProps> = ({small = false, themeSwitcherOn = false, textColor}) => {
+const Header: FC = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const {isAuth, username, role} = useAppSelector(state => state.user)
     const {theme} = useAppSelector(state => state.theme)
+    const {color, small, isThemeSwitcherOn, textColor} = useHeaderStyles()
 
     const navigator = useNavigate()
     const dispatch = useAppDispatch()
@@ -47,7 +43,7 @@ const Header: FC<HeaderProps> = ({small = false, themeSwitcherOn = false, textCo
 
 
     return (
-        <CustomAppBar position="static" small={small}>
+        <CustomAppBar position="static" small={small} color={color}>
             <Container
                 maxWidth="xl"
                 sx={{
@@ -68,7 +64,7 @@ const Header: FC<HeaderProps> = ({small = false, themeSwitcherOn = false, textCo
                         Geoquiz
                     </LogoTypography>
                     <Box sx={{ flexGrow: 0, display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px'}}>
-                        {themeSwitcherOn &&
+                        {isThemeSwitcherOn &&
                             <IconButton onClick={() => dispatch(themeSlice.actions.changeTheme())}>
                                 {theme === Theme.DARK ? <DarkModeIcon sx={{color: '#FFF'}}/> : <LightModeIcon sx={{color: '#000'}}/>}
                             </IconButton>

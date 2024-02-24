@@ -1,36 +1,29 @@
 import React, {useEffect, useState} from 'react';
-import {CssBaseline, Grid, Pagination, Typography} from "@mui/material";
-import Header from "../../components/Header/Header";
+import { Grid, Pagination, Typography} from "@mui/material";
 import QuestionCard from "../../components/QuextionCard/QuestionCard";
-import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import {useFetchAllQuestionsQuery} from "../../store/api/questionApi";
 import {useAction} from "../../shared/hooks/useAction";
 import * as S from './QuestionListPage.styled'
+import {useSearchParams} from "react-router-dom";
+import Loader from "../../components/Loader/Loader";
 
 const QuestionListPage = () => {
-    const [search, setSearch] = useState<string>('')
-    const [page, setPage] = useState<number>(1)
-
+    const [searchParams, setSearchParams] = useSearchParams();
     const addSnack = useAction()
+
+    const [search, setSearch] = useState<string>('')
+    const [page, setPage] = useState<number>(Number(searchParams.get("page")) || 1)
 
     const {
         data: questionsData,
         error,
-        isLoading
+        isLoading,
+        isFetching
     } = useFetchAllQuestionsQuery({
         search,
         page,
         perPage: 8
     })
-
-    useEffect(() => {
-        console.log('questions', questionsData)
-        console.log('error', error)
-        if (error) {
-            addSnack('Не удалось загрузить квизы...', 'error')
-        }
-    }, [isLoading])
-
 
     const handlePageChange = (event: React.ChangeEvent<unknown>, newPage: number) => {
         if(!questionsData) {
@@ -38,21 +31,31 @@ const QuestionListPage = () => {
         }
 
         if(newPage >= 1 && newPage <= questionsData.pageCount) {
-            setPage(newPage)
+            setSearchParams(params => {
+                params.set("page", String(newPage));
+                return params;
+            })
         }
     }
 
     const isQuestionDataEmpty = !!questionsData && questionsData.questions.length === 0
 
+    useEffect(() => {
+        if (error) {
+            addSnack('Не удалось загрузить квизы', 'error')
+        }
+    }, [isLoading])
 
-    if (isLoading) {
-        return <LoadingScreen/>
+    useEffect(() => {
+        setPage(Number(searchParams.get("page")))
+    }, [searchParams])
+
+    if (isLoading || isFetching) {
+        return <Loader/>
     }
 
     return (
         <>
-            <CssBaseline/>
-            <Header themeSwitcherOn={true} small={true}/>
             <S.TitlesContainer>
                 <S.MainTitle component="div">
                     сотни
@@ -62,7 +65,7 @@ const QuestionListPage = () => {
                 </S.SubTitle>
             </S.TitlesContainer>
             <S.CardsContainer container>
-                {questionsData && questionsData.questions?.map((question, index) => (
+                {questionsData && questionsData?.questions?.map((question, index) => (
                     <QuestionCard question={question}/>
                 ))}
                 {isQuestionDataEmpty &&
@@ -85,7 +88,8 @@ const QuestionListPage = () => {
                 {questionsData &&
                     <Pagination
                         onChange={handlePageChange}
-                        count={questionsData.pageCount}
+                        page={page}
+                        count={questionsData?.pageCount}
                         shape="rounded"
                     />
                 }

@@ -1,10 +1,7 @@
 import React from 'react';
-import {Container, CssBaseline, Typography} from "@mui/material";
+import {Container, Typography} from "@mui/material";
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import TravelExploreOutlinedIcon from '@mui/icons-material/TravelExploreOutlined';import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined';
-import backgroundImg from "../shared/images/moscow.jpg"
-import Header from "../components/Header/Header";
-import ImageBackground from "../components/ImageBackground/ImageBackground";
 import {IMainPageCard} from "../shared/types/IMainPageCard";
 import MainPageCard from "../components/MainPageCard/MainPageCard";
 
@@ -16,9 +13,7 @@ const cardItems: IMainPageCard[] = [
 
 const MainPage = () => {
     return (
-        <ImageBackground imageUrl={backgroundImg}>
-            <CssBaseline />
-            <Header textColor='#FFF'/>
+        <>
             <Container
                 sx={{
                     width:'100%',
@@ -72,7 +67,7 @@ const MainPage = () => {
                 ))}
             </Container>
 
-        </ImageBackground>
+        </>
     );
 };
 

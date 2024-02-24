@@ -1,13 +1,11 @@
 import React, {useEffect, useRef} from 'react';
 import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
 import {getUserQuestions} from "../store/action-creators/questions";
-import {Container, CssBaseline, Grid, Paper, Typography} from "@mui/material";
+import {Container, Grid, Typography} from "@mui/material";
 import {getAuthDataFromLS} from "../store/action-creators/auth";
-import Header from "../components/Header/Header";
 import {IQuestion} from "../shared/types/IQuestion";
 import pic from "../shared/images/TemporaryPicture.jpg";
 import secondPic from "../shared/images/TempPic2.jpg";
-import QuestionCard from "../components/QuextionCard/QuestionCard";
 
 const hardcodedQuestions: IQuestion[] = [
     {
@@ -68,8 +66,6 @@ const UserQuestionPage = () => {
 
     return (
         <>
-            <CssBaseline/>
-            <Header themeSwitcherOn={true} small={true}/>
             <Container
                 sx={{
                     width:'100%',

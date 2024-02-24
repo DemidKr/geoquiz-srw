@@ -6,9 +6,10 @@ import QuestionPage from "../pages/QuestionPage";
 import UserQuestionPage from "../pages/UserQuestionPage";
 import MainPage from "../pages/MainPage";
 import GuidePage from "../pages/GuidePage";
-import ProfilePage from "../pages/ProfilePage";
 import AuthPage from "../pages/AuthPage";
 import AdminPage from "../pages/AdminPage";
+import {AppPaths} from "../shared/consts";
+import ProfilePage from "../pages/ProfilePage";
 
 interface IRouter {
     path: string
@@ -17,103 +18,95 @@ interface IRouter {
 
 export const publicRoutes: Array<IRouter> = [
     {
-        path: '/main',
+        path: AppPaths.MAIN,
         element: <MainPage />,
     },
     {
-        path: '/auth',
+        path: AppPaths.AUTH,
         element: <AuthPage />,
     },
     {
-        path: '/guide',
+        path: AppPaths.GUIDE,
         element: <GuidePage />,
     },
     {
-        path: '/questions',
+        path: AppPaths.QUESTIONS,
         element: <QuestionListPage />,
     },
     {
-        path: '/question/:id',
+        path: AppPaths.QUESTION,
         element: <QuestionPage />,
     },
-    { path: '*', element: <Navigate to='/main' replace /> },
+    { path: '*', element: <Navigate to={AppPaths.MAIN} replace /> },
 ]
 
 export const userRoutes: Array<IRouter> = [
     {
-        path: '/main',
+        path: AppPaths.MAIN,
         element: <MainPage />,
     },
     {
-        path: '/profile',
+        path: AppPaths.PROFILE,
         element: <ProfilePage />,
     },
     {
-        path: '/guide',
+        path: AppPaths.GUIDE,
         element: <GuidePage />,
     },
     {
-        path: '/questions',
+        path: AppPaths.QUESTIONS,
         element: <QuestionListPage />,
     },
     {
-        path: '/question/:id',
+        path: AppPaths.QUESTION,
         element: <QuestionPage />,
     },
     {
-        path: '/createQuestion',
+        path: AppPaths.CREATE_QUESTION,
         element: <CreateQuestionPage />,
     },
     {
-        path: '/userQuestions',
+        path: AppPaths.USER_QUESTIONS,
         element: <UserQuestionPage />,
     },
-    {
-        path: '/guide',
-        element: <GuidePage />,
-    },
     // ToDo: add not found page
-    { path: '*', element: <Navigate to='/main' replace /> },
+    { path: '*', element: <Navigate to={AppPaths.MAIN} replace /> },
 ]
 
 
 export const adminRoutes: Array<IRouter> = [
     {
-        path: '/main',
+        path: AppPaths.MAIN,
         element: <MainPage />,
     },
     {
-        path: '/profile',
+        path: AppPaths.PROFILE,
         element: <ProfilePage />,
     },
     {
-        path: '/guide',
+        path: AppPaths.GUIDE,
         element: <GuidePage />,
     },
     {
-        path: '/questions',
+        path: AppPaths.QUESTIONS,
         element: <QuestionListPage />,
     },
     {
-        path: '/question/:id',
+        path: AppPaths.QUESTION,
         element: <QuestionPage />,
     },
     {
-        path: '/createQuestion',
+        path: AppPaths.CREATE_QUESTION,
         element: <CreateQuestionPage />,
     },
     {
-        path: '/userQuestions',
+        path: AppPaths.USER_QUESTIONS,
         element: <UserQuestionPage />,
     },
     {
-        path: '/guide',
-        element: <GuidePage />,
-    },
-    {
-        path: '/admin',
+        path: AppPaths.ADMIN,
         element: <AdminPage />,
     },
     // ToDo: add not found page
-    { path: '*', element: <Navigate to='/main' replace /> },
+    { path: '*', element: <Navigate to={AppPaths.MAIN} replace /> },
 ]
