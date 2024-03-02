@@ -1,10 +1,15 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {RoleTypes} from "../../shared/types/IRole";
+import {IRole} from "../../shared/types/IRole";
+
+const defaultRole: IRole = {
+    id: -1,
+    name: 'unauthorized'
+}
 
 interface UserState {
     isAuth: boolean;
     username: string;
-    role: RoleTypes,
+    role: IRole,
     isLoading: boolean;
     error: string;
 }
@@ -12,7 +17,7 @@ interface UserState {
 const initialState: UserState = {
     isAuth: false,
     username: '',
-    role: 'user',
+    role: defaultRole,
     isLoading: false,
     error: ''
 }
@@ -24,7 +29,7 @@ export const userSlice = createSlice({
         userFetching(state) {
             state.isLoading = true
         },
-        userFetchingSuccess(state, action: PayloadAction<{ username: string, role: RoleTypes }>) {
+        userFetchingSuccess(state, action: PayloadAction<{ username: string, role: IRole }>) {
             const {username, role} = action.payload
             state.isLoading = false
             state.error = ''
@@ -40,7 +45,7 @@ export const userSlice = createSlice({
             state.isLoading = false
             state.error = ''
             state.username = ''
-            state.role = 'user'
+            state.role = defaultRole
             state.isAuth = false
         }
     }

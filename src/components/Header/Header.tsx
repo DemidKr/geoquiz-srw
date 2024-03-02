@@ -102,7 +102,7 @@ const Header: FC = () => {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                {getMenuItemsByAuthAndRole(isAuth, role).map((item, index) => (
+                                {getMenuItemsByAuthAndRole(isAuth, role.name).map((item, index) => (
                                             <MenuItem key={index} onClick={() => navigator(item.link)}>{item.title}</MenuItem>
                                 ))}
                                 {isAuth && <MenuItem onClick={logout}>Выйти</MenuItem>}

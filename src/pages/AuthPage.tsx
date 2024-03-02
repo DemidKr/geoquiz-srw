@@ -53,7 +53,7 @@ const AuthPage = () => {
             addSnack('Успешный регистрация', 'success')
             dispatch(userSlice.actions.userFetchingSuccess({
                 username: registrationData.username,
-                role: registrationData.role.name
+                role: registrationData.role
             }))
             localStorage.setItem('auth', JSON.stringify(registrationData.access_token))
         }
@@ -73,7 +73,7 @@ const AuthPage = () => {
             addSnack('Успешный вход', 'success')
             dispatch(userSlice.actions.userFetchingSuccess({
                 username: loginData.username,
-                role: loginData.role.name
+                role: loginData.role
             }))
             localStorage.setItem('auth', JSON.stringify(loginData.access_token))
         }

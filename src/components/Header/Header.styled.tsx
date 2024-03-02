@@ -14,13 +14,14 @@ export const CustomAppBar = styled(AppBar, {
         prop !== "small"
     })((prop: CustomAppBarProps) => ({
     backgroundImage: 'none',
+    backgroundColor: 'transparent',
     height: prop.small ? '80px' : '130px',
     boxShadow: 'none' ,
 }))
 
 export const LogoTypography = styled(Typography, {
     shouldForwardProp: (prop) => prop !== "textColor",
-})<{ textColor?: string }>(({ theme, textColor }) => ({
+})<TypographyProps>(({ theme, textColor }) => ({
     fontFamily: 'Montserrat',
     fontSize: '18px',
     fontStyle: 'normal',

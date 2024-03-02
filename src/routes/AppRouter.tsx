@@ -3,14 +3,11 @@ import {useAppDispatch, useAppSelector} from "../shared/hooks/redux";
 import {adminRoutes, publicRoutes, userRoutes} from "./routes";
 import React, {useEffect} from "react";
 import {useSnackbar} from "notistack";
-import {getAuthDataFromLS} from "../store/action-creators/auth";
 
 const AppRouter = () => {
     const { isAuth, role } = useAppSelector(store => store.user)
     const { snack } = useAppSelector(store => store.snackbar)
     const { enqueueSnackbar } = useSnackbar()
-
-    const dispatch = useAppDispatch()
 
     useEffect(() => {
         if (snack && snack.id) {
@@ -26,7 +23,7 @@ const AppRouter = () => {
         if (!isAuth) {
             return publicRoutes
         } else {
-            if (role === 'admin') return adminRoutes
+            if (role.name === 'admin') return adminRoutes
             return userRoutes
         }
     }

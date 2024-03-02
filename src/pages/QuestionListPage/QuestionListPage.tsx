@@ -11,8 +11,9 @@ const QuestionListPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const addSnack = useAction()
 
+    const initialPage =  Number(searchParams.get("page")) >= 1 ? Number(searchParams.get("page")) : 1
     const [search, setSearch] = useState<string>('')
-    const [page, setPage] = useState<number>(Number(searchParams.get("page")) || 1)
+    const [page, setPage] = useState<number>(initialPage)
 
     const {
         data: questionsData,
@@ -47,7 +48,10 @@ const QuestionListPage = () => {
     }, [isLoading])
 
     useEffect(() => {
-        setPage(Number(searchParams.get("page")))
+        const pageSearch = Number(searchParams.get("page"))
+        if (questionsData?.pageCount && pageSearch >= 1 && pageSearch <= questionsData?.pageCount) {
+            setPage(pageSearch)
+        }
     }, [searchParams])
 
     if (isLoading || isFetching) {

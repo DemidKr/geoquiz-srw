@@ -1,4 +1,3 @@
-import {RoleTypes} from "../types/IRole";
 
 interface IMenuItem {
     title: string,
@@ -20,14 +19,13 @@ const authItems: IMenuItem[] = [
     {title: 'Войти', link: '/auth'},
 ]
 
-export const getMenuItemsByAuthAndRole = (isAuth: boolean, role: RoleTypes): IMenuItem[] => {
+export const getMenuItemsByAuthAndRole = (isAuth: boolean, roleName: string): IMenuItem[] => {
     if(!isAuth) return authItems
 
-    switch (role) {
+    switch (roleName) {
         case "admin":
             return adminItems;
         default:
-        case "user":
             return userItems;
     }
 };
