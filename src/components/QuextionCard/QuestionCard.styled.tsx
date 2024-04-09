@@ -1,14 +1,19 @@
-import {Box, styled, Typography} from "@mui/material";
+import {Box, CircularProgress, styled, Typography} from "@mui/material";
+import secondPic from "../../shared/images/TempPic2.jpg";
 
-export const QuestionCardContainer = styled(Box, {
-    shouldForwardProp: (prop) => prop !== "imageUrl",
-})<{ imageUrl?: string }>(({ theme, imageUrl }) => ({
+
+export const QuestionCardContainer = styled(Box)<{
+    imageUrl?: string,
+    isLoading?: boolean
+}>(({ theme, imageUrl, isLoading }) => ({
     position: 'relative',
     width: '300px',
     height: '530px',
     flexShrink: 0,
     borderRadius: '10px',
-    backgroundImage: `linear-gradient(360deg, rgba(0, 0, 0, 0.54) 0%, rgba(255, 255, 255, 0.00) 67.71%), url(${imageUrl})`,
+    backgroundImage: isLoading ?
+        'linear-gradient(360deg, rgba(0, 0, 0, 0.54) 0%, rgba(255, 255, 255, 0.00) 67.71%)' :
+        `url(${imageUrl}), url(${secondPic})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
@@ -22,6 +27,12 @@ export const QuestionCardColumn = styled(Box, )(({ theme}) => ({
     flexDirection: 'column',
     alignItems: 'flex-start',
     gap: '9px'
+}));
+
+export const QuestionCardWarningContainer = styled(Box, )(({ theme}) => ({
+    position: 'absolute',
+    top: '22px',
+    right: '22px',
 }));
 
 export const QuestionCardWrapper = styled(Box)(({ theme}) => ({
@@ -65,6 +76,12 @@ export const QuestionCardInfo = styled(Typography)(({ theme }) => ({
     fontStyle: 'normal',
     fontWeight: '500',
     lineHeight: 'normal',
+}));
+
+export const QuestionCardLoader = styled(CircularProgress)(({ theme }) => ({
+    position: 'absolute',
+    top: 'calc(50% - 40px)',
+    left: 'calc(50% - 40px)'
 }));
 
 

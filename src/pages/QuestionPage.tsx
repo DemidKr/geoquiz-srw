@@ -39,24 +39,17 @@ const QuestionPage = () => {
     const [timerClock, setTimerClock] = useState<number>(-1)
 
     useEffect(() => {
-        console.log('question', question)
-        console.log('error', error)
-        console.log('ymaps', ymaps )
-
         if (error) {
             addSnack('Не удалось загрузить квиз...', 'error')
         }
 
         if(ymaps && question) {
             if(question.coordinates.length === 0 ) {
-                console.log('coordinates return')
                 return;
             }
 
             const lat = question.coordinates[0].lat
             const lng = question.coordinates[0].lng
-            console.log('lat', lat)
-            console.log('lng', lng)
 
             setTimerClock(question.time)
 
@@ -113,7 +106,6 @@ const QuestionPage = () => {
             let lat = Math.floor((5 - Math.abs(answer[0] - question.coordinates[currentStep - 1].lat))/5 * 1000)
             let lng = Math.floor((10 - Math.abs(answer[1] - question.coordinates[currentStep - 1].lng))/10 * 1000)
             let res = Math.floor((lat + lng) / 2)
-            console.log('res', res)
 
             if (lat < 0 || lng < 0 || isNaN(res)) {
                 setZoomLevel(2)
@@ -123,6 +115,7 @@ const QuestionPage = () => {
                 setScores([...scores, res])
                 setFinalScore(finalScore + res)
             }
+
             if (currentStep >= question.coordinates.length) {
                 finishGame()
             } else {

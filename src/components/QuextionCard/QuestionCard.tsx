@@ -1,48 +1,38 @@
 import React, {FC, useEffect, useState} from 'react';
-
 import {IQuestionResponse} from "../../shared/types/IQuestion";
 import {IStars} from "../../shared/types/IStars";
-
 import PersonIcon from '@mui/icons-material/Person';
 import TimerIcon from '@mui/icons-material/Timer';
 import DoneIcon from '@mui/icons-material/Done';
 import PlaceIcon from '@mui/icons-material/Place';
 import ArticleIcon from '@mui/icons-material/Article';
-
+import WarningIcon from '@mui/icons-material/Warning';
 import {
     QuestionCardBtnWrapper,
     QuestionCardColumn,
-    QuestionCardContainer, QuestionCardDescription, QuestionCardInfo,
-    QuestionCardTitle,
+    QuestionCardContainer, QuestionCardDescription, QuestionCardInfo, QuestionCardLoader,
+    QuestionCardTitle, QuestionCardWarningContainer,
     QuestionCardWrapper,
 } from "./QuestionCard.styled";
 import Stars from "../Stars/Stars";
 import TranslucentButton from "../TranslucentButton/TranslucentButton";
-import secondPic from "../../shared/images/TempPic2.jpg";
-import { CircularProgress } from "@mui/material";
+import {Tooltip} from "@mui/material";
+
+
 
 interface QuestionCardProps {
     question: IQuestionResponse,
+    isLoading?: boolean
     deleteOn?: boolean
 }
 
-const QuestionCard: FC<QuestionCardProps> = ({question, deleteOn}) => {
+const QuestionCard: FC<QuestionCardProps> = ({question, isLoading, deleteOn}) => {
+    // TODO: move to utils
     const [stars, setStars]= useState<IStars>({
         fullStar: 0,
         halfStar: 0,
         emptyStar: 0
     })
-
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [isValid, setIsValid] = useState<boolean>(false);
-
-    function isImgUrl(url: string) {
-        return fetch(url, {method: 'HEAD'}).then(res => {
-            const contentType = res.headers.get('Content-Type')
-            setIsValid(contentType ? contentType.startsWith('image') : false)
-            setIsLoading(false)
-        })
-    }
 
     useEffect(() => {
         const halfStar = question.stars - Math.floor(question.stars) >= 0.5 ? 1 : 0
@@ -51,27 +41,25 @@ const QuestionCard: FC<QuestionCardProps> = ({question, deleteOn}) => {
             halfStar: halfStar,
             emptyStar: 5 - Math.floor(question.stars) - halfStar
         })
-        isImgUrl(question.imageUrl)
     }, [])
 
 
     if(isLoading) {
         return (
-            <QuestionCardContainer imageUrl={''}>
-                <CircularProgress
-                    sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%'
-                    }}
-                />
+            <QuestionCardContainer isLoading>
+                <QuestionCardLoader color='inherit' size={80}/>
             </QuestionCardContainer>
         )
     }
 
     return (
         <>
-            <QuestionCardContainer imageUrl={isValid ? question.imageUrl : secondPic}>
+            <QuestionCardContainer imageUrl={`${process.env.REACT_APP_SERVER_URL}/${question.imageUrl}`}>
+                <QuestionCardWarningContainer>
+                    <Tooltip title="Квиз не опубликован" leaveDelay={200}>
+                        <WarningIcon color="warning" />
+                    </Tooltip>
+                </QuestionCardWarningContainer>
                 <QuestionCardColumn>
                     <QuestionCardTitle>
                         {question.title.toUpperCase()}
