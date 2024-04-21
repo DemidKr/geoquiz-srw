@@ -8,6 +8,7 @@ import PlaceIcon from '@mui/icons-material/Place';
 import ArticleIcon from '@mui/icons-material/Article';
 import WarningIcon from '@mui/icons-material/Warning';
 import {
+    Container,
     QuestionCardBtnWrapper,
     QuestionCardColumn,
     QuestionCardContainer, QuestionCardDescription, QuestionCardInfo, QuestionCardLoader,
@@ -18,13 +19,15 @@ import Stars from "../Stars/Stars";
 import TranslucentButton from "../TranslucentButton/TranslucentButton";
 import {Tooltip} from "@mui/material";
 
-interface QuestionCardProps {
+
+interface QuestionCardPreviewProps {
     question: IQuestionResponse,
+    children: React.ReactNode
     isLoading?: boolean
     deleteOn?: boolean
 }
 
-const QuestionCard: FC<QuestionCardProps> = ({question, isLoading, deleteOn}) => {
+const QuestionCardPreview: FC<QuestionCardPreviewProps> = ({question, children, isLoading, deleteOn}) => {
     // TODO: move to utils
     const [stars, setStars]= useState<IStars>({
         fullStar: 0,
@@ -52,7 +55,8 @@ const QuestionCard: FC<QuestionCardProps> = ({question, isLoading, deleteOn}) =>
 
     return (
         <>
-            <QuestionCardContainer imageUrl={`${process.env.REACT_APP_SERVER_URL}/${question.imageUrl}`}>
+            <Container >
+                {children}
                 <QuestionCardWarningContainer>
                     <Tooltip title="Квиз не опубликован" leaveDelay={200}>
                         <WarningIcon color="warning" />
@@ -99,9 +103,9 @@ const QuestionCard: FC<QuestionCardProps> = ({question, isLoading, deleteOn}) =>
                 <QuestionCardBtnWrapper>
                     <TranslucentButton link={'/question/' + question.id}/>
                 </QuestionCardBtnWrapper>
-            </QuestionCardContainer>
+            </Container>
         </>
     );
 };
 
-export default QuestionCard;
+export default QuestionCardPreview;

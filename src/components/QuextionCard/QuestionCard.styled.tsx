@@ -7,10 +7,9 @@ export const QuestionCardContainer = styled(Box)<{
     isLoading?: boolean
 }>(({ theme, imageUrl, isLoading }) => ({
     position: 'relative',
-    width: '300px',
-    height: '530px',
+    width: '288px',
+    height: '512px',
     flexShrink: 0,
-    borderRadius: '10px',
     backgroundImage: isLoading ?
         'linear-gradient(360deg, rgba(0, 0, 0, 0.54) 0%, rgba(255, 255, 255, 0.00) 67.71%)' :
         `url(${imageUrl}), url(${secondPic})`,
@@ -18,6 +17,14 @@ export const QuestionCardContainer = styled(Box)<{
     backgroundSize: 'cover',
     backgroundPosition: 'center',
 }));
+
+export const Container = styled(Box)(({ theme}) => ({
+    position: 'relative',
+    width: '288px',
+    height: '512px',
+    borderRadius: '10px',
+}));
+
 
 export const QuestionCardColumn = styled(Box, )(({ theme}) => ({
     position: 'absolute',

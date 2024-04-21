@@ -8,4 +8,7 @@ export enum AppPaths {
     CREATE_QUESTION = '/createQuestion',
     USER_QUESTIONS = '/userQuestions',
     ADMIN = '/admin',
+    CREATE_QUIZ = '/create-quiz',
+    EDIT_QUIZ = '/edit-quiz/:id',
+    EDIT_COORDINATES = '/edit-coordinates/:id',
 }
