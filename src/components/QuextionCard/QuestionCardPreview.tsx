@@ -21,28 +21,21 @@ import {Tooltip} from "@mui/material";
 
 
 interface QuestionCardPreviewProps {
-    question: IQuestionResponse,
+    title: string,
+    description: string,
+    time: number
     children: React.ReactNode
     isLoading?: boolean
     deleteOn?: boolean
 }
 
-const QuestionCardPreview: FC<QuestionCardPreviewProps> = ({question, children, isLoading, deleteOn}) => {
+const QuestionCardPreview: FC<QuestionCardPreviewProps> = ({title, description, time, children, isLoading, deleteOn}) => {
     // TODO: move to utils
     const [stars, setStars]= useState<IStars>({
-        fullStar: 0,
+        fullStar: 5,
         halfStar: 0,
         emptyStar: 0
     })
-
-    useEffect(() => {
-        const halfStar = question.stars - Math.floor(question.stars) >= 0.5 ? 1 : 0
-        setStars({
-            fullStar: Math.floor(question.stars),
-            halfStar: halfStar,
-            emptyStar: 5 - Math.floor(question.stars) - halfStar
-        })
-    }, [])
 
 
     if(isLoading) {
@@ -56,6 +49,7 @@ const QuestionCardPreview: FC<QuestionCardPreviewProps> = ({question, children, 
     return (
         <>
             <Container >
+                {/*TODO: add default background if children not passed*/}
                 {children}
                 <QuestionCardWarningContainer>
                     <Tooltip title="Квиз не опубликован" leaveDelay={200}>
@@ -64,36 +58,37 @@ const QuestionCardPreview: FC<QuestionCardPreviewProps> = ({question, children, 
                 </QuestionCardWarningContainer>
                 <QuestionCardColumn>
                     <QuestionCardTitle>
-                        {question.title.toUpperCase()}
+                        {title.toUpperCase()}
                     </QuestionCardTitle>
                     <QuestionCardWrapper>
                         <ArticleIcon sx={{color: '#FFF'}}/>
                         <QuestionCardDescription>
-                            {question.description}
+                            {description}
                         </QuestionCardDescription>
                     </QuestionCardWrapper>
                     <QuestionCardWrapper>
                         <PersonIcon sx={{color: 'rgba(255, 255, 255, 0.60)'}}/>
                         <QuestionCardInfo>
-                            {question.user.username}
+                            {/*TODO: add username from hook*/}
+                            You
                         </QuestionCardInfo>
                     </QuestionCardWrapper>
                     <QuestionCardWrapper>
                         <TimerIcon sx={{color: 'rgba(255, 255, 255, 0.60)'}}/>
                         <QuestionCardInfo>
-                            {question.time} сек
+                            {time} сек
                         </QuestionCardInfo>
                     </QuestionCardWrapper>
                     <QuestionCardWrapper>
                         <DoneIcon sx={{color: 'rgba(255, 255, 255, 0.60)'}}/>
                         <QuestionCardInfo>
-                            Пройдено {question.timesFinished} раз
+                            Пройдено 0 раз
                         </QuestionCardInfo>
                     </QuestionCardWrapper>
                     <QuestionCardWrapper>
                         <PlaceIcon sx={{color: 'rgba(255, 255, 255, 0.60)'}}/>
                         <QuestionCardInfo>
-                            {question.coordinates.length} этапов
+                            0 этапов
                         </QuestionCardInfo>
                     </QuestionCardWrapper>
                     <QuestionCardWrapper>
@@ -101,7 +96,7 @@ const QuestionCardPreview: FC<QuestionCardPreviewProps> = ({question, children, 
                     </QuestionCardWrapper>
                 </QuestionCardColumn>
                 <QuestionCardBtnWrapper>
-                    <TranslucentButton link={'/question/' + question.id}/>
+                    <TranslucentButton/>
                 </QuestionCardBtnWrapper>
             </Container>
         </>

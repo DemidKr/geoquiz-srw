@@ -1,4 +1,4 @@
-import {Box, CircularProgress, styled, Typography} from "@mui/material";
+import {Box, CircularProgress, styled, Typography, Input, Button} from "@mui/material";
 import secondPic from "../../shared/images/TempPic2.jpg";
 
 
@@ -9,6 +9,7 @@ export const QuestionCardContainer = styled(Box)<{
     position: 'relative',
     width: '288px',
     height: '512px',
+    borderRadius: '10px',
     flexShrink: 0,
     backgroundImage: isLoading ?
         'linear-gradient(360deg, rgba(0, 0, 0, 0.54) 0%, rgba(255, 255, 255, 0.00) 67.71%)' :
@@ -24,7 +25,6 @@ export const Container = styled(Box)(({ theme}) => ({
     height: '512px',
     borderRadius: '10px',
 }));
-
 
 export const QuestionCardColumn = styled(Box, )(({ theme}) => ({
     position: 'absolute',

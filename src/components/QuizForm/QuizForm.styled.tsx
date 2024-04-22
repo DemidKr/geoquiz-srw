@@ -1,4 +1,4 @@
-import {Box, Grid, Paper, styled, TextField, Typography} from "@mui/material";
+import {Box, Button, Grid, Paper, styled, TextField, Typography} from "@mui/material";
 
 export const PaperBackground = styled(Paper)(({ theme }) => ({
     margin: 'auto',
@@ -41,3 +41,11 @@ export const Input = styled(TextField)(({ theme }) => ({
         fontWeight: '500',
     }
 })) as typeof TextField
+
+export const ImgInputButton = styled(Button)(({ theme}) => ({
+    borderRadius: '5px',
+    fontFamily: 'Montserrat',
+    fontStyle: 'normal',
+    fontWeight: '500',
+    lineHeight: 'normal',
+})) as typeof Button;

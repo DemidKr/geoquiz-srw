@@ -13,7 +13,8 @@ import 'react-image-crop/dist/ReactCrop.css'
 import { canvasPreview } from '../../shared/utils/canvasPreview'
 import {useDebounceEffect} from "../../shared/utils/useDebounceEffect";
 import QuestionCardPreview from "../../components/QuextionCard/QuestionCardPreview";
-
+import TimeSlider from "../../components/TimeSlider/TimeSlider";
+import {TimeValues} from "../../shared/consts/enum";
 
 function centerAspectCrop(
     mediaWidth: number,
@@ -36,8 +37,10 @@ function centerAspectCrop(
 }
 
 const CreateQuizPage = () => {
+    // TODO: limit title and description, prevent text overflow
     const [title, setTitle] = useState<string>('')
     const [description, setDescription] = useState<string>('')
+    const [time, setTime] = React.useState<number>(TimeValues.DEFAULT);
     const [src, setSrc] = useState<string | null>(null);
     const [crop, setCrop] = useState<Crop>({
         unit: 'px',
@@ -110,41 +113,50 @@ const CreateQuizPage = () => {
                             maxRows={1}
                             required
                         />
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => {
-                                if (e.target.files?.length) {
-                                    selectImage(e.target.files[0]);
-                                }
-                            }}
-                        />
-                        <div>
-                            {src && (
-                                <div>
-                                    <ReactCrop
-                                        aspect={aspect}
-                                        onComplete={(c) => setCompletedCrop(c)}
-                                        crop={crop}
-                                        onChange={setCrop}
-                                    >
-                                        <img
-                                            ref={imgRef}
-                                            alt="Crop me"
-                                            src={src}
-                                            onLoad={onImageLoad}
-                                        />
-                                    </ReactCrop>
-                                </div>
-                            )}
-                        </div>
-
+                        <S.ImgInputButton
+                            variant="contained"
+                            component="label"
+                        >
+                             Выбрать файл
+                            <input
+                                type="file"
+                                hidden
+                                accept="image/*"
+                                onChange={(e) => {
+                                    if (e.target.files?.length) {
+                                        selectImage(e.target.files[0]);
+                                    }
+                                }}
+                            />
+                        </S.ImgInputButton>
+                        {src && (
+                            <div>
+                                <ReactCrop
+                                    aspect={aspect}
+                                    onComplete={(c) => setCompletedCrop(c)}
+                                    crop={crop}
+                                    onChange={setCrop}
+                                >
+                                    <img
+                                        ref={imgRef}
+                                        alt="Crop me"
+                                        src={src}
+                                        onLoad={onImageLoad}
+                                    />
+                                </ReactCrop>
+                            </div>
+                        )}
+                        <TimeSlider time={time} setTime={setTime}/>
                     </S.GridColumn>
                     <S.GridColumn item xl={4} sm={6} xs={12} sx={{alignItems: {md: 'flex-end', sm: 'flex-start'}}}>
                         <S.GridColumn alignItems='flex-start'>
                             <S.MainTitle>Предпросмотр:</S.MainTitle>
                             {!!completedCrop && (
-                                <QuestionCardPreview question={hardcodedQuestion}>
+                                <QuestionCardPreview
+                                    title={title}
+                                    description={description}
+                                    time={time}
+                                >
                                     <canvas
                                         ref={previewCanvasRef}
                                         style={{
