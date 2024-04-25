@@ -15,6 +15,7 @@ import {useDebounceEffect} from "../../shared/utils/useDebounceEffect";
 import QuestionCardPreview from "../../components/QuextionCard/QuestionCardPreview";
 import TimeSlider from "../../components/TimeSlider/TimeSlider";
 import {TimeValues} from "../../shared/consts/enum";
+import {useCreateQuestionMutation} from "../../store/api/questionApi";
 
 function centerAspectCrop(
     mediaWidth: number,
@@ -55,6 +56,8 @@ const CreateQuizPage = () => {
     const imgRef = useRef<HTMLImageElement>(null)
     const previewCanvasRef = useRef<HTMLCanvasElement>(null)
 
+    const [createQuestion, result] = useCreateQuestionMutation()
+
     const selectImage = (file: Blob | MediaSource) => {
         setSrc(URL.createObjectURL(file));
     };
@@ -72,6 +75,53 @@ const CreateQuizPage = () => {
             const { width, height } = e.currentTarget
             setCrop(centerAspectCrop(width, height, aspect))
         }
+    }
+
+    async function onDownloadCropClick() {
+        const image = imgRef.current
+        const previewCanvas = previewCanvasRef.current
+        if (!image || !previewCanvas || !completedCrop) {
+            throw new Error('Crop canvas does not exist')
+        }
+
+        // This will size relative to the uploaded image
+        // size. If you want to size according to what they
+        // are looking at on screen, remove scaleX + scaleY
+        const scaleX = image.naturalWidth / image.width
+        const scaleY = image.naturalHeight / image.height
+
+        const offscreen = new OffscreenCanvas(
+            completedCrop.width * scaleX,
+            completedCrop.height * scaleY,
+        )
+        const ctx = offscreen.getContext('2d')
+        if (!ctx) {
+            throw new Error('No 2d context')
+        }
+
+        ctx.drawImage(
+            previewCanvas,
+            0,
+            0,
+            previewCanvas.width,
+            previewCanvas.height,
+            0,
+            0,
+            offscreen.width,
+            offscreen.height,
+        )
+        // You might want { type: "image/jpeg", quality: <0 to 1> } to
+        // reduce image size
+        const blob = await offscreen.convertToBlob({
+            type: 'image/png',
+        })
+
+        createQuestion({
+            title,
+            description,
+            time,
+            file: blob
+        })
     }
 
     useDebounceEffect(
@@ -170,6 +220,9 @@ const CreateQuizPage = () => {
                             )}
                         </S.GridColumn>
                     </S.GridColumn>
+                    <S.SubmitButton onClick={onDownloadCropClick}>
+                        Создать
+                    </S.SubmitButton>
                 </Grid>
             </S.ContentBox>
         </S.PaperBackground>

@@ -47,3 +47,10 @@ export interface IGetAllQuestionsDto {
     page?: number;
     perPage?: number;
 }
+
+export interface IQuestionRequest {
+    title: string;
+    description: string;
+    time: number;
+    file: Blob;
+}

@@ -1,12 +1,25 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {IGetAllQuestionsDto, IGetAllQuestionsResponse, IQuestionResponse} from "../../shared/types/IQuestion";
+import {
+    IGetAllQuestionsDto,
+    IGetAllQuestionsResponse,
+    IQuestionRequest,
+    IQuestionResponse
+} from "../../shared/types/IQuestion";
 
 const BASE_URL = process.env.REACT_APP_SERVER_URL as string;
 
 export const questionApi = createApi({
     reducerPath: 'questionApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${BASE_URL}/question`
+        baseUrl: `${BASE_URL}/question`,
+        prepareHeaders: (headers, { getState }) => {
+            // By default, if we have a token in the store, let's use that for authenticated requests
+            const token = JSON.parse(localStorage.getItem('auth') as string);
+            if (token) {
+                headers.set('authorization', `Bearer ${token}`)
+            }
+            return headers
+        },
     }),
     endpoints: (build) => ({
         fetchAllQuestions: build.query<IGetAllQuestionsResponse, IGetAllQuestionsDto>({
@@ -20,14 +33,22 @@ export const questionApi = createApi({
                 url: `/${id}`,
             }),
         }),
-        // createPost: build.mutation<IPost, IPost>({
-        //     query: (post) => ({
-        //         url: `/posts`,
-        //         method: 'POST',
-        //         body: post
-        //     }),
-        //     invalidatesTags: ['Post']
-        // }),
+        createQuestion: build.mutation<void, IQuestionRequest>({
+            query: ({title, description, file, time}) => {
+                const bodyFormData = new FormData();
+                bodyFormData.append('file', file);
+                bodyFormData.append('title', title);
+                bodyFormData.append('description', description);
+                bodyFormData.append('time', time.toString());
+
+                return {
+                    url: '',
+                    method: 'POST',
+                    body: bodyFormData,
+                }
+            },
+            // invalidatesTags: ['Post']
+        }),
         // deletePost: build.mutation<IPost, IPost>({
         //     query: (post) => ({
         //         url: `/posts/${post.id}`,
@@ -38,4 +59,4 @@ export const questionApi = createApi({
     })
 })
 
-export const { useFetchAllQuestionsQuery , useFetchQuestionQuery} = questionApi
+export const { useFetchAllQuestionsQuery , useFetchQuestionQuery, useCreateQuestionMutation} = questionApi

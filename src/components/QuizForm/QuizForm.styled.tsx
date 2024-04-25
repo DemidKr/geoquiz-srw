@@ -49,3 +49,12 @@ export const ImgInputButton = styled(Button)(({ theme}) => ({
     fontWeight: '500',
     lineHeight: 'normal',
 })) as typeof Button;
+
+export const SubmitButton = styled(Button)(({ theme}) => ({
+    borderRadius: '5px',
+    fontFamily: 'Montserrat',
+    fontSize: '18px',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    lineHeight: 'normal',
+})) as typeof Button;

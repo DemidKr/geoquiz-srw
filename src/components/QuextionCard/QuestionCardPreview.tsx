@@ -51,19 +51,14 @@ const QuestionCardPreview: FC<QuestionCardPreviewProps> = ({title, description, 
             <Container >
                 {/*TODO: add default background if children not passed*/}
                 {children}
-                <QuestionCardWarningContainer>
-                    <Tooltip title="Квиз не опубликован" leaveDelay={200}>
-                        <WarningIcon color="warning" />
-                    </Tooltip>
-                </QuestionCardWarningContainer>
                 <QuestionCardColumn>
                     <QuestionCardTitle>
-                        {title.toUpperCase()}
+                        {(title || "Название").toUpperCase()}
                     </QuestionCardTitle>
                     <QuestionCardWrapper>
                         <ArticleIcon sx={{color: '#FFF'}}/>
                         <QuestionCardDescription>
-                            {description}
+                            {description || "Описание"}
                         </QuestionCardDescription>
                     </QuestionCardWrapper>
                     <QuestionCardWrapper>
