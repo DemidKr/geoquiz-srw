@@ -1,4 +1,4 @@
-import {IQuestion, IQuestionResponse} from "../../shared/types/IQuestion";
+import {IQuestionResponse} from "../../shared/types/questions";
 import secondPic from "../../shared/images/TempPic2.jpg";
 
 export const hardcodedQuestion : IQuestionResponse = {

@@ -1,4 +1,4 @@
-import {ICoordinates} from "./ICoordinates";
+import {ICoordinates} from "./coordinates";
 
 // TODO: remove this later
 export interface IQuestion {
@@ -30,7 +30,7 @@ export interface IQuestionResponse {
     isFinished: boolean;
     createdAt?: string;
     updatedAt?: string;
-    user: {
+    user?: {
         username: string;
     }
     coordinates: ICoordinates[]

@@ -1,20 +1,20 @@
 import React, {Dispatch, FC, SetStateAction, useState} from 'react';
 import {CustomDialogBox, CustomDialogContent, CustomDialogContentText, CustomDialogTitle, DialogButton} from "./Dialog.styled";
-import {Box, DialogActions, TextField} from "@mui/material";
-import {Map, Placemark} from "@pbe/react-yandex-maps";
+import {DialogActions, TextField} from "@mui/material";
 import {IQuestionForm} from "../../shared/types/IQuestionForm";
 import {GameText} from "../GameBox/GameBox.styled";
 import CloseIcon from "@mui/icons-material/Close";
 import {Theme} from "../../store/reducers/ThemeSlice";
 import {AbsolutButton} from "../CreateQuestionBox/CreateQuestionBox.styled";
 import {useAppSelector} from "../../shared/hooks/redux";
+import {ICoordinates} from "../../shared/types/coordinates";
 
 interface CreateStepDialogProps {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
     question: IQuestionForm;
     setQuestion: Dispatch<SetStateAction<IQuestionForm>>;
-    coordinates: number[];
+    coordinates: ICoordinates;
 
 }
 
@@ -42,7 +42,7 @@ const CreateStepDialog: FC<CreateStepDialogProps> = ({isOpen, setIsOpen, questio
             </AbsolutButton>
             <CustomDialogContent>
                 <CustomDialogContentText component='div'>Координаты:</CustomDialogContentText>
-                <GameText component='div'>{coordinates[0]} {coordinates[1]}</GameText>
+                <GameText component='div'>{coordinates.lat} {coordinates.lng}</GameText>
                 <TextField
                     fullWidth
                     sx={{mt: '5px'}}

@@ -1,23 +1,20 @@
-import React, {FC, useEffect, useState} from 'react';
-import {IQuestionResponse} from "../../shared/types/IQuestion";
+import React, {FC, useState} from 'react';
 import {IStars} from "../../shared/types/IStars";
 import PersonIcon from '@mui/icons-material/Person';
 import TimerIcon from '@mui/icons-material/Timer';
 import DoneIcon from '@mui/icons-material/Done';
 import PlaceIcon from '@mui/icons-material/Place';
 import ArticleIcon from '@mui/icons-material/Article';
-import WarningIcon from '@mui/icons-material/Warning';
 import {
     Container,
     QuestionCardBtnWrapper,
     QuestionCardColumn,
     QuestionCardContainer, QuestionCardDescription, QuestionCardInfo, QuestionCardLoader,
-    QuestionCardTitle, QuestionCardWarningContainer,
+    QuestionCardTitle,
     QuestionCardWrapper,
 } from "./QuestionCard.styled";
 import Stars from "../Stars/Stars";
 import TranslucentButton from "../TranslucentButton/TranslucentButton";
-import {Tooltip} from "@mui/material";
 
 
 interface QuestionCardPreviewProps {

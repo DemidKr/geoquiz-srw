@@ -1,4 +1,6 @@
+import {ICoordinates} from "./coordinates";
+
 export interface IStep {
-    coordinates: number[],
+    coordinates: ICoordinates,
     desc: string
 }

@@ -6,10 +6,12 @@ import {questionsSlice} from "./reducers/QuestionsSlice";
 import {themeSlice} from "./reducers/ThemeSlice";
 import {authApi} from "./api/authApi";
 import {questionApi} from "./api/questionApi";
+import {coordinatesApi} from "./api/coordinatesApi";
 
 const rootReducer = combineReducers({
     [authApi.reducerPath]: authApi.reducer,
     [questionApi.reducerPath]: questionApi.reducer,
+    [coordinatesApi.reducerPath]: coordinatesApi.reducer,
     user: userSlice.reducer,
     coordinates: coordinatesSlice.reducer,
     snackbar: snackbarSlice.reducer,
@@ -24,6 +26,7 @@ export const setupStore = () => {
             getDefaultMiddleware().concat(
                 authApi.middleware,
                 questionApi.middleware,
+                coordinatesApi.middleware,
             ),
     })
 }

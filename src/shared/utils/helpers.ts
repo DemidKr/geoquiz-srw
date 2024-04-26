@@ -1,18 +1,18 @@
+import {AppPaths} from "../consts";
 
 interface IMenuItem {
     title: string,
     link: string
 }
 
-const adminItems: IMenuItem[] = [
-    {title: 'Мои геоквизы', link: '/userQuestions'},
-    {title: 'Профиль', link: '/profile'},
-    {title: 'Админ панель', link: '/admin'},
+const userItems: IMenuItem[] = [
+    {title: 'Мои геоквизы', link: AppPaths.USER_QUESTIONS},
+    {title: 'Профиль', link: AppPaths.PROFILE},
 ];
 
-const userItems: IMenuItem[] = [
-    {title: 'Мои геоквизы', link: '/userQuestions'},
-    {title: 'Профиль', link: '/profile'},
+const adminItems: IMenuItem[] = [
+    ...userItems,
+    {title: 'Админ панель', link: AppPaths.ADMIN},
 ];
 
 const authItems: IMenuItem[] = [

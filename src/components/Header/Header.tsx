@@ -10,7 +10,7 @@ import {CustomAppBar, LogoTypography, UsernameTypography} from "./Header.styled"
 import {useAppDispatch, useAppSelector} from "../../shared/hooks/redux";
 import {useNavigate} from "react-router-dom";
 import {userSlice} from "../../store/reducers/UserSlice";
-import {Theme, themeSlice} from "../../store/reducers/ThemeSlice";
+import {LOCAL_STORAGE_THEME_KEY, Theme, themeSlice} from "../../store/reducers/ThemeSlice";
 import {FC} from "react";
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -41,6 +41,11 @@ const Header: FC = () => {
         setAnchorEl(null);
     };
 
+    const handleThemeChange = () => {
+        localStorage.setItem(LOCAL_STORAGE_THEME_KEY, theme === Theme.DARK ? Theme.LIGHT : Theme.DARK)
+        dispatch(themeSlice.actions.changeTheme())
+    }
+
 
     return (
         <CustomAppBar position="static" small={small} color={color}>
@@ -65,7 +70,7 @@ const Header: FC = () => {
                     </LogoTypography>
                     <Box sx={{ flexGrow: 0, display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '10px'}}>
                         {isThemeSwitcherOn &&
-                            <IconButton onClick={() => dispatch(themeSlice.actions.changeTheme())}>
+                            <IconButton onClick={handleThemeChange}>
                                 {theme === Theme.DARK ? <DarkModeIcon sx={{color: '#FFF'}}/> : <LightModeIcon sx={{color: '#000'}}/>}
                             </IconButton>
                         }

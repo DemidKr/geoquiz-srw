@@ -1,6 +1,5 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Grid} from "@mui/material";
-import {hardcodedQuestion} from "../../temporary/data/questionData";
 import * as S from '../../components/QuizForm/QuizForm.styled'
 import {
     Crop,
@@ -16,6 +15,8 @@ import QuestionCardPreview from "../../components/QuextionCard/QuestionCardPrevi
 import TimeSlider from "../../components/TimeSlider/TimeSlider";
 import {TimeValues} from "../../shared/consts/enum";
 import {useCreateQuestionMutation} from "../../store/api/questionApi";
+import {useNavigate} from "react-router-dom";
+import {AppPaths} from "../../shared/consts";
 
 function centerAspectCrop(
     mediaWidth: number,
@@ -57,6 +58,8 @@ const CreateQuizPage = () => {
     const previewCanvasRef = useRef<HTMLCanvasElement>(null)
 
     const [createQuestion, result] = useCreateQuestionMutation()
+
+    const navigate = useNavigate()
 
     const selectImage = (file: Blob | MediaSource) => {
         setSrc(URL.createObjectURL(file));
@@ -142,6 +145,12 @@ const CreateQuizPage = () => {
         100,
         [completedCrop],
     )
+
+    useEffect(() => {
+        if (result.data) {
+            navigate(`${AppPaths.CREATE_QUESTION}/${result.data}`)
+        }
+    }, [result]);
 
     return (
         <S.PaperBackground>

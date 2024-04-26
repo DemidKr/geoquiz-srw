@@ -1,20 +1,20 @@
 import React, {Dispatch, FC, SetStateAction, useEffect, useMemo, useState} from 'react';
 import {CustomDialogBox, CustomDialogContent, CustomDialogContentText, CustomDialogTitle, DialogButton} from "./Dialog.styled";
-import {Box, DialogActions, FormControlLabel, Switch, TextField} from "@mui/material";
-import {Map, Placemark} from "@pbe/react-yandex-maps";
+import {DialogActions, FormControlLabel, Switch, TextField} from "@mui/material";
 import {IQuestionForm} from "../../shared/types/IQuestionForm";
 import {GameText} from "../GameBox/GameBox.styled";
 import CloseIcon from '@mui/icons-material/Close';
 import {AbsolutButton} from "../CreateQuestionBox/CreateQuestionBox.styled";
 import {useAppSelector} from "../../shared/hooks/redux";
 import {Theme} from "../../store/reducers/ThemeSlice";
+import {ICoordinates} from "../../shared/types/coordinates";
 
 interface CreateStepDialogProps {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
     question: IQuestionForm;
     handleStepChanges: (doesCoordChange: boolean, newDesc: string) => void;
-    coordinates: number[];
+    coordinates: ICoordinates;
     description: string;
     index: number;
 }
@@ -26,7 +26,7 @@ const CreateStepDialog: FC<CreateStepDialogProps> = (props) => {
     const {theme} = useAppSelector(state => state.theme)
 
     const isSameCoord = useMemo(() => {
-            return question.steps[index].coordinates[0] === coordinates[0] && question.steps[index].coordinates[1] === coordinates[1]
+            return question.steps[index].coordinates.lat === coordinates.lng && question.steps[index].coordinates.lng === coordinates.lng
         }, [question.steps[index], coordinates]);
 
 
@@ -54,10 +54,10 @@ const CreateStepDialog: FC<CreateStepDialogProps> = (props) => {
             <CustomDialogContent>
                 {!isSameCoord && <>
                     <CustomDialogContentText component='div'>Нынешние координаты:</CustomDialogContentText>
-                    <GameText component='div'>{coordinates[0]} {coordinates[1]}</GameText>
+                    <GameText component='div'>{coordinates.lat} {coordinates.lng}</GameText>
                 </>}
                 <CustomDialogContentText component='div'>Координаты этапа:</CustomDialogContentText>
-                <GameText component='div'>{question.steps[index].coordinates[0]} {question.steps[index].coordinates[1]}</GameText>
+                <GameText component='div'>{question.steps[index].coordinates.lat} {question.steps[index].coordinates.lng}</GameText>
                 {!isSameCoord &&
                     <FormControlLabel
                         control={<Switch value={doesCoordChange} onChange={() => setDoesCoordChange(!doesCoordChange)} />}

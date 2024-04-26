@@ -1,8 +1,7 @@
 import React, {FC} from 'react';
 import {Box, DialogActions} from "@mui/material";
 import {Map, Placemark} from "@pbe/react-yandex-maps";
-import {IGame} from "../../shared/types/IGame";
-import {IQuestion, IQuestionResponse} from "../../shared/types/IQuestion";
+import {IQuestionResponse} from "../../shared/types/questions";
 import {CustomDialogBox, CustomDialogContent, CustomDialogContentText, CustomDialogTitle, DialogButton} from "./Dialog.styled";
 
 interface StepDialogProps {

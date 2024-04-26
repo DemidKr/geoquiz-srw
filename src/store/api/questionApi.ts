@@ -4,9 +4,8 @@ import {
     IGetAllQuestionsResponse,
     IQuestionRequest,
     IQuestionResponse
-} from "../../shared/types/IQuestion";
-
-const BASE_URL = process.env.REACT_APP_SERVER_URL as string;
+} from "../../shared/types/questions";
+import {BASE_URL} from "../../shared/consts";
 
 export const questionApi = createApi({
     reducerPath: 'questionApi',
@@ -33,7 +32,7 @@ export const questionApi = createApi({
                 url: `/${id}`,
             }),
         }),
-        createQuestion: build.mutation<void, IQuestionRequest>({
+        createQuestion: build.mutation<number, IQuestionRequest>({
             query: ({title, description, file, time}) => {
                 const bodyFormData = new FormData();
                 bodyFormData.append('file', file);

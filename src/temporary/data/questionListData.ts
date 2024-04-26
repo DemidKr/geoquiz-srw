@@ -1,4 +1,4 @@
-import {IQuestion} from "../../shared/types/IQuestion";
+import {IQuestion} from "../../shared/types/questions";
 import pic from "../../shared/images/TemporaryPicture.jpg";
 import secondPic from "../../shared/images/TempPic2.jpg";
 

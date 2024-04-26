@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import {
     Box,
     Grid,
@@ -9,10 +9,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import PlaceIcon from '@mui/icons-material/Place';
 import {Placemark, Map, useYMaps} from "@pbe/react-yandex-maps";
 import {useAppDispatch, useAppSelector} from "../../shared/hooks/redux";
-import {coordinatesSlice} from "../../store/reducers/CoordinatesSlice";
-import {useNavigate} from "react-router-dom";
-import {getAuthDataFromLS} from "../../store/action-creators/auth";
-import {createQuestion} from "../../store/action-creators/questions";
+import {useNavigate, useParams} from "react-router-dom";
 import {useAction} from "../../shared/hooks/useAction";
 import {GameBox, GameButton, GameText, GameTitle, HideHintButton, HintText} from "../GameBox/GameBox.styled";
 import {AbsolutButton, AddStepBox, StepBox, StepBoxesWrapper} from "./CreateQuestionBox.styled";
@@ -22,18 +19,26 @@ import FormDialog from "../Dialogs/FormDialog";
 import CreateStepDialog from "../Dialogs/CreateStepDialog";
 import StepSettingDialog from "../Dialogs/StepSettingDialog";
 import {IStep} from "../../shared/types/IStep";
+import {useFetchQuizCoordinatesQuery} from "../../store/api/coordinatesApi";
+import {ICoordinates} from "../../shared/types/coordinates";
+import Loader from "../Loader/Loader";
+
+interface ICreateQuestionBoxProps {
+    currentCoordinates: ICoordinates,
+    setCurrentCoordinates: React.Dispatch<React.SetStateAction<ICoordinates>>
+}
 
 
-const CreateQuestionBox: FC = () => {
+const CreateQuestionBox: FC<ICreateQuestionBoxProps> = ({currentCoordinates, setCurrentCoordinates}) => {
     const ymaps = useYMaps(['package.full']);
 
+    // TODO: refactor later
     const [question, setQuestion] = useState<IQuestionForm>({
         title: '',
         description: '',
         time: 90,
         steps: [],
     })
-
     const [descToChange, setDescToChange] = useState<string>('')
     const [stepToChange, setStepToChange] = useState<number>(0)
     const [showHint, setShowHint] = useState<boolean>(true)
@@ -41,29 +46,35 @@ const CreateQuestionBox: FC = () => {
     const [showSettingModal, setShowSettingModal] = useState<boolean>(false)
     const [showStepModal, setShowStepModal] = useState<boolean>(false)
 
-    const {coordinates} = useAppSelector(state => state.coordinates)
-    const {isLoading ,error} = useAppSelector(state => state.questions)
-    const {changeCoordinates} = coordinatesSlice.actions
-
     const dispatch = useAppDispatch()
     const addSnack = useAction()
     const navigate = useNavigate()
 
+    const { id } = useParams();
 
+    const {
+        data: coordinatesList,
+        error,
+        isLoading,
+        isFetching
+    } = useFetchQuizCoordinatesQuery(Number(id))
 
     const isSameCoord = useCallback((step: IStep) => {
-        return step.coordinates[0] === coordinates[0] && step.coordinates[1] === coordinates[1]
-    }, [coordinates, question.steps]);
+        return step.coordinates.lat === currentCoordinates.lat && step.coordinates.lng === currentCoordinates.lng
+    }, [currentCoordinates, question.steps]);
 
-    const movePlacemark = (coord: any) => {
+    const movePlacemark = (newCoordinates: number[]) => {
         if(ymaps !== null) {
-            let locateRequest = ymaps.panorama.locate( coord);
+            let locateRequest = ymaps.panorama.locate( newCoordinates);
 
             locateRequest.then(
                 // @ts-ignore
                 function (panoramas) {
                     if (panoramas.length) {
-                        dispatch(changeCoordinates(coord))
+                        setCurrentCoordinates({
+                            lat: newCoordinates[0],
+                            lng: newCoordinates[1]
+                        })
                     } else {
                         new Audio(warningSound).play()
                         addSnack("Для заданной точки не найдено ни одной панорамы", "warning")
@@ -71,7 +82,7 @@ const CreateQuestionBox: FC = () => {
                 }
             );
         } else {
-            console.log('YPlayer or ymaps is null')
+            console.error('YPlayer or ymaps is null')
         }
     }
 
@@ -85,24 +96,24 @@ const CreateQuestionBox: FC = () => {
             return;
         }
 
-        const authData = dispatch(getAuthDataFromLS());
+        // const authData = dispatch(getAuthDataFromLS());
+        //
+        // const createData = await dispatch(createQuestion({
+        //     url: '/question',
+        //     question: {
+        //         name: question.title,
+        //         coordinates: coordinates,
+        //         date: new Date(Date.now())
+        //     },
+        //     token: authData.access_token
+        // }));
 
-        const createData = await dispatch(createQuestion({
-            url: '/question',
-            question: {
-                name: question.title,
-                coordinates: coordinates,
-                date: new Date(Date.now())
-            },
-            token: authData.access_token
-        }));
-
-        if (!createData) {
-            addSnack(`Ошибка в создании, попробуйте снова. ${error}`, 'error')
-        } else {
-            addSnack(`Успешно создан!`, 'success')
-            navigate('/main')
-        }
+        // if (!createData) {
+        //     addSnack(`Ошибка в создании, попробуйте снова. ${error}`, 'error')
+        // } else {
+        //     addSnack(`Успешно создан!`, 'success')
+        //     navigate('/main')
+        // }
     }
 
     const handleOpenSetting = (index: number) => {
@@ -117,7 +128,7 @@ const CreateQuestionBox: FC = () => {
         let step: IStep = {...steps[stepToChange]};
         step.desc = newDesc;
         if (doesCoordChange) {
-            step.coordinates = [...coordinates];
+            step.coordinates = currentCoordinates;
         }
         steps[stepToChange] = step;
 
@@ -130,6 +141,28 @@ const CreateQuestionBox: FC = () => {
             array.splice(index, 1);
             setQuestion({...question, steps: array})
         }
+    }
+
+    const handleMoveToStepCoordinates = (stepCoordinates: ICoordinates) => {
+        setCurrentCoordinates(stepCoordinates)
+    }
+
+    useEffect(() => {
+        if(coordinatesList) {
+            setQuestion((prevState) => ({
+                ...prevState,
+                    steps: coordinatesList.map((coordinatesItem) => {
+                        return {
+                            coordinates: coordinatesItem,
+                            desc: ''
+                        }
+                    })
+            }))
+        }
+    }, [coordinatesList, isLoading]);
+
+    if (isLoading || isFetching) {
+        return <Loader/>
     }
 
     return (
@@ -162,7 +195,7 @@ const CreateQuestionBox: FC = () => {
                             // Function to add placemarks to the map; TODO: find type of event
                             onClick={(e: any) => movePlacemark(e._sourceEvent.originalEvent.coords)}
                         >
-                            {coordinates?.length !== 0 && <Placemark geometry={coordinates}></Placemark>}
+                            <Placemark geometry={[currentCoordinates.lat, currentCoordinates.lng]}></Placemark>
                         </Map>
                     </Box>
                     <GameText component='div'>{question.steps.length}/10 этапов</GameText>
@@ -175,7 +208,7 @@ const CreateQuestionBox: FC = () => {
                                     variant="contained"
                                     left={'4px'}
                                     top={'4px'}
-                                    onClick={() => dispatch(changeCoordinates(step.coordinates))}
+                                    onClick={() => handleMoveToStepCoordinates(step.coordinates)}
                                 >
                                     <PlaceIcon sx={{width: '20px', height: '20px', color: '#FFFFFF'}}/>
                                 </AbsolutButton>
@@ -206,7 +239,7 @@ const CreateQuestionBox: FC = () => {
                 setIsOpen={setShowStepModal}
                 question={question}
                 setQuestion={setQuestion}
-                coordinates={coordinates}
+                coordinates={currentCoordinates}
             />
             {question.steps.length > 0 &&
                 <StepSettingDialog
@@ -214,7 +247,7 @@ const CreateQuestionBox: FC = () => {
                     setIsOpen={setShowSettingModal}
                     question={question}
                     handleStepChanges={handleStepChanges}
-                    coordinates={coordinates}
+                    coordinates={currentCoordinates}
                     index={stepToChange}
                     description={descToChange}
                 />}

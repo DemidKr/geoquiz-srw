@@ -10,7 +10,7 @@ import '../Map.css'
 import StepDialog from "../components/Dialogs/StepDialog";
 import ResultDialog from "../components/Dialogs/ResultDialog";
 import {useFetchQuestionQuery} from "../store/api/questionApi";
-import {ICoordinates} from "../shared/types/ICoordinates";
+import {ICoordinates} from "../shared/types/coordinates";
 import Loader from "../components/Loader/Loader";
 
 

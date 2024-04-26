@@ -8,6 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {Theme} from "../../store/reducers/ThemeSlice";
 import {AbsolutButton} from "../CreateQuestionBox/CreateQuestionBox.styled";
 import {useAppSelector} from "../../shared/hooks/redux";
+import {DEFAULT_COORDINATES} from "../../shared/consts";
 
 interface FormDialogProps {
     question: IQuestionForm,
@@ -79,7 +80,10 @@ const FormDialog: FC<FormDialogProps> = ({question, setQuestion, isOpen, setIsOp
                         sx={{width: '100%', height: '100%'}}
                         className="rounded-map"
                         defaultState={{
-                            center: question.steps.length ? question.steps[0].coordinates : [47.23620154498959, 39.712672605191955],
+                            center:
+                                question.steps.length
+                                    ? [question.steps[0].coordinates.lat, question.steps[0].coordinates.lng]
+                                    : [DEFAULT_COORDINATES.lat, DEFAULT_COORDINATES.lng],
                             zoom: 9,
                             controls: []
                         }}

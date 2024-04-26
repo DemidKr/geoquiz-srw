@@ -1,23 +1,9 @@
-import {IGetQuestions, IGetUserQuestions} from "../../shared/types/IGetQuestions";
+import {IGetUserQuestions} from "../../shared/types/IGetQuestions";
 import {AppDispatch} from "../store";
 import {questionsSlice} from "../reducers/QuestionsSlice";
 import api from "../../services/axiosClient";
 import {ICreateQuestion} from "../../shared/types/ICreateQuestion";
 import {IDeleteQuestion} from "../../shared/types/IDeleteQuestion";
-
-
-export const getQuestions = ({ url}: IGetQuestions) => async (dispatch: AppDispatch) => {
-    try {
-        dispatch(questionsSlice.actions.questionsFetching())
-        const response = await api.get(url);
-        console.log("response", response.data)
-        dispatch(questionsSlice.actions.questionsFetchingSuccess(response.data))
-
-        return response;
-    } catch (e: any) {
-        dispatch(questionsSlice.actions.questionsFetchingError(e.message))
-    }
-}
 
 export const getUserQuestions = ({ url, token }: IGetUserQuestions) => async (dispatch: AppDispatch) => {
     try {

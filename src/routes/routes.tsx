@@ -35,7 +35,7 @@ export const publicRoutes: Array<IRouter> = [
         element: <QuestionListPage />,
     },
     {
-        path: AppPaths.QUESTION,
+        path: `${AppPaths.QUESTION}/:id`,
         element: <QuestionPage />,
     },
     { path: '*', element: <Navigate to={AppPaths.MAIN} replace /> },
@@ -59,11 +59,11 @@ export const userRoutes: Array<IRouter> = [
         element: <QuestionListPage />,
     },
     {
-        path: AppPaths.QUESTION,
+        path: `${AppPaths.QUESTION}/:id`,
         element: <QuestionPage />,
     },
     {
-        path: AppPaths.CREATE_QUESTION,
+        path: `${AppPaths.CREATE_QUESTION}/:id`,
         element: <CreateQuestionPage />,
     },
     {
@@ -97,11 +97,11 @@ export const adminRoutes: Array<IRouter> = [
         element: <QuestionListPage />,
     },
     {
-        path: AppPaths.QUESTION,
+        path: `${AppPaths.QUESTION}/:id`,
         element: <QuestionPage />,
     },
     {
-        path: AppPaths.CREATE_QUESTION,
+        path: `${AppPaths.CREATE_QUESTION}/:id`,
         element: <CreateQuestionPage />,
     },
     {
