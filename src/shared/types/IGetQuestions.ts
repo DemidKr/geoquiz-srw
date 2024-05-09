@@ -1,8 +1,8 @@
 export interface IGetQuestions {
-    url: string;
+  url: string;
 }
 
 export interface IGetUserQuestions {
-    url: string;
-    token: string;
+  url: string;
+  token: string;
 }

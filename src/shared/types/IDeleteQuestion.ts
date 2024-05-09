@@ -1,5 +1,5 @@
-import {IGetUserQuestions} from "./IGetQuestions";
+import { IGetUserQuestions } from "./IGetQuestions";
 
 export interface IDeleteQuestion extends IGetUserQuestions {
-    id: number;
+  id: number;
 }
