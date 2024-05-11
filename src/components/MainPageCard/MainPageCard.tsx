@@ -4,12 +4,12 @@ import { IMainPageCard } from "../../shared/types/IMainPageCard";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../shared/hooks/redux";
 
-const MainPageCard: FC<IMainPageCard> = ({
-  title,
-  desc,
-  icon,
-  link,
-  isAuthRequired,
+interface IMainPageCardProps {
+  card: IMainPageCard;
+}
+
+const MainPageCard: FC<IMainPageCardProps> = ({
+  card: { title, desc, icon, link, isAuthRequired },
 }) => {
   const { isAuth } = useAppSelector(state => state.user);
 

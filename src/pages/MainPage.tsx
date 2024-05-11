@@ -80,8 +80,8 @@ const MainPage = () => {
           gap: "50px",
           alignItems: "center",
         }}>
-        {cardItems.map((item, index) => (
-          <MainPageCard key={index} props={item} />
+        {cardItems.map((card, index) => (
+          <MainPageCard key={index} card={card} />
         ))}
       </Container>
     </>

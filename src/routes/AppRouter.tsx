@@ -1,23 +1,11 @@
 import { Route, Routes } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../shared/hooks/redux";
+import { useAppSelector } from "../shared/hooks/redux";
 import { adminRoutes, publicRoutes, userRoutes } from "./routes";
-import React, { useEffect } from "react";
-import { useSnackbar } from "notistack";
+import React from "react";
+import Loader from "../components/Loader/Loader";
 
 const AppRouter = () => {
-  const { isAuth, role } = useAppSelector(store => store.user);
-  const { snack } = useAppSelector(store => store.snackbar);
-  const { enqueueSnackbar } = useSnackbar();
-
-  useEffect(() => {
-    if (snack && snack.id) {
-      enqueueSnackbar(snack.message, {
-        autoHideDuration: 4000,
-        variant: snack.variant,
-        key: snack.id,
-      });
-    }
-  }, [snack, enqueueSnackbar]);
+  const { isAuth, role, isLoading } = useAppSelector(store => store.user);
 
   const getRouts = () => {
     if (!isAuth) {
@@ -27,6 +15,11 @@ const AppRouter = () => {
       return userRoutes;
     }
   };
+  console.log("isLoading", isLoading);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <Routes>

@@ -18,7 +18,7 @@ const initialState: UserState = {
   isAuth: false,
   username: "",
   role: defaultRole,
-  isLoading: false,
+  isLoading: true,
   error: "",
 };
 
