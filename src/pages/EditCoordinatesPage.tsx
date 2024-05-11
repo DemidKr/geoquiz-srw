@@ -2,11 +2,11 @@ import React, { FC, useState } from "react";
 import { Grid } from "@mui/material";
 import { Panorama } from "@pbe/react-yandex-maps";
 import { MapWrapper } from "../components/Map/Map.styled";
-import CreateQuestionBox from "../components/CreateQuestionBox/CreateQuestionBox";
+import EditCoordinatesBox from "../components/EditCoordinatesBox/EditCoordinatesBox";
 import { ICoordinates } from "../shared/types/coordinates";
 import { DEFAULT_COORDINATES } from "../shared/consts";
 
-const CreateQuestionPage: FC = () => {
+const EditCoordinatesPage: FC = () => {
   const [currentCoordinates, setCurrentCoordinates] =
     useState<ICoordinates>(DEFAULT_COORDINATES);
 
@@ -28,7 +28,7 @@ const CreateQuestionPage: FC = () => {
           </MapWrapper>
         </Grid>
       </Grid>
-      <CreateQuestionBox
+      <EditCoordinatesBox
         currentCoordinates={currentCoordinates}
         setCurrentCoordinates={setCurrentCoordinates}
       />
@@ -36,4 +36,4 @@ const CreateQuestionPage: FC = () => {
   );
 };
 
-export default CreateQuestionPage;
+export default EditCoordinatesPage;

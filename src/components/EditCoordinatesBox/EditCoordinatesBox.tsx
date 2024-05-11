@@ -21,23 +21,27 @@ import {
   AddStepBox,
   StepBox,
   StepBoxesWrapper,
-} from "./CreateQuestionBox.styled";
+} from "./EditCoordinatesBox.styled";
 import warningSound from "../../shared/sounds/warning.wav";
 import { IQuestionForm } from "../../shared/types/IQuestionForm";
 import FormDialog from "../Dialogs/FormDialog";
 import CreateStepDialog from "../Dialogs/CreateStepDialog";
 import StepSettingDialog from "../Dialogs/StepSettingDialog";
 import { IStep } from "../../shared/types/IStep";
-import { useFetchQuizCoordinatesQuery } from "../../store/api/coordinatesApi";
+import {
+  useCreateCoordinatesMutation,
+  useFetchQuizCoordinatesQuery,
+} from "../../store/api/coordinatesApi";
 import { ICoordinates } from "../../shared/types/coordinates";
 import Loader from "../Loader/Loader";
+import { AppPaths } from "../../shared/consts";
 
-interface ICreateQuestionBoxProps {
+interface IEditCoordinatesBoxProps {
   currentCoordinates: ICoordinates;
   setCurrentCoordinates: React.Dispatch<React.SetStateAction<ICoordinates>>;
 }
 
-const CreateQuestionBox: FC<ICreateQuestionBoxProps> = ({
+const EditCoordinatesBox: FC<IEditCoordinatesBoxProps> = ({
   currentCoordinates,
   setCurrentCoordinates,
 }) => {
@@ -71,7 +75,9 @@ const CreateQuestionBox: FC<ICreateQuestionBoxProps> = ({
     isFetching,
   } = useFetchQuizCoordinatesQuery(Number(id));
 
-  const isSameCoord = useCallback(
+  const [createCoordinates, result] = useCreateCoordinatesMutation();
+
+  const getIsCoordinatesIdentical = useCallback(
     (step: IStep) => {
       return (
         step.coordinates.lat === currentCoordinates.lat &&
@@ -107,34 +113,18 @@ const CreateQuestionBox: FC<ICreateQuestionBoxProps> = ({
     }
   };
 
-  const handleCreate = async () => {
-    // for testing
-    navigate("/main");
-    return;
-
-    if (question.title.length === 0) {
-      addSnack("Название не должно быть пустым", "warning");
+  const handleSave = async () => {
+    if (question.steps.length === 0) {
+      addSnack("Добавьте шаги, прежде чем сохранять", "warning");
       return;
     }
 
-    // const authData = dispatch(getAuthDataFromLS());
-    //
-    // const createData = await dispatch(createQuestion({
-    //     url: '/question',
-    //     question: {
-    //         name: question.title,
-    //         coordinates: coordinates,
-    //         date: new Date(Date.now())
-    //     },
-    //     token: authData.access_token
-    // }));
-
-    // if (!createData) {
-    //     addSnack(`Ошибка в создании, попробуйте снова. ${error}`, 'error')
-    // } else {
-    //     addSnack(`Успешно создан!`, 'success')
-    //     navigate('/main')
-    // }
+    createCoordinates({
+      questionId: Number(id),
+      coordinates: question.steps.map(step => {
+        return step.coordinates;
+      }),
+    });
   };
 
   const handleOpenSetting = (index: number) => {
@@ -182,6 +172,13 @@ const CreateQuestionBox: FC<ICreateQuestionBoxProps> = ({
       }));
     }
   }, [coordinatesList, isLoading]);
+
+  useEffect(() => {
+    // TODO: change to publish page if ready
+    if (result.data) {
+      navigate(AppPaths.MAIN);
+    }
+  }, [result]);
 
   if (isLoading || isFetching) {
     return <Loader />;
@@ -238,7 +235,9 @@ const CreateQuestionBox: FC<ICreateQuestionBoxProps> = ({
               <StepBox key={index}>
                 {index + 1}
                 <AbsolutButton
-                  color={isSameCoord(step) ? "success" : "primary"}
+                  color={
+                    getIsCoordinatesIdentical(step) ? "success" : "primary"
+                  }
                   variant="contained"
                   left={"4px"}
                   top={"4px"}
@@ -305,10 +304,10 @@ const CreateQuestionBox: FC<ICreateQuestionBoxProps> = ({
         setQuestion={setQuestion}
         isOpen={showModal}
         setIsOpen={setShowModal}
-        handleCreate={handleCreate}
+        handleCreate={handleSave}
       />
     </>
   );
 };
 
-export default CreateQuestionBox;
+export default EditCoordinatesBox;

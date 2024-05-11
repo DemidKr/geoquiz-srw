@@ -100,9 +100,7 @@ const QuestionCard: FC<QuestionCardProps> = ({
           </QuestionCardWrapper>
         </QuestionCardColumn>
         <QuestionCardBtnWrapper>
-          <TranslucentButton
-            link={`${AppPaths.CREATE_QUESTION}/${question.id}`}
-          />
+          <TranslucentButton link={`${AppPaths.QUESTION}/${question.id}`} />
         </QuestionCardBtnWrapper>
       </QuestionCardContainer>
     </>

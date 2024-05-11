@@ -1,19 +1,16 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { BASE_URL } from "../../shared/consts";
-import { ICoordinates } from "../../shared/types/coordinates";
+import {
+  ICoordinates,
+  ICreateCoordinatesRequest,
+} from "../../shared/types/coordinates";
+import { prepareBaseHeaders } from "../../shared/utils/prepareBaseHeaders";
 
 export const coordinatesApi = createApi({
   reducerPath: "coordinatesApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${BASE_URL}/coordinates`,
-    prepareHeaders: (headers, { getState }) => {
-      // By default, if we have a token in the store, let's use that for authenticated requests
-      const token = JSON.parse(localStorage.getItem("auth") as string);
-      if (token) {
-        headers.set("authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
+    prepareHeaders: prepareBaseHeaders,
   }),
   endpoints: build => ({
     fetchQuizCoordinates: build.query<ICoordinates[], number>({
@@ -21,7 +18,17 @@ export const coordinatesApi = createApi({
         url: `question/${questionId}`,
       }),
     }),
+    createCoordinates: build.mutation<number, ICreateCoordinatesRequest>({
+      query: body => {
+        return {
+          url: "",
+          method: "POST",
+          body: body,
+        };
+      },
+    }),
   }),
 });
 
-export const { useFetchQuizCoordinatesQuery } = coordinatesApi;
+export const { useFetchQuizCoordinatesQuery, useCreateCoordinatesMutation } =
+  coordinatesApi;

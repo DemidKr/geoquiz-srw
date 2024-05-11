@@ -22,7 +22,7 @@ import {
 import { IQuestionForm } from "../../shared/types/IQuestionForm";
 import { GameText } from "../GameBox/GameBox.styled";
 import CloseIcon from "@mui/icons-material/Close";
-import { AbsolutButton } from "../CreateQuestionBox/CreateQuestionBox.styled";
+import { AbsolutButton } from "../EditCoordinatesBox/EditCoordinatesBox.styled";
 import { useAppSelector } from "../../shared/hooks/redux";
 import { Theme } from "../../store/reducers/ThemeSlice";
 import { ICoordinates } from "../../shared/types/coordinates";

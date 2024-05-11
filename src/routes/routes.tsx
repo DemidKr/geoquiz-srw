@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import QuestionListPage from "../pages/QuestionListPage/QuestionListPage";
-import CreateQuestionPage from "../pages/CreateQuestionPage";
+import EditCoordinatesPage from "../pages/EditCoordinatesPage";
 import QuestionPage from "../pages/QuestionPage";
 import UserQuestionPage from "../pages/UserQuestionPage";
 import MainPage from "../pages/MainPage";
@@ -63,8 +63,8 @@ export const userRoutes: Array<IRouter> = [
     element: <QuestionPage />,
   },
   {
-    path: `${AppPaths.CREATE_QUESTION}/:id`,
-    element: <CreateQuestionPage />,
+    path: `${AppPaths.EDIT_COORDINATES}/:id`,
+    element: <EditCoordinatesPage />,
   },
   {
     path: AppPaths.USER_QUESTIONS,
@@ -100,8 +100,8 @@ export const adminRoutes: Array<IRouter> = [
     element: <QuestionPage />,
   },
   {
-    path: `${AppPaths.CREATE_QUESTION}/:id`,
-    element: <CreateQuestionPage />,
+    path: `${AppPaths.EDIT_COORDINATES}/:id`,
+    element: <EditCoordinatesPage />,
   },
   {
     path: AppPaths.USER_QUESTIONS,

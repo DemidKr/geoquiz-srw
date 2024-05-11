@@ -70,7 +70,7 @@ const CreateQuizPage = () => {
   };
 
   const handleDescriptionChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     setDescription(event.target.value);
   };
@@ -146,7 +146,7 @@ const CreateQuizPage = () => {
 
   useEffect(() => {
     if (result.data) {
-      navigate(`${AppPaths.CREATE_QUESTION}/${result.data}`);
+      navigate(`${AppPaths.EDIT_COORDINATES}/${result.data}`);
     }
   }, [result]);
 
@@ -167,7 +167,7 @@ const CreateQuizPage = () => {
               value={description}
               onChange={handleDescriptionChange}
               multiline
-              maxRows={1}
+              maxRows={5}
               required
             />
             <S.ImgInputButton variant="contained" component="label">

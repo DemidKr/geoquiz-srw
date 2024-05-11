@@ -6,19 +6,13 @@ import {
   IQuestionResponse,
 } from "../../shared/types/questions";
 import { BASE_URL } from "../../shared/consts";
+import { prepareBaseHeaders } from "../../shared/utils/prepareBaseHeaders";
 
 export const questionApi = createApi({
   reducerPath: "questionApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${BASE_URL}/question`,
-    prepareHeaders: (headers, { getState }) => {
-      // By default, if we have a token in the store, let's use that for authenticated requests
-      const token = JSON.parse(localStorage.getItem("auth") as string);
-      if (token) {
-        headers.set("authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
+    prepareHeaders: prepareBaseHeaders,
   }),
   endpoints: build => ({
     fetchAllQuestions: build.query<

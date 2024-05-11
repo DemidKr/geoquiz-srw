@@ -5,15 +5,16 @@ import {
   CustomDialogTitle,
   DialogButton,
 } from "./Dialog.styled";
-import { Box, DialogActions, Slider, TextField } from "@mui/material";
+import { Box, DialogActions } from "@mui/material";
 import { Map, Placemark } from "@pbe/react-yandex-maps";
 import { IQuestionForm } from "../../shared/types/IQuestionForm";
 import { GameText } from "../GameBox/GameBox.styled";
 import CloseIcon from "@mui/icons-material/Close";
 import { Theme } from "../../store/reducers/ThemeSlice";
-import { AbsolutButton } from "../CreateQuestionBox/CreateQuestionBox.styled";
+import { AbsolutButton } from "../EditCoordinatesBox/EditCoordinatesBox.styled";
 import { useAppSelector } from "../../shared/hooks/redux";
 import { DEFAULT_COORDINATES } from "../../shared/consts";
+import { transformCoordinatesToArray } from "../../shared/utils/transformCoordinatesToArray";
 
 interface FormDialogProps {
   question: IQuestionForm;
@@ -23,29 +24,13 @@ interface FormDialogProps {
   handleCreate: () => void;
 }
 
-const marks = [
-  {
-    value: 10,
-    label: "10",
-  },
-  {
-    value: 90,
-    label: "90",
-  },
-];
-
 const FormDialog: FC<FormDialogProps> = ({
   question,
-  setQuestion,
   isOpen,
   setIsOpen,
   handleCreate,
 }) => {
   const { theme } = useAppSelector(state => state.theme);
-
-  const handleSliderChange = (event: Event, newValue: number | number[]) => {
-    setQuestion({ ...question, time: newValue as number });
-  };
 
   const handleClose = () => {
     setIsOpen(false);
@@ -64,45 +49,14 @@ const FormDialog: FC<FormDialogProps> = ({
         />
       </AbsolutButton>
       <CustomDialogContent>
-        <TextField
-          fullWidth
-          sx={{ mt: "5px" }}
-          label="Название"
-          value={question.title}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setQuestion({ ...question, title: event.target.value });
-          }}
-        />
-        <TextField
-          fullWidth
-          label="Описание"
-          value={question.description}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setQuestion({ ...question, description: event.target.value });
-          }}
-        />
-        <GameText component="div">Время на прохождение: </GameText>
-        <Slider
-          aria-label="Custom marks"
-          value={question.time}
-          onChange={handleSliderChange}
-          defaultValue={45}
-          min={10}
-          max={90}
-          valueLabelDisplay="auto"
-          marks={marks}
-        />
         <Box sx={{ width: "100%", height: "200px" }}>
           <Map
             sx={{ width: "100%", height: "100%" }}
             className="rounded-map"
             defaultState={{
               center: question.steps.length
-                ? [
-                    question.steps[0].coordinates.lat,
-                    question.steps[0].coordinates.lng,
-                  ]
-                : [DEFAULT_COORDINATES.lat, DEFAULT_COORDINATES.lng],
+                ? transformCoordinatesToArray(question.steps[0].coordinates)
+                : transformCoordinatesToArray(DEFAULT_COORDINATES),
               zoom: 9,
               controls: [],
             }}
@@ -116,7 +70,7 @@ const FormDialog: FC<FormDialogProps> = ({
               <Placemark
                 key={index}
                 options={{ preset: "islands#greenIcon" }}
-                geometry={step.coordinates}
+                geometry={transformCoordinatesToArray(step.coordinates)}
                 properties={{
                   iconContent: index + 1,
                   hintContent: "Нажми, чтобы открыть описание",

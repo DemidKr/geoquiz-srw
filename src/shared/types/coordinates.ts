@@ -6,3 +6,10 @@ export interface ICoordinates {
   createdAt?: string;
   updatedAt?: string;
 }
+
+type ISimpleCoordinates = Pick<ICoordinates, "lat" | "lng">;
+
+export interface ICreateCoordinatesRequest {
+  questionId: number;
+  coordinates: Array<ISimpleCoordinates>;
+}
