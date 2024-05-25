@@ -6,7 +6,7 @@ import { setupStore } from "./store/store";
 import { YMaps } from "@pbe/react-yandex-maps";
 import { SnackbarProvider } from "notistack";
 
-const store = setupStore();
+export const store = setupStore();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,

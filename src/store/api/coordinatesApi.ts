@@ -1,34 +1,62 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { BASE_URL } from "../../shared/consts";
+import { createApi } from "@reduxjs/toolkit/dist/query/react";
 import {
   ICoordinates,
-  ICreateCoordinatesRequest,
+  ICreateUpdateOneCoordinatesRequest,
+  IUpdateCoordinates,
 } from "../../shared/types/coordinates";
-import { prepareBaseHeaders } from "../../shared/utils/prepareBaseHeaders";
+import { baseQueryWithReauth } from "../../shared/utils/prepareBaseHeaders";
 
 export const coordinatesApi = createApi({
   reducerPath: "coordinatesApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${BASE_URL}/coordinates`,
-    prepareHeaders: prepareBaseHeaders,
-  }),
+  baseQuery: baseQueryWithReauth,
+  // baseQuery: fetchBaseQuery({
+  //   baseUrl: `${BASE_URL}/coordinates`,
+  //   prepareHeaders: prepareBaseHeaders,
+  // }),
+  tagTypes: ["Coordinates"],
   endpoints: build => ({
     fetchQuizCoordinates: build.query<ICoordinates[], number>({
       query: questionId => ({
-        url: `question/${questionId}`,
+        url: `/coordinates/question/${questionId}`,
       }),
+      providesTags: ["Coordinates"],
     }),
-    createCoordinates: build.mutation<number, ICreateCoordinatesRequest>({
+    createCoordinates: build.mutation<
+      ICoordinates,
+      ICreateUpdateOneCoordinatesRequest
+    >({
       query: body => {
         return {
-          url: "",
+          url: "/coordinates/one",
           method: "POST",
           body: body,
         };
       },
+      invalidatesTags: ["Coordinates"],
+    }),
+    updateCoordinates: build.mutation<ICoordinates, IUpdateCoordinates>({
+      query: request => {
+        return {
+          url: `/coordinates/${request.id}`,
+          method: "PUT",
+          body: request.body,
+        };
+      },
+      invalidatesTags: ["Coordinates"],
+    }),
+    deleteCoordinates: build.mutation<void, number>({
+      query: id => ({
+        url: `/coordinates/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Coordinates"],
     }),
   }),
 });
 
-export const { useFetchQuizCoordinatesQuery, useCreateCoordinatesMutation } =
-  coordinatesApi;
+export const {
+  useFetchQuizCoordinatesQuery,
+  useCreateCoordinatesMutation,
+  useUpdateCoordinatesMutation,
+  useDeleteCoordinatesMutation,
+} = coordinatesApi;

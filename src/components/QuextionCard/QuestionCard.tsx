@@ -62,11 +62,11 @@ const QuestionCard: FC<QuestionCardProps> = ({
     <>
       <QuestionCardContainer
         imageUrl={`${process.env.REACT_APP_SERVER_URL}/${question.imageUrl}`}>
-        <QuestionCardWarningContainer>
-          <Tooltip title="Квиз не опубликован" leaveDelay={200}>
-            <WarningIcon color="warning" />
-          </Tooltip>
-        </QuestionCardWarningContainer>
+        {/*<QuestionCardWarningContainer>*/}
+        {/*  <Tooltip title="Квиз не опубликован" leaveDelay={200}>*/}
+        {/*    <WarningIcon color="warning" />*/}
+        {/*  </Tooltip>*/}
+        {/*</QuestionCardWarningContainer>*/}
         <QuestionCardColumn>
           <QuestionCardTitle>{question.title.toUpperCase()}</QuestionCardTitle>
           <QuestionCardWrapper>

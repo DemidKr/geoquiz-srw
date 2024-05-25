@@ -1,4 +1,10 @@
-import React, { Dispatch, FC, SetStateAction, useState } from "react";
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import {
   CustomDialogBox,
   CustomDialogContent,
@@ -14,12 +20,16 @@ import { Theme } from "../../store/reducers/ThemeSlice";
 import { AbsolutButton } from "../EditCoordinatesBox/EditCoordinatesBox.styled";
 import { useAppSelector } from "../../shared/hooks/redux";
 import { ICoordinates } from "../../shared/types/coordinates";
+import { useCreateCoordinatesMutation } from "../../store/api/coordinatesApi";
+import { useParams } from "react-router-dom";
+import { useAction } from "../../shared/hooks/useAction";
+import ButtonLoader from "../Loader/ButtonLoader";
+import { IStep } from "../../shared/types/IStep";
 
 interface CreateStepDialogProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   question: IQuestionForm;
-  setQuestion: Dispatch<SetStateAction<IQuestionForm>>;
   coordinates: ICoordinates;
 }
 
@@ -27,26 +37,49 @@ const CreateStepDialog: FC<CreateStepDialogProps> = ({
   isOpen,
   setIsOpen,
   question,
-  setQuestion,
   coordinates,
 }) => {
-  const { theme } = useAppSelector(state => state.theme);
+  const [description, setDescription] = useState<string>("");
 
-  const [desc, setDesc] = useState<string>("");
+  const { theme } = useAppSelector(state => state.theme);
+  const { id } = useParams();
+  const addSnack = useAction();
+
+  const [createCoordinates, result] = useCreateCoordinatesMutation();
+
+  const isLoading = result.isLoading;
+
+  const getIsCoordinatesIdentical = (step: IStep) => {
+    return (
+      step.coordinates.lat === coordinates.lat &&
+      step.coordinates.lng === coordinates.lng
+    );
+  };
 
   const handleStepChanges = () => {
-    setQuestion({
-      ...question,
-      steps: [...question.steps, { coordinates, desc }],
+    if (question.steps.some(getIsCoordinatesIdentical)) {
+      addSnack("Шаг с данными координатами уже существует", "warning");
+      return;
+    }
+    createCoordinates({
+      questionId: Number(id),
+      lat: coordinates.lat,
+      lng: coordinates.lng,
+      description,
     });
-    setIsOpen(false);
-    setDesc("");
   };
 
   const handleClose = () => {
     setIsOpen(false);
-    setDesc("");
+    setDescription("");
   };
+
+  useEffect(() => {
+    if (result.data) {
+      addSnack("Этап викторины добавлен", "success");
+      handleClose();
+    }
+  }, [result]);
 
   return (
     <CustomDialogBox open={isOpen} onClose={handleClose}>
@@ -71,15 +104,18 @@ const CreateStepDialog: FC<CreateStepDialogProps> = ({
           fullWidth
           sx={{ mt: "5px" }}
           label="Описание локации"
-          value={desc}
+          value={description}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setDesc(event.target.value);
+            setDescription(event.target.value);
           }}
         />
       </CustomDialogContent>
       <DialogActions>
-        <DialogButton onClick={handleStepChanges} variant="contained">
-          Сохранить этап
+        <DialogButton
+          onClick={handleStepChanges}
+          variant="contained"
+          disabled={isLoading}>
+          Сохранить этап {isLoading && <ButtonLoader />}
         </DialogButton>
       </DialogActions>
     </CustomDialogBox>

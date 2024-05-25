@@ -15,7 +15,6 @@ const AppRouter = () => {
       return userRoutes;
     }
   };
-  console.log("isLoading", isLoading);
 
   if (isLoading) {
     return <Loader />;

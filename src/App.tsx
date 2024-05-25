@@ -54,7 +54,7 @@ const App: FC = () => {
       dispatch(themeSlice.actions.setTheme(defaultTheme));
     }
     const auth = dispatch(getAuthDataFromLS());
-    console.log("auth", auth);
+
     if (auth) {
       dispatch(getUserByToken(auth));
     } else {

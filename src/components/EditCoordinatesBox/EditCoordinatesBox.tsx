@@ -5,7 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PlaceIcon from "@mui/icons-material/Place";
 import { Placemark, Map, useYMaps } from "@pbe/react-yandex-maps";
-import { useAppDispatch, useAppSelector } from "../../shared/hooks/redux";
+import { useAppDispatch } from "../../shared/hooks/redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAction } from "../../shared/hooks/useAction";
 import {
@@ -19,6 +19,7 @@ import {
 import {
   AbsolutButton,
   AddStepBox,
+  LoaderWrapper,
   StepBox,
   StepBoxesWrapper,
 } from "./EditCoordinatesBox.styled";
@@ -29,12 +30,11 @@ import CreateStepDialog from "../Dialogs/CreateStepDialog";
 import StepSettingDialog from "../Dialogs/StepSettingDialog";
 import { IStep } from "../../shared/types/IStep";
 import {
-  useCreateCoordinatesMutation,
+  useDeleteCoordinatesMutation,
   useFetchQuizCoordinatesQuery,
 } from "../../store/api/coordinatesApi";
 import { ICoordinates } from "../../shared/types/coordinates";
-import Loader from "../Loader/Loader";
-import { AppPaths } from "../../shared/consts";
+import ButtonLoader from "../Loader/ButtonLoader";
 
 interface IEditCoordinatesBoxProps {
   currentCoordinates: ICoordinates;
@@ -54,7 +54,6 @@ const EditCoordinatesBox: FC<IEditCoordinatesBoxProps> = ({
     time: 90,
     steps: [],
   });
-  console.log("question", question);
   const [descToChange, setDescToChange] = useState<string>("");
   const [stepToChange, setStepToChange] = useState<number>(0);
   const [showHint, setShowHint] = useState<boolean>(true);
@@ -75,7 +74,7 @@ const EditCoordinatesBox: FC<IEditCoordinatesBoxProps> = ({
     isFetching,
   } = useFetchQuizCoordinatesQuery(Number(id));
 
-  const [createCoordinates, result] = useCreateCoordinatesMutation();
+  const [deleteCoordinates, result] = useDeleteCoordinatesMutation();
 
   const getIsCoordinatesIdentical = useCallback(
     (step: IStep) => {
@@ -118,39 +117,18 @@ const EditCoordinatesBox: FC<IEditCoordinatesBoxProps> = ({
       addSnack("Добавьте шаги, прежде чем сохранять", "warning");
       return;
     }
-
-    createCoordinates({
-      questionId: Number(id),
-      coordinates: question.steps.map(step => {
-        return step.coordinates;
-      }),
-    });
   };
 
   const handleOpenSetting = (index: number) => {
     setStepToChange(index);
-    setDescToChange(question.steps[index].desc);
+    setDescToChange(question.steps[index].description);
     setShowSettingModal(true);
   };
 
-  const handleStepChanges = (doesCoordChange: boolean, newDesc: string) => {
-    const steps: IStep[] = [...question.steps];
-
-    const step: IStep = { ...steps[stepToChange] };
-    step.desc = newDesc;
-    if (doesCoordChange) {
-      step.coordinates = currentCoordinates;
-    }
-    steps[stepToChange] = step;
-
-    setQuestion({ ...question, steps });
-  };
-
   const handleRemove = (index: number) => {
-    const array = [...question.steps]; // make a separate copy of the array
-    if (index !== -1) {
-      array.splice(index, 1);
-      setQuestion({ ...question, steps: array });
+    const id = question.steps[index].coordinates.id;
+    if (id) {
+      deleteCoordinates(id);
     }
   };
 
@@ -160,13 +138,12 @@ const EditCoordinatesBox: FC<IEditCoordinatesBoxProps> = ({
 
   useEffect(() => {
     if (coordinatesList) {
-      console.log("coordinatesList", coordinatesList);
       setQuestion(prevState => ({
         ...prevState,
         steps: coordinatesList.map(coordinatesItem => {
           return {
             coordinates: coordinatesItem,
-            desc: "",
+            description: coordinatesItem.description ?? "",
           };
         }),
       }));
@@ -174,15 +151,12 @@ const EditCoordinatesBox: FC<IEditCoordinatesBoxProps> = ({
   }, [coordinatesList, isLoading]);
 
   useEffect(() => {
-    // TODO: change to publish page if ready
-    if (result.data) {
-      navigate(AppPaths.MAIN);
+    if (result.isSuccess) {
+      addSnack("Этап викторины удален", "success");
     }
   }, [result]);
 
-  if (isLoading || isFetching) {
-    return <Loader />;
-  }
+  const isStepsLoading = isLoading || isFetching || result.isLoading;
 
   return (
     <>
@@ -231,41 +205,49 @@ const EditCoordinatesBox: FC<IEditCoordinatesBoxProps> = ({
           </Box>
           <GameText component="div">{question.steps.length}/10 этапов</GameText>
           <StepBoxesWrapper>
-            {question.steps.map((step, index) => (
-              <StepBox key={index}>
-                {index + 1}
-                <AbsolutButton
-                  color={
-                    getIsCoordinatesIdentical(step) ? "success" : "primary"
-                  }
-                  variant="contained"
-                  left={"4px"}
-                  top={"4px"}
-                  onClick={() => handleMoveToStepCoordinates(step.coordinates)}>
-                  <PlaceIcon
-                    sx={{ width: "20px", height: "20px", color: "#FFFFFF" }}
-                  />
-                </AbsolutButton>
-                <AbsolutButton
-                  variant="contained"
-                  right={"4px"}
-                  top={"4px"}
-                  onClick={() => handleOpenSetting(index)}>
-                  <SettingsIcon
-                    sx={{ width: "20px", height: "20px", color: "#FFFFFF" }}
-                  />
-                </AbsolutButton>
-                <AbsolutButton
-                  color="error"
-                  variant="contained"
-                  right={"4px"}
-                  bottom={"4px"}
-                  onClick={() => handleRemove(index)}>
-                  <DeleteIcon sx={{ width: "20px", height: "20px" }} />
-                </AbsolutButton>
-              </StepBox>
-            ))}
-            {question.steps.length < 10 && (
+            {isStepsLoading ? (
+              <LoaderWrapper>
+                <ButtonLoader />
+              </LoaderWrapper>
+            ) : (
+              question.steps.map((step, index) => (
+                <StepBox key={index}>
+                  {index + 1}
+                  <AbsolutButton
+                    color={
+                      getIsCoordinatesIdentical(step) ? "success" : "primary"
+                    }
+                    variant="contained"
+                    left={"4px"}
+                    top={"4px"}
+                    onClick={() =>
+                      handleMoveToStepCoordinates(step.coordinates)
+                    }>
+                    <PlaceIcon
+                      sx={{ width: "20px", height: "20px", color: "#FFFFFF" }}
+                    />
+                  </AbsolutButton>
+                  <AbsolutButton
+                    variant="contained"
+                    right={"4px"}
+                    top={"4px"}
+                    onClick={() => handleOpenSetting(index)}>
+                    <SettingsIcon
+                      sx={{ width: "20px", height: "20px", color: "#FFFFFF" }}
+                    />
+                  </AbsolutButton>
+                  <AbsolutButton
+                    color="error"
+                    variant="contained"
+                    right={"4px"}
+                    bottom={"4px"}
+                    onClick={() => handleRemove(index)}>
+                    <DeleteIcon sx={{ width: "20px", height: "20px" }} />
+                  </AbsolutButton>
+                </StepBox>
+              ))
+            )}
+            {!isStepsLoading && question.steps.length < 10 && (
               <AddStepBox onClick={() => setShowStepModal(true)}>
                 <AddIcon />
               </AddStepBox>
@@ -285,7 +267,6 @@ const EditCoordinatesBox: FC<IEditCoordinatesBoxProps> = ({
         isOpen={showStepModal}
         setIsOpen={setShowStepModal}
         question={question}
-        setQuestion={setQuestion}
         coordinates={currentCoordinates}
       />
       {question.steps.length > 0 && (
@@ -293,10 +274,9 @@ const EditCoordinatesBox: FC<IEditCoordinatesBoxProps> = ({
           isOpen={showSettingModal}
           setIsOpen={setShowSettingModal}
           question={question}
-          handleStepChanges={handleStepChanges}
           coordinates={currentCoordinates}
           index={stepToChange}
-          description={descToChange}
+          previousDescription={descToChange}
         />
       )}
       <FormDialog

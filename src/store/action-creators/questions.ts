@@ -13,7 +13,6 @@ export const getUserQuestions =
       const response = await api.get(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("response", response.data);
       dispatch(questionsSlice.actions.questionsFetchingSuccess(response.data));
 
       return response;
@@ -32,7 +31,6 @@ export const createQuestion =
         { ...question },
         { headers: { Authorization: `Bearer ${token}` } },
       );
-      console.log("response", response.data);
       dispatch(questionsSlice.actions.questionsCreatingSuccess(response.data));
 
       return response.data;
@@ -49,7 +47,6 @@ export const deleteQuestion =
       const response = await api.delete(`${url}/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("response", response);
       dispatch(questionsSlice.actions.questionsDeleteSuccess(response.data));
       return response;
     } catch (e: any) {

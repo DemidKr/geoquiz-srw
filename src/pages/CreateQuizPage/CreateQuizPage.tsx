@@ -39,7 +39,6 @@ function centerAspectCrop(
 }
 
 const CreateQuizPage = () => {
-  // TODO: limit title and description, prevent text overflow
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [time, setTime] = React.useState<number>(TimeValues.DEFAULT);
@@ -82,7 +81,7 @@ const CreateQuizPage = () => {
     }
   }
 
-  async function onDownloadCropClick() {
+  async function submit() {
     const image = imgRef.current;
     const previewCanvas = previewCanvasRef.current;
     if (!image || !previewCanvas || !completedCrop) {
@@ -227,7 +226,7 @@ const CreateQuizPage = () => {
               )}
             </S.GridColumn>
           </S.GridColumn>
-          <S.SubmitButton onClick={onDownloadCropClick}>Создать</S.SubmitButton>
+          <S.SubmitButton onClick={submit}>Создать</S.SubmitButton>
         </Grid>
       </S.ContentBox>
     </S.PaperBackground>

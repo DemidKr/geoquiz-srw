@@ -6,34 +6,36 @@ import AddLocationAltOutlinedIcon from "@mui/icons-material/AddLocationAltOutlin
 import { IMainPageCard } from "../shared/types/IMainPageCard";
 import MainPageCard from "../components/MainPageCard/MainPageCard";
 import { AppPaths } from "../shared/consts";
-
-const cardItems: IMainPageCard[] = [
-  {
-    title: "Обучение",
-    desc: "Прокачай свои знания",
-    link: AppPaths.GUIDE,
-    icon: <SchoolOutlinedIcon sx={{ color: "#FFF", fontSize: "32px" }} />,
-  },
-  {
-    title: "Все викторины",
-    desc: "Открой огромный выбор",
-    link: AppPaths.QUESTIONS,
-    icon: (
-      <TravelExploreOutlinedIcon sx={{ color: "#FFF", fontSize: "32px" }} />
-    ),
-  },
-  {
-    title: "Конструктор викторин",
-    desc: "Создай свою викторину",
-    link: AppPaths.CREATE_QUIZ,
-    icon: (
-      <AddLocationAltOutlinedIcon sx={{ color: "#FFF", fontSize: "32px" }} />
-    ),
-    isAuthRequired: true,
-  },
-];
+import { useAppSelector } from "../shared/hooks/redux";
 
 const MainPage = () => {
+  const { isAuth, role, isLoading } = useAppSelector(store => store.user);
+
+  const cardItems: IMainPageCard[] = [
+    {
+      title: "Обучение",
+      desc: "Прокачай свои знания",
+      link: AppPaths.GUIDE,
+      icon: <SchoolOutlinedIcon sx={{ color: "#FFF", fontSize: "32px" }} />,
+    },
+    {
+      title: "Все викторины",
+      desc: "Открой огромный выбор",
+      link: AppPaths.QUESTIONS,
+      icon: (
+        <TravelExploreOutlinedIcon sx={{ color: "#FFF", fontSize: "32px" }} />
+      ),
+    },
+    {
+      title: "Конструктор викторин",
+      desc: "Создай свою викторину",
+      link: isAuth ? AppPaths.CREATE_QUIZ : AppPaths.AUTH,
+      icon: (
+        <AddLocationAltOutlinedIcon sx={{ color: "#FFF", fontSize: "32px" }} />
+      ),
+    },
+  ];
+
   return (
     <>
       <Container

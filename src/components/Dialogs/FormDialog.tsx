@@ -38,7 +38,7 @@ const FormDialog: FC<FormDialogProps> = ({
 
   return (
     <CustomDialogBox open={isOpen}>
-      <CustomDialogTitle>Завершение создания</CustomDialogTitle>
+      <CustomDialogTitle>Завершение редактирования</CustomDialogTitle>
       <AbsolutButton right={"8px"} top={"8px"} onClick={handleClose}>
         <CloseIcon
           sx={{

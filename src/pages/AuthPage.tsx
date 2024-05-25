@@ -28,7 +28,6 @@ interface IErrorResponce {
 }
 
 const AuthPage = () => {
-  // const {isLoading} = useAppSelector(state => state.user)
   const dispatch = useAppDispatch();
 
   const addSnack = useAction();
@@ -71,6 +70,10 @@ const AuthPage = () => {
         "auth",
         JSON.stringify(registrationData.access_token),
       );
+      localStorage.setItem(
+        "refresh",
+        JSON.stringify(registrationData.refresh_token),
+      );
     }
 
     if (registrationError && AuthType.REGISTRATION) {
@@ -93,6 +96,7 @@ const AuthPage = () => {
         }),
       );
       localStorage.setItem("auth", JSON.stringify(loginData.access_token));
+      localStorage.setItem("refresh", JSON.stringify(loginData.refresh_token));
     }
 
     if (loginError && AuthType.LOGIN) {

@@ -6,7 +6,7 @@ interface IMenuItem {
 }
 
 const userItems: IMenuItem[] = [
-  { title: "Мои геоквизы", link: AppPaths.USER_QUESTIONS },
+  { title: "Мои викторины", link: AppPaths.USER_QUESTIONS },
   { title: "Профиль", link: AppPaths.PROFILE },
 ];
 

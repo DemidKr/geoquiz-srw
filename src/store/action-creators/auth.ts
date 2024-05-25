@@ -9,7 +9,6 @@ export const login =
     try {
       dispatch(userSlice.actions.userFetching());
       const response = await api.post("/auth/login", { username, password });
-      console.log("response", response);
 
       dispatch(
         userSlice.actions.userFetchingSuccess({
@@ -33,7 +32,6 @@ export const registration =
         username,
         password,
       });
-      console.log("response", response);
 
       dispatch(
         userSlice.actions.userFetchingSuccess({
@@ -71,7 +69,6 @@ export const getUserByToken =
       const response = await api.get("/auth/verify", {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("response verify", response.data);
       dispatch(
         userSlice.actions.userFetchingSuccess({
           username: response.data.username,

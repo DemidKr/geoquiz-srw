@@ -22,6 +22,14 @@ export const AddStepBox = styled(Box)(({ theme }) => ({
   },
 })) as typeof Box;
 
+export const LoaderWrapper = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "72px",
+  width: "100%",
+})) as typeof Box;
+
 export const StepBox = styled(Box)(({ theme }) => ({
   position: "relative",
   display: "flex",

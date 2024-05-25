@@ -26,14 +26,17 @@ import { AbsolutButton } from "../EditCoordinatesBox/EditCoordinatesBox.styled";
 import { useAppSelector } from "../../shared/hooks/redux";
 import { Theme } from "../../store/reducers/ThemeSlice";
 import { ICoordinates } from "../../shared/types/coordinates";
+import { IStep } from "../../shared/types/IStep";
+import { useParams } from "react-router-dom";
+import { useAction } from "../../shared/hooks/useAction";
+import { useUpdateCoordinatesMutation } from "../../store/api/coordinatesApi";
 
 interface CreateStepDialogProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   question: IQuestionForm;
-  handleStepChanges: (doesCoordChange: boolean, newDesc: string) => void;
   coordinates: ICoordinates;
-  description: string;
+  previousDescription: string;
   index: number;
 }
 
@@ -42,36 +45,55 @@ const CreateStepDialog: FC<CreateStepDialogProps> = props => {
     isOpen,
     setIsOpen,
     question,
-    description,
-    handleStepChanges,
+    previousDescription,
     coordinates,
     index,
   } = props;
-  const [desc, setDesc] = useState<string>(description);
-  const [doesCoordChange, setDoesCoordChange] = useState<boolean>(false);
+  const [description, setDescription] = useState<string>(previousDescription);
+  const [isCoordinatesChanges, setIsCoordinatesChanges] =
+    useState<boolean>(false);
+
   const { theme } = useAppSelector(state => state.theme);
+  const { id } = useParams();
+  const addSnack = useAction();
 
-  const isSameCoord = useMemo(() => {
-    return (
-      question.steps[index].coordinates.lat === coordinates.lng &&
-      question.steps[index].coordinates.lng === coordinates.lng
-    );
-  }, [question.steps[index], coordinates]);
+  const [updateCoordinates, result] = useUpdateCoordinatesMutation();
 
-  useEffect(() => {
-    setDesc(description);
-  }, [description, isOpen]);
+  const isCoordinatesIdentical =
+    question.steps[index].coordinates.lat === coordinates.lat &&
+    question.steps[index].coordinates.lng === coordinates.lng;
 
   const handleSave = () => {
-    handleStepChanges(doesCoordChange, desc);
-    setIsOpen(false);
-    setDoesCoordChange(false);
+    const newCoordinates = isCoordinatesChanges
+      ? coordinates
+      : question.steps[index].coordinates;
+
+    updateCoordinates({
+      id: question.steps[index].coordinates.id!,
+      body: {
+        questionId: Number(id),
+        lat: newCoordinates.lat,
+        lng: newCoordinates.lng,
+        description,
+      },
+    });
   };
 
   const handleClose = () => {
     setIsOpen(false);
-    setDoesCoordChange(false);
+    setIsCoordinatesChanges(false);
   };
+
+  useEffect(() => {
+    if (result.data) {
+      addSnack("Этап викторины обновлен", "success");
+      handleClose();
+    }
+  }, [result]);
+
+  useEffect(() => {
+    setDescription(previousDescription);
+  }, [previousDescription, isOpen]);
 
   return (
     <CustomDialogBox open={isOpen} onClose={handleClose}>
@@ -86,7 +108,7 @@ const CreateStepDialog: FC<CreateStepDialogProps> = props => {
         />
       </AbsolutButton>
       <CustomDialogContent>
-        {!isSameCoord && (
+        {!isCoordinatesIdentical && (
           <>
             <CustomDialogContentText component="div">
               Нынешние координаты:
@@ -103,12 +125,12 @@ const CreateStepDialog: FC<CreateStepDialogProps> = props => {
           {question.steps[index].coordinates.lat}{" "}
           {question.steps[index].coordinates.lng}
         </GameText>
-        {!isSameCoord && (
+        {!isCoordinatesIdentical && (
           <FormControlLabel
             control={
               <Switch
-                value={doesCoordChange}
-                onChange={() => setDoesCoordChange(!doesCoordChange)}
+                value={isCoordinatesChanges}
+                onChange={() => setIsCoordinatesChanges(!isCoordinatesChanges)}
               />
             }
             label="Изменить координаты этапа на нынешние координаты"
@@ -118,9 +140,9 @@ const CreateStepDialog: FC<CreateStepDialogProps> = props => {
           fullWidth
           sx={{ mt: "5px" }}
           label="Описание локации"
-          value={desc}
+          value={description}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setDesc(event.target.value);
+            setDescription(event.target.value);
           }}
         />
       </CustomDialogContent>

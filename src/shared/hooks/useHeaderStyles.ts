@@ -11,7 +11,6 @@ interface IHeaderStyles {
 export const useHeaderStyles = (): IHeaderStyles => {
   const location = useLocation();
 
-  console.log("location", location.pathname);
   if (location.pathname === "/main") {
     return {
       color: "transparent",

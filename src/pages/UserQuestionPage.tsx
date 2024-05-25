@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../shared/hooks/redux";
 import { getUserQuestions } from "../store/action-creators/questions";
 import { Container, Grid, Typography } from "@mui/material";
@@ -6,61 +6,49 @@ import { getAuthDataFromLS } from "../store/action-creators/auth";
 import { IQuestion } from "../shared/types/questions";
 import pic from "../shared/images/TemporaryPicture.jpg";
 import secondPic from "../shared/images/TempPic2.jpg";
-
-const hardcodedQuestions: IQuestion[] = [
-  {
-    id: 0,
-    title: "Название",
-    description: "Описание",
-    username: "Пользователь",
-    time: 90,
-    stars: 4.3,
-    timesFinished: 54,
-    steps: 6,
-    coordinates: [[1, 1]],
-    imageUrl: pic,
-  },
-  {
-    id: 1,
-    title: "Название два",
-    description: "Описание два",
-    username: "Димас123",
-    time: 45,
-    stars: 5,
-    timesFinished: 10,
-    steps: 10,
-    coordinates: [[1, 1]],
-    imageUrl: secondPic,
-  },
-];
+import {
+  useFetchAllQuestionsQuery,
+  useFetchUserQuestionQuery,
+} from "../store/api/questionApi";
+import { useSearchParams } from "react-router-dom";
+import { useAction } from "../shared/hooks/useAction";
+import Loader from "../components/Loader/Loader";
+import QuestionCard from "../components/QuextionCard/QuestionCard";
 
 const UserQuestionPage = () => {
-  const { isLoading, questions } = useAppSelector(state => state.questions);
-  const dispatch = useAppDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const addSnack = useAction();
 
-  const shouldLoadQuestions = useRef(true);
+  const initialPage =
+    Number(searchParams.get("page")) >= 1
+      ? Number(searchParams.get("page"))
+      : 1;
+
+  const [search, setSearch] = useState<string>("");
+  const [page, setPage] = useState<number>(initialPage);
+
+  const {
+    data: questionsData,
+    error,
+    isLoading,
+    isFetching,
+  } = useFetchUserQuestionQuery({
+    search,
+    page,
+    perPage: 8,
+  });
+
+  const isQuestionDataEmpty =
+    !!questionsData && questionsData.questions.length === 0;
 
   useEffect(() => {
-    if (shouldLoadQuestions.current) {
-      handleLoad();
+    if (error) {
+      addSnack("Не удалось загрузить квизы", "error");
     }
-  }, [shouldLoadQuestions.current, dispatch]);
+  }, [isLoading]);
 
-  const handleLoad = async () => {
-    const authData = dispatch(getAuthDataFromLS());
-
-    const questions = dispatch(
-      getUserQuestions({
-        url: "/question/user",
-        token: authData.access_token,
-      }),
-    );
-    console.log(questions);
-    shouldLoadQuestions.current = false;
-  };
-
-  if (isLoading || shouldLoadQuestions.current) {
-    return <h1>Loading...</h1>;
+  if (isLoading || isFetching) {
+    return <Loader />;
   }
 
   return (
@@ -101,7 +89,7 @@ const UserQuestionPage = () => {
             // color: '#2D2D2D',
             textDecoration: "uppercase",
           }}>
-          ГЕОКВИЗЫ
+          ВИКТОРИНЫ
         </Typography>
       </Container>
       <Grid
@@ -116,10 +104,11 @@ const UserQuestionPage = () => {
           marginLeft: "auto",
           marginRight: "auto",
         }}>
-        {/*{hardcodedQuestions?.map((question, index) => (*/}
-        {/*    <QuestionCard question={question}/>*/}
-        {/*))}*/}
-        {questions.length === 0 && (
+        {questionsData &&
+          questionsData?.questions?.map((question, index) => (
+            <QuestionCard key={question.id} question={question} />
+          ))}
+        {isQuestionDataEmpty && (
           <Grid
             container
             direction="column"

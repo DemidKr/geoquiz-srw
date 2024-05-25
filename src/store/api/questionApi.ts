@@ -1,33 +1,45 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { createApi } from "@reduxjs/toolkit/dist/query/react";
 import {
   IGetAllQuestionsDto,
   IGetAllQuestionsResponse,
   IQuestionRequest,
   IQuestionResponse,
 } from "../../shared/types/questions";
-import { BASE_URL } from "../../shared/consts";
-import { prepareBaseHeaders } from "../../shared/utils/prepareBaseHeaders";
+import { baseQueryWithReauth } from "../../shared/utils/prepareBaseHeaders";
 
 export const questionApi = createApi({
   reducerPath: "questionApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${BASE_URL}/question`,
-    prepareHeaders: prepareBaseHeaders,
-  }),
+  baseQuery: baseQueryWithReauth,
+  // baseQuery: fetchBaseQuery({
+  //   baseUrl: `${BASE_URL}/question`,
+  //   prepareHeaders: prepareBaseHeaders,
+  // }),
+  keepUnusedDataFor: 0,
+  tagTypes: ["Post"],
   endpoints: build => ({
     fetchAllQuestions: build.query<
       IGetAllQuestionsResponse,
       IGetAllQuestionsDto
     >({
       query: params => ({
-        url: "",
+        url: "/question",
         params: params,
       }),
     }),
     fetchQuestion: build.query<IQuestionResponse, number>({
       query: id => ({
-        url: `/${id}`,
+        url: `/question/${id}`,
       }),
+    }),
+    fetchUserQuestion: build.query<
+      IGetAllQuestionsResponse,
+      IGetAllQuestionsDto
+    >({
+      query: params => ({
+        url: `/question/user`,
+        params: params,
+      }),
+      providesTags: ["Post"],
     }),
     createQuestion: build.mutation<number, IQuestionRequest>({
       query: ({ title, description, file, time }) => {
@@ -38,7 +50,7 @@ export const questionApi = createApi({
         bodyFormData.append("time", time.toString());
 
         return {
-          url: "",
+          url: "/question",
           method: "POST",
           body: bodyFormData,
         };
@@ -58,5 +70,6 @@ export const questionApi = createApi({
 export const {
   useFetchAllQuestionsQuery,
   useFetchQuestionQuery,
+  useFetchUserQuestionQuery,
   useCreateQuestionMutation,
 } = questionApi;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import QuestionListPage from "../pages/QuestionListPage/QuestionListPage";
 import EditCoordinatesPage from "../pages/EditCoordinatesPage";
 import QuestionPage from "../pages/QuestionPage";
@@ -118,3 +118,5 @@ export const adminRoutes: Array<IRouter> = [
   // ToDo: add not found page
   { path: "*", element: <Navigate to={AppPaths.MAIN} replace /> },
 ];
+
+export const router = createBrowserRouter(publicRoutes);

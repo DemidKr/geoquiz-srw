@@ -23,7 +23,6 @@ import Loader from "../components/Loader/Loader";
 const QuestionPage = () => {
   const ymaps = useYMaps(["package.full"]);
   const addSnack = useAction();
-  const dispatch = useAppDispatch();
 
   const { id } = useParams();
 
@@ -68,8 +67,6 @@ const QuestionPage = () => {
       locateRequest.then(
         // @ts-ignore
         function (panoramas) {
-          console.log("panoramas", panoramas);
-
           if (panoramas.length) {
             console.log("Ура, нашлась панорама " + panoramas[0]);
             setPanoramaCoordinates([lat, lng]);
@@ -94,9 +91,8 @@ const QuestionPage = () => {
       addSnack("Время вышло!", "info");
       handleAnswer();
     }
-    if (timerClock > 0 && showStepWindow) {
+    if (timerClock > 0 && !showStepWindow) {
       const timer = setTimeout(function () {
-        console.log("minus: ", timerClock);
         setTimerClock(timerClock - 1);
       }, 1000);
 
@@ -156,7 +152,6 @@ const QuestionPage = () => {
     setShowStepWindow(false);
     if (question) {
       const coordinatesObj: ICoordinates = question.coordinates[curStep];
-      console.log("coordinatesObj", coordinatesObj);
       setPanoramaCoordinates([coordinatesObj.lat, coordinatesObj.lng]);
       setStepText("");
       setAnswer([]);
