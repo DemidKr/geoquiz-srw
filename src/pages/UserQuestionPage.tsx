@@ -86,7 +86,6 @@ const UserQuestionPage = () => {
             lineHeight: "normal",
             letterSpacing: "3.6px",
             fontWeight: 700,
-            // color: '#2D2D2D',
             textDecoration: "uppercase",
           }}>
           ВИКТОРИНЫ
