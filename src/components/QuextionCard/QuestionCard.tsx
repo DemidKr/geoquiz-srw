@@ -22,9 +22,11 @@ import Stars from "../Stars/Stars";
 import TranslucentButton from "../TranslucentButton/TranslucentButton";
 import { Tooltip } from "@mui/material";
 import { AppPaths } from "../../shared/consts";
+import QuestionCardMenu from "./QuestionCardMenu";
 
 interface QuestionCardProps {
   question: IQuestionResponse;
+  isMenuEnabled?: boolean;
   isLoading?: boolean;
   deleteOn?: boolean;
 }
@@ -32,6 +34,7 @@ interface QuestionCardProps {
 const QuestionCard: FC<QuestionCardProps> = ({
   question,
   isLoading,
+  isMenuEnabled,
   deleteOn,
 }) => {
   // TODO: move to utils
@@ -50,6 +53,8 @@ const QuestionCard: FC<QuestionCardProps> = ({
     });
   }, []);
 
+  const isPublished = question?.isFinished;
+
   if (isLoading) {
     return (
       <QuestionCardContainer isLoading>
@@ -62,11 +67,14 @@ const QuestionCard: FC<QuestionCardProps> = ({
     <>
       <QuestionCardContainer
         imageUrl={`${process.env.REACT_APP_SERVER_URL}/${question.imageUrl}`}>
-        {/*<QuestionCardWarningContainer>*/}
-        {/*  <Tooltip title="Квиз не опубликован" leaveDelay={200}>*/}
-        {/*    <WarningIcon color="warning" />*/}
-        {/*  </Tooltip>*/}
-        {/*</QuestionCardWarningContainer>*/}
+        <QuestionCardWarningContainer>
+          {!isPublished && (
+            <Tooltip title="Квиз не опубликован" leaveDelay={200}>
+              <WarningIcon color="warning" />
+            </Tooltip>
+          )}
+          {isMenuEnabled && <QuestionCardMenu id={Number(question.id)} />}
+        </QuestionCardWarningContainer>
         <QuestionCardColumn>
           <QuestionCardTitle>{question.title.toUpperCase()}</QuestionCardTitle>
           <QuestionCardWrapper>

@@ -4,6 +4,7 @@ import {
   IGetAllQuestionsResponse,
   IQuestionRequest,
   IQuestionResponse,
+  IUpdateQuestionRequest,
 } from "../../shared/types/questions";
 import { baseQueryWithReauth } from "../../shared/utils/prepareBaseHeaders";
 
@@ -15,7 +16,7 @@ export const questionApi = createApi({
   //   prepareHeaders: prepareBaseHeaders,
   // }),
   keepUnusedDataFor: 0,
-  tagTypes: ["Post"],
+  tagTypes: ["Question"],
   endpoints: build => ({
     fetchAllQuestions: build.query<
       IGetAllQuestionsResponse,
@@ -25,11 +26,13 @@ export const questionApi = createApi({
         url: "/question",
         params: params,
       }),
+      providesTags: ["Question"],
     }),
     fetchQuestion: build.query<IQuestionResponse, number>({
       query: id => ({
         url: `/question/${id}`,
       }),
+      providesTags: ["Question"],
     }),
     fetchUserQuestion: build.query<
       IGetAllQuestionsResponse,
@@ -39,7 +42,7 @@ export const questionApi = createApi({
         url: `/question/user`,
         params: params,
       }),
-      providesTags: ["Post"],
+      providesTags: ["Question"],
     }),
     createQuestion: build.mutation<number, IQuestionRequest>({
       query: ({ title, description, file, time }) => {
@@ -55,15 +58,30 @@ export const questionApi = createApi({
           body: bodyFormData,
         };
       },
-      // invalidatesTags: ['Post']
+      invalidatesTags: ["Question"],
     }),
-    // deletePost: build.mutation<IPost, IPost>({
-    //     query: (post) => ({
-    //         url: `/posts/${post.id}`,
-    //         method: 'DELETE',
-    //     }),
-    //     invalidatesTags: ['Post']
-    // }),
+    updateQuestion: build.mutation<number, IUpdateQuestionRequest>({
+      query: request => ({
+        url: `/question/${request.id}`,
+        method: "PUT",
+        body: request.body,
+      }),
+      invalidatesTags: ["Question"],
+    }),
+    publishQuestion: build.mutation<boolean, number>({
+      query: id => ({
+        url: `/question/publish/${id}`,
+        method: "PUT",
+      }),
+      invalidatesTags: ["Question"],
+    }),
+    deleteQuestion: build.mutation<void, number>({
+      query: id => ({
+        url: `/question/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Question"],
+    }),
   }),
 });
 
@@ -72,4 +90,7 @@ export const {
   useFetchQuestionQuery,
   useFetchUserQuestionQuery,
   useCreateQuestionMutation,
+  usePublishQuestionMutation,
+  useUpdateQuestionMutation,
+  useDeleteQuestionMutation,
 } = questionApi;

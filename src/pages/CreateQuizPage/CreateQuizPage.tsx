@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import * as S from "../../components/QuizForm/QuizForm.styled";
 import {
   Crop,
@@ -154,7 +154,7 @@ const CreateQuizPage = () => {
       <S.ContentBox>
         <Grid container spacing={2}>
           <S.GridColumn item xl={8} md={6} xs={12} alignItems={"flex-start"}>
-            <S.MainTitle>Новый квиз:</S.MainTitle>
+            <S.MainTitle>Новая викторина:</S.MainTitle>
             <S.Input
               label="Название"
               value={title}
@@ -182,13 +182,15 @@ const CreateQuizPage = () => {
                 }}
               />
             </S.ImgInputButton>
+
             {src && (
-              <div>
+              <Box>
                 <ReactCrop
                   aspect={aspect}
                   onComplete={c => setCompletedCrop(c)}
                   crop={crop}
-                  onChange={setCrop}>
+                  onChange={setCrop}
+                  style={{ maxWidth: "800px", maxHeight: "450px" }}>
                   <img
                     ref={imgRef}
                     alt="Crop me"
@@ -196,9 +198,13 @@ const CreateQuizPage = () => {
                     onLoad={onImageLoad}
                   />
                 </ReactCrop>
-              </div>
+              </Box>
             )}
+
             <TimeSlider time={time} setTime={setTime} />
+            <S.SubmitButton variant="contained" onClick={submit}>
+              Создать
+            </S.SubmitButton>
           </S.GridColumn>
           <S.GridColumn
             item
@@ -208,11 +214,12 @@ const CreateQuizPage = () => {
             sx={{ alignItems: { md: "flex-end", sm: "flex-start" } }}>
             <S.GridColumn alignItems="flex-start">
               <S.MainTitle>Предпросмотр:</S.MainTitle>
-              {!!completedCrop && (
-                <QuestionCardPreview
-                  title={title}
-                  description={description}
-                  time={time}>
+
+              <QuestionCardPreview
+                title={title}
+                description={description}
+                time={time}>
+                {!!completedCrop && (
                   <canvas
                     ref={previewCanvasRef}
                     style={{
@@ -222,11 +229,10 @@ const CreateQuizPage = () => {
                       height: "512px",
                     }}
                   />
-                </QuestionCardPreview>
-              )}
+                )}
+              </QuestionCardPreview>
             </S.GridColumn>
           </S.GridColumn>
-          <S.SubmitButton onClick={submit}>Создать</S.SubmitButton>
         </Grid>
       </S.ContentBox>
     </S.PaperBackground>

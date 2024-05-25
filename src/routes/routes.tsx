@@ -11,6 +11,7 @@ import AdminPage from "../pages/AdminPage";
 import { AppPaths } from "../shared/consts";
 import ProfilePage from "../pages/ProfilePage";
 import CreateQuizPage from "../pages/CreateQuizPage/CreateQuizPage";
+import EditQuizPage from "../pages/EditQuizPage/EditQuizPage";
 
 interface IRouter {
   path: string;
@@ -74,6 +75,10 @@ export const userRoutes: Array<IRouter> = [
     path: AppPaths.CREATE_QUIZ,
     element: <CreateQuizPage />,
   },
+  {
+    path: `${AppPaths.EDIT_QUIZ}/:id`,
+    element: <EditQuizPage />,
+  },
   // ToDo: add not found page
   { path: "*", element: <Navigate to={AppPaths.MAIN} replace /> },
 ];
@@ -114,6 +119,10 @@ export const adminRoutes: Array<IRouter> = [
   {
     path: AppPaths.CREATE_QUIZ,
     element: <CreateQuizPage />,
+  },
+  {
+    path: `${AppPaths.EDIT_QUIZ}/:id`,
+    element: <EditQuizPage />,
   },
   // ToDo: add not found page
   { path: "*", element: <Navigate to={AppPaths.MAIN} replace /> },

@@ -23,7 +23,11 @@ interface QuestionCardPreviewProps {
   title: string;
   description: string;
   time: number;
-  children: React.ReactNode;
+  starsNumber?: number;
+  timesFinished?: number;
+  imageUrl?: string;
+  coordinatesNumber?: number;
+  children?: React.ReactNode;
   isLoading?: boolean;
   deleteOn?: boolean;
 }
@@ -32,6 +36,10 @@ const QuestionCardPreview: FC<QuestionCardPreviewProps> = ({
   title,
   description,
   time,
+  imageUrl,
+  timesFinished,
+  coordinatesNumber,
+  starsNumber,
   children,
   isLoading,
   deleteOn,
@@ -53,7 +61,10 @@ const QuestionCardPreview: FC<QuestionCardPreviewProps> = ({
 
   return (
     <>
-      <Container>
+      <Container
+        imageUrl={
+          imageUrl && `${process.env.REACT_APP_SERVER_URL}/${imageUrl}`
+        }>
         {/*TODO: add default background if children not passed*/}
         {children}
         <QuestionCardColumn>
@@ -79,11 +90,13 @@ const QuestionCardPreview: FC<QuestionCardPreviewProps> = ({
           </QuestionCardWrapper>
           <QuestionCardWrapper>
             <DoneIcon sx={{ color: "rgba(255, 255, 255, 0.60)" }} />
-            <QuestionCardInfo>Пройдено 0 раз</QuestionCardInfo>
+            <QuestionCardInfo>
+              Пройдено {timesFinished ?? 0} раз
+            </QuestionCardInfo>
           </QuestionCardWrapper>
           <QuestionCardWrapper>
             <PlaceIcon sx={{ color: "rgba(255, 255, 255, 0.60)" }} />
-            <QuestionCardInfo>0 этапов</QuestionCardInfo>
+            <QuestionCardInfo>{coordinatesNumber ?? 0} этапов</QuestionCardInfo>
           </QuestionCardWrapper>
           <QuestionCardWrapper>
             <Stars stars={stars} />

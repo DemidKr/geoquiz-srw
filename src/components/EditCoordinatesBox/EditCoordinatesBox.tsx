@@ -35,6 +35,7 @@ import {
 } from "../../store/api/coordinatesApi";
 import { ICoordinates } from "../../shared/types/coordinates";
 import ButtonLoader from "../Loader/ButtonLoader";
+import { AppPaths } from "../../shared/consts";
 
 interface IEditCoordinatesBoxProps {
   currentCoordinates: ICoordinates;
@@ -117,6 +118,8 @@ const EditCoordinatesBox: FC<IEditCoordinatesBoxProps> = ({
       addSnack("Добавьте шаги, прежде чем сохранять", "warning");
       return;
     }
+
+    navigate(`${AppPaths.EDIT_QUIZ}/${id}`);
   };
 
   const handleOpenSetting = (index: number) => {

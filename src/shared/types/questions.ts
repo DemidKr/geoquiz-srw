@@ -54,3 +54,12 @@ export interface IQuestionRequest {
   time: number;
   file: Blob;
 }
+
+export interface IUpdateQuestionRequest {
+  id: number;
+  body: {
+    title?: string;
+    description?: string;
+    time?: number;
+  };
+}

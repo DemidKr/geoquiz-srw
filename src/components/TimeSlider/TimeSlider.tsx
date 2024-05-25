@@ -6,9 +6,10 @@ import { TimeValues } from "../../shared/consts/enum";
 interface ITimeSliderProps {
   time: number;
   setTime: React.Dispatch<React.SetStateAction<number>>;
+  defaultTime?: number;
 }
 
-const TimeSlider: FC<ITimeSliderProps> = ({ time, setTime }) => {
+const TimeSlider: FC<ITimeSliderProps> = ({ time, setTime, defaultTime }) => {
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     setTime(newValue as number);
   };
@@ -43,6 +44,7 @@ const TimeSlider: FC<ITimeSliderProps> = ({ time, setTime }) => {
             min={TimeValues.MIN}
             max={TimeValues.MAX}
             aria-labelledby="input-slider"
+            defaultValue={defaultTime}
           />
         </Grid>
         <Grid item>
@@ -58,6 +60,7 @@ const TimeSlider: FC<ITimeSliderProps> = ({ time, setTime }) => {
               type: "number",
               "aria-labelledby": "input-slider",
             }}
+            defaultValue={defaultTime}
           />
         </Grid>
       </Grid>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Box, Grid } from "@mui/material";
-import { useAppDispatch } from "../shared/hooks/redux";
 import { Map, Panorama, Placemark, useYMaps } from "@pbe/react-yandex-maps";
 import { MapWrapper } from "../components/Map/Map.styled";
 import { useAction } from "../shared/hooks/useAction";
@@ -117,18 +116,14 @@ const QuestionPage = () => {
     setAnswersArray([...answersArray, answer]);
     if (question) {
       // check with right coordinates instead of 0
-      const lat = Math.floor(
-        ((5 - Math.abs(answer[0] - question.coordinates[currentStep - 1].lat)) /
-          5) *
-          1000,
-      );
-      const lng = Math.floor(
-        ((10 -
-          Math.abs(answer[1] - question.coordinates[currentStep - 1].lng)) /
-          10) *
-          1000,
-      );
-      const res = Math.floor((lat + lng) / 2);
+      // 0.5 - максимальное значение градуса, по которому может отклониться пользователь
+      const lat =
+        0.5 - Math.abs(answer[0] - question.coordinates[currentStep - 1].lat);
+
+      const lng =
+        0.5 - Math.abs(answer[1] - question.coordinates[currentStep - 1].lng);
+
+      const res = Math.floor((lat + lng) * 1000);
 
       if (lat < 0 || lng < 0 || isNaN(res)) {
         setZoomLevel(2);
@@ -159,6 +154,8 @@ const QuestionPage = () => {
       setTimerClock(question.time);
     }
   };
+
+  const description = question?.coordinates[currentStep]?.description;
 
   if (isLoading || panoramaCoordinates.length === 0 || !question) {
     return <Loader />;
@@ -201,6 +198,11 @@ const QuestionPage = () => {
                 Скрыть
               </HideHintButton>
             </HintText>
+          )}
+          {description && (
+            <GameText component="div">
+              Описание панорамы: {description}
+            </GameText>
           )}
           <Box sx={{ width: "100%" }}>
             <Map

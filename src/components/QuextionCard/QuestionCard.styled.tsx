@@ -25,11 +25,20 @@ export const QuestionCardContainer = styled(Box)<{
   backgroundPosition: "center",
 }));
 
-export const Container = styled(Box)(({ theme }) => ({
+export const Container = styled(Box)<{
+  imageUrl?: string;
+  isLoading?: boolean;
+}>(({ theme, imageUrl, isLoading }) => ({
   position: "relative",
   width: "288px",
   height: "512px",
   borderRadius: "10px",
+  backgroundImage: isLoading
+    ? "linear-gradient(360deg, rgba(0, 0, 0, 0.54) 0%, rgba(255, 255, 255, 0.00) 67.71%)"
+    : `url(${imageUrl}), url(${secondPic})`,
+  backgroundRepeat: "no-repeat",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
 }));
 
 export const QuestionCardColumn = styled(Box)(({ theme }) => ({
@@ -43,6 +52,9 @@ export const QuestionCardColumn = styled(Box)(({ theme }) => ({
 }));
 
 export const QuestionCardWarningContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "4px",
   position: "absolute",
   top: "22px",
   right: "22px",
