@@ -66,14 +66,8 @@ const AuthPage = () => {
           role: registrationData.role,
         }),
       );
-      localStorage.setItem(
-        "auth",
-        JSON.stringify(registrationData.access_token),
-      );
-      localStorage.setItem(
-        "refresh",
-        JSON.stringify(registrationData.refresh_token),
-      );
+      localStorage.setItem("auth", registrationData.access_token);
+      localStorage.setItem("refresh", registrationData.refresh_token);
     }
 
     if (registrationError && AuthType.REGISTRATION) {
@@ -95,8 +89,8 @@ const AuthPage = () => {
           role: loginData.role,
         }),
       );
-      localStorage.setItem("auth", JSON.stringify(loginData.access_token));
-      localStorage.setItem("refresh", JSON.stringify(loginData.refresh_token));
+      localStorage.setItem("auth", loginData.access_token);
+      localStorage.setItem("refresh", loginData.refresh_token);
     }
 
     if (loginError && AuthType.LOGIN) {

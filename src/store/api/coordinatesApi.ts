@@ -1,18 +1,14 @@
-import { createApi } from "@reduxjs/toolkit/dist/query/react";
 import {
   ICoordinates,
   ICreateUpdateOneCoordinatesRequest,
   IUpdateCoordinates,
 } from "../../shared/types/coordinates";
 import { baseQueryWithReauth } from "../../shared/utils/prepareBaseHeaders";
+import { createApi } from "@reduxjs/toolkit/query/react";
 
 export const coordinatesApi = createApi({
   reducerPath: "coordinatesApi",
   baseQuery: baseQueryWithReauth,
-  // baseQuery: fetchBaseQuery({
-  //   baseUrl: `${BASE_URL}/coordinates`,
-  //   prepareHeaders: prepareBaseHeaders,
-  // }),
   tagTypes: ["Coordinates"],
   endpoints: build => ({
     fetchQuizCoordinates: build.query<ICoordinates[], number>({

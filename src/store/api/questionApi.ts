@@ -1,4 +1,3 @@
-import { createApi } from "@reduxjs/toolkit/dist/query/react";
 import {
   IGetAllQuestionsDto,
   IGetAllQuestionsResponse,
@@ -7,14 +6,11 @@ import {
   IUpdateQuestionRequest,
 } from "../../shared/types/questions";
 import { baseQueryWithReauth } from "../../shared/utils/prepareBaseHeaders";
+import { createApi } from "@reduxjs/toolkit/query/react";
 
 export const questionApi = createApi({
   reducerPath: "questionApi",
   baseQuery: baseQueryWithReauth,
-  // baseQuery: fetchBaseQuery({
-  //   baseUrl: `${BASE_URL}/question`,
-  //   prepareHeaders: prepareBaseHeaders,
-  // }),
   keepUnusedDataFor: 0,
   tagTypes: ["Question"],
   endpoints: build => ({

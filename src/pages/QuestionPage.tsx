@@ -155,7 +155,7 @@ const QuestionPage = () => {
     }
   };
 
-  const description = question?.coordinates[currentStep]?.description;
+  const description = question?.coordinates[currentStep - 1]?.description;
 
   if (isLoading || panoramaCoordinates.length === 0 || !question) {
     return <Loader />;
