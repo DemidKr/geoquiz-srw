@@ -25,14 +25,14 @@ import { getAverageStars } from "../../shared/utils/getAverageStars";
 
 interface QuestionCardProps {
   question: IQuestionResponse;
-  isMenuEnabled?: boolean;
+  isUserOptionAvailable?: boolean;
   isLoading?: boolean;
 }
 
 const QuestionCard: FC<QuestionCardProps> = ({
   question,
   isLoading,
-  isMenuEnabled,
+  isUserOptionAvailable = false,
 }) => {
   const isPublished = question?.isFinished;
 
@@ -54,7 +54,11 @@ const QuestionCard: FC<QuestionCardProps> = ({
               <WarningIcon color="warning" />
             </Tooltip>
           )}
-          {isMenuEnabled && <QuestionCardMenu id={Number(question.id)} />}
+
+          <QuestionCardMenu
+            id={Number(question.id)}
+            isUserOptionAvailable={isUserOptionAvailable}
+          />
         </QuestionCardWarningContainer>
         <QuestionCardColumn>
           <QuestionCardTitle>{question.title.toUpperCase()}</QuestionCardTitle>
@@ -75,7 +79,7 @@ const QuestionCard: FC<QuestionCardProps> = ({
           <QuestionCardWrapper>
             <DoneIcon sx={{ color: "rgba(255, 255, 255, 0.60)" }} />
             <QuestionCardInfo>
-              Пройдено {question.timesFinished} раз
+              Пройдено {question.result.length} раз
             </QuestionCardInfo>
           </QuestionCardWrapper>
           <QuestionCardWrapper>

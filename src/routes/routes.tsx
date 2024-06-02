@@ -12,6 +12,7 @@ import { AppPaths } from "../shared/consts";
 import ProfilePage from "../pages/ProfilePage";
 import CreateQuizPage from "../pages/CreateQuizPage/CreateQuizPage";
 import EditQuizPage from "../pages/EditQuizPage/EditQuizPage";
+import LeaderboardPage from "../pages/LeaderboardPage/LeaderboardPage";
 
 interface IRouter {
   path: string;
@@ -38,6 +39,10 @@ export const publicRoutes: Array<IRouter> = [
   {
     path: `${AppPaths.QUESTION}/:id`,
     element: <QuestionPage />,
+  },
+  {
+    path: `${AppPaths.LEADERBOARD}/:id`,
+    element: <LeaderboardPage />,
   },
   { path: "*", element: <Navigate to={AppPaths.MAIN} replace /> },
 ];
@@ -78,6 +83,10 @@ export const userRoutes: Array<IRouter> = [
   {
     path: `${AppPaths.EDIT_QUIZ}/:id`,
     element: <EditQuizPage />,
+  },
+  {
+    path: `${AppPaths.LEADERBOARD}/:id`,
+    element: <LeaderboardPage />,
   },
   // ToDo: add not found page
   { path: "*", element: <Navigate to={AppPaths.MAIN} replace /> },
@@ -123,6 +132,10 @@ export const adminRoutes: Array<IRouter> = [
   {
     path: `${AppPaths.EDIT_QUIZ}/:id`,
     element: <EditQuizPage />,
+  },
+  {
+    path: `${AppPaths.LEADERBOARD}/:id`,
+    element: <LeaderboardPage />,
   },
   // ToDo: add not found page
   { path: "*", element: <Navigate to={AppPaths.MAIN} replace /> },

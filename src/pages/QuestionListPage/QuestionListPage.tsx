@@ -73,7 +73,7 @@ const QuestionListPage = () => {
     <>
       <S.TitlesContainer>
         <S.MainTitle component="div">сотни</S.MainTitle>
-        <S.SubTitle component="div">бесплатных квестов</S.SubTitle>
+        <S.SubTitle component="div">викторин</S.SubTitle>
       </S.TitlesContainer>
       <S.CardsContainer container>
         {questionsData &&
@@ -87,7 +87,7 @@ const QuestionListPage = () => {
             alignItems="center"
             sx={{ padding: "15px" }}>
             <Typography variant="h5" component="div" align="center">
-              Еще не создано ни одного геоквиза
+              Еще не создано ни одной викторины
             </Typography>
           </Grid>
         )}

@@ -18,6 +18,7 @@ import ResultDialog from "../components/Dialogs/ResultDialog";
 import { useFetchQuestionQuery } from "../store/api/questionApi";
 import { ICoordinates } from "../shared/types/coordinates";
 import Loader from "../components/Loader/Loader";
+import { useCreateResultMutation } from "../store/api/resultApi";
 
 const QuestionPage = () => {
   const ymaps = useYMaps(["package.full"]);
@@ -30,6 +31,8 @@ const QuestionPage = () => {
     error,
     isLoading,
   } = useFetchQuestionQuery(Number(id));
+
+  const [createResult, result] = useCreateResultMutation();
 
   const [panoramaCoordinates, setPanoramaCoordinates] = useState<number[]>([]);
   const [answer, setAnswer] = useState<number[]>([]);
@@ -90,7 +93,7 @@ const QuestionPage = () => {
       addSnack("Время вышло!", "info");
       handleAnswer();
     }
-    if (timerClock > 0 && !showStepWindow) {
+    if (timerClock > 0 && !showStepWindow && !showResultWindow) {
       const timer = setTimeout(function () {
         setTimerClock(timerClock - 1);
       }, 1000);
@@ -104,7 +107,6 @@ const QuestionPage = () => {
 
   const finishGame = () => {
     setShowResultWindow(true);
-    // send result here
   };
 
   const handleAnswer = () => {
@@ -123,19 +125,25 @@ const QuestionPage = () => {
       const lng =
         0.5 - Math.abs(answer[1] - question.coordinates[currentStep - 1].lng);
 
-      const res = Math.floor((lat + lng) * 1000);
+      const result = Math.floor((lat + lng) * 1000);
 
-      if (lat < 0 || lng < 0 || isNaN(res)) {
+      if (result < 0) {
         setZoomLevel(2);
         setScores([...scores, 0]);
       } else {
-        setZoomLevel(res > 900 ? 6 : 4);
-        setScores([...scores, res]);
-        setFinalScore(finalScore + res);
+        setZoomLevel(result > 900 ? 6 : 4);
+        setScores([...scores, result]);
+        setFinalScore(prevState => {
+          return prevState + result;
+        });
       }
 
       if (currentStep >= question.coordinates.length) {
         finishGame();
+        createResult({
+          questionId: Number(id),
+          score: result < 0 ? finalScore : finalScore + result,
+        });
       } else {
         setShowStepWindow(true);
       }

@@ -12,6 +12,7 @@ export enum AppPaths {
   CREATE_QUIZ = "/create-quiz",
   EDIT_QUIZ = "/edit-quiz",
   EDIT_COORDINATES = "/edit-coordinates",
+  LEADERBOARD = "/leaderboard",
 }
 
 export const BASE_URL = process.env.REACT_APP_SERVER_URL as string;

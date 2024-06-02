@@ -165,7 +165,7 @@ const EditCoordinatesBox: FC<IEditCoordinatesBoxProps> = ({
     <>
       <GameBox>
         <Grid container direction="column" alignItems="center" gap="10px">
-          <GameTitle component="div">Создание геоквиза</GameTitle>
+          <GameTitle component="div">Создание викторины</GameTitle>
           {showHint && (
             <HintText component="div">
               Подсказка: Нажмите на карту чтоб переместиться, учтите что

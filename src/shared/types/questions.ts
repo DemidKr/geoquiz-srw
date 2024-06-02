@@ -1,23 +1,6 @@
 import { ICoordinates } from "./coordinates";
 import { IStars } from "./stars";
-
-// TODO: remove this later
-export interface IQuestion {
-  id?: number;
-  title: string;
-  description: string;
-  username: string;
-  time: number;
-  stars: number;
-  timesFinished: number;
-  steps: number;
-  coordinates: number[][];
-  imageUrl: any;
-
-  // don't sure about this
-  date?: Date;
-  userId?: number;
-}
+import { IResult } from "./result";
 
 // TODO: change name to IQuestion
 export interface IQuestionResponse {
@@ -36,6 +19,7 @@ export interface IQuestionResponse {
   };
   coordinates: ICoordinates[];
   userId?: number;
+  result: IResult[];
 }
 
 export interface IGetAllQuestionsResponse {

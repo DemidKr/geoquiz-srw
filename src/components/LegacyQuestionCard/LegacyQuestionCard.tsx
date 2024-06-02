@@ -49,7 +49,7 @@ export const LegacyQuestionCard: FC<QuestionCardProps> = ({
       }
     } else {
       addSnack(
-        `Ошибка в удалении, попробуйте снова. Отсутствует id геоквиза`,
+        `Ошибка в удалении, попробуйте снова. Отсутствует id викторины`,
         "error",
       );
     }
@@ -88,7 +88,7 @@ export const LegacyQuestionCard: FC<QuestionCardProps> = ({
                 },
               }}
               onClick={() => navigator("/question/" + question.id)}>
-              Перейти к геоквизу
+              Перейти к викторине
             </Button>
             {deleteButton && (
               <Button
@@ -101,7 +101,7 @@ export const LegacyQuestionCard: FC<QuestionCardProps> = ({
                   },
                 }}
                 onClick={handleDelete}>
-                Удалить геоквиз
+                Удалить викторину
               </Button>
             )}
           </Grid>

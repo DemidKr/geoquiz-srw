@@ -11,6 +11,7 @@ import {
   DialogButton,
 } from "./Dialog.styled";
 import SendStars from "../SendStars/SendStars";
+import { AppPaths } from "../../shared/consts";
 
 interface ResultDialogProps {
   currentStep: number;
@@ -72,11 +73,16 @@ const ResultDialog: FC<ResultDialogProps> = ({
         </Box>
       </CustomDialogContent>
       <SendStars questionId={Number(id)} />
+      <DialogButton
+        onClick={() => navigate(`${AppPaths.LEADERBOARD}/${Number(id)}`)}
+        variant="contained">
+        Таблица лидеров
+      </DialogButton>
       <DialogActions>
         <DialogButton
-          onClick={() => navigate("/questions")}
+          onClick={() => navigate(AppPaths.QUESTIONS)}
           variant="contained">
-          Вернуться к странице квестов
+          Вернуться к странице викторин
         </DialogButton>
       </DialogActions>
     </CustomDialogBox>

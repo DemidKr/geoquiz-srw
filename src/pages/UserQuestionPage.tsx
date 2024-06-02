@@ -1,15 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../shared/hooks/redux";
-import { getUserQuestions } from "../store/action-creators/questions";
+import React, { useEffect, useState } from "react";
 import { Container, Grid, Typography } from "@mui/material";
-import { getAuthDataFromLS } from "../store/action-creators/auth";
-import { IQuestion } from "../shared/types/questions";
-import pic from "../shared/images/TemporaryPicture.jpg";
-import secondPic from "../shared/images/TempPic2.jpg";
-import {
-  useFetchAllQuestionsQuery,
-  useFetchUserQuestionQuery,
-} from "../store/api/questionApi";
+import { useFetchUserQuestionQuery } from "../store/api/questionApi";
 import { useSearchParams } from "react-router-dom";
 import { useAction } from "../shared/hooks/useAction";
 import Loader from "../components/Loader/Loader";
@@ -105,7 +96,11 @@ const UserQuestionPage = () => {
         }}>
         {questionsData &&
           questionsData?.questions?.map((question, index) => (
-            <QuestionCard key={question.id} question={question} isMenuEnabled />
+            <QuestionCard
+              key={question.id}
+              question={question}
+              isUserOptionAvailable
+            />
           ))}
         {isQuestionDataEmpty && (
           <Grid
@@ -114,7 +109,7 @@ const UserQuestionPage = () => {
             alignItems="center"
             sx={{ padding: "15px" }}>
             <Typography variant="h5" component="div" align="center">
-              Еще не создано ни одного геоквиза
+              Еще не создано ни одной викторины
             </Typography>
           </Grid>
         )}

@@ -10,9 +10,13 @@ import { useDeleteQuestionMutation } from "../../store/api/questionApi";
 
 interface IQuestionCardMenuProps {
   id: number;
+  isUserOptionAvailable: boolean;
 }
 
-const QuestionCardMenu: FC<IQuestionCardMenuProps> = ({ id }) => {
+const QuestionCardMenu: FC<IQuestionCardMenuProps> = ({
+  id,
+  isUserOptionAvailable,
+}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -34,6 +38,10 @@ const QuestionCardMenu: FC<IQuestionCardMenuProps> = ({ id }) => {
 
   const handleNavigateToEdit = () => {
     navigate(`${AppPaths.EDIT_QUIZ}/${id}`);
+  };
+
+  const handleNavigateToLeaderboard = () => {
+    navigate(`${AppPaths.LEADERBOARD}/${id}`);
   };
 
   useEffect(() => {
@@ -62,9 +70,16 @@ const QuestionCardMenu: FC<IQuestionCardMenuProps> = ({ id }) => {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}>
-        <MenuItem onClick={handleNavigateToEdit}>Редактировать</MenuItem>
-        <MenuItem onClick={handleDelete} disabled={result.isLoading}>
-          Удалить
+        {isUserOptionAvailable && (
+          <>
+            <MenuItem onClick={handleNavigateToEdit}>Редактировать</MenuItem>
+            <MenuItem onClick={handleDelete} disabled={result.isLoading}>
+              Удалить
+            </MenuItem>
+          </>
+        )}
+        <MenuItem onClick={handleNavigateToLeaderboard}>
+          Таблица лидеров
         </MenuItem>
       </Menu>
     </div>
