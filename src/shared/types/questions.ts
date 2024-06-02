@@ -1,4 +1,5 @@
 import { ICoordinates } from "./coordinates";
+import { IStars } from "./stars";
 
 // TODO: remove this later
 export interface IQuestion {
@@ -24,7 +25,7 @@ export interface IQuestionResponse {
   title: string;
   description: string;
   time: number;
-  stars: number;
+  stars: IStars[];
   timesFinished: number;
   imageUrl: string;
   isFinished: boolean;

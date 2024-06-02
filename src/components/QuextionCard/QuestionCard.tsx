@@ -1,6 +1,5 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { IQuestionResponse } from "../../shared/types/questions";
-import { IStars } from "../../shared/types/IStars";
 import PersonIcon from "@mui/icons-material/Person";
 import TimerIcon from "@mui/icons-material/Timer";
 import DoneIcon from "@mui/icons-material/Done";
@@ -18,41 +17,23 @@ import {
   QuestionCardWarningContainer,
   QuestionCardWrapper,
 } from "./QuestionCard.styled";
-import Stars from "../Stars/Stars";
 import TranslucentButton from "../TranslucentButton/TranslucentButton";
-import { Tooltip } from "@mui/material";
+import { Rating, Tooltip } from "@mui/material";
 import { AppPaths } from "../../shared/consts";
 import QuestionCardMenu from "./QuestionCardMenu";
+import { getAverageStars } from "../../shared/utils/getAverageStars";
 
 interface QuestionCardProps {
   question: IQuestionResponse;
   isMenuEnabled?: boolean;
   isLoading?: boolean;
-  deleteOn?: boolean;
 }
 
 const QuestionCard: FC<QuestionCardProps> = ({
   question,
   isLoading,
   isMenuEnabled,
-  deleteOn,
 }) => {
-  // TODO: move to utils
-  const [stars, setStars] = useState<IStars>({
-    fullStar: 0,
-    halfStar: 0,
-    emptyStar: 0,
-  });
-
-  useEffect(() => {
-    const halfStar = question.stars - Math.floor(question.stars) >= 0.5 ? 1 : 0;
-    setStars({
-      fullStar: Math.floor(question.stars),
-      halfStar: halfStar,
-      emptyStar: 5 - Math.floor(question.stars) - halfStar,
-    });
-  }, []);
-
   const isPublished = question?.isFinished;
 
   if (isLoading) {
@@ -104,7 +85,12 @@ const QuestionCard: FC<QuestionCardProps> = ({
             </QuestionCardInfo>
           </QuestionCardWrapper>
           <QuestionCardWrapper>
-            <Stars stars={stars} />
+            <Rating
+              name="read-only"
+              value={getAverageStars(question.stars)}
+              readOnly
+              precision={0.5}
+            />
           </QuestionCardWrapper>
         </QuestionCardColumn>
         <QuestionCardBtnWrapper>

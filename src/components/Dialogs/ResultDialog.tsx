@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Box, DialogActions } from "@mui/material";
 import { Map, Placemark } from "@pbe/react-yandex-maps";
 import { IQuestionResponse } from "../../shared/types/questions";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   CustomDialogBox,
   CustomDialogContent,
@@ -10,6 +10,7 @@ import {
   CustomDialogTitle,
   DialogButton,
 } from "./Dialog.styled";
+import SendStars from "../SendStars/SendStars";
 
 interface ResultDialogProps {
   currentStep: number;
@@ -31,6 +32,8 @@ const ResultDialog: FC<ResultDialogProps> = ({
   isOpen,
 }) => {
   const navigate = useNavigate();
+
+  const { id } = useParams();
 
   return (
     <CustomDialogBox open={isOpen}>
@@ -68,6 +71,7 @@ const ResultDialog: FC<ResultDialogProps> = ({
           </Map>
         </Box>
       </CustomDialogContent>
+      <SendStars questionId={Number(id)} />
       <DialogActions>
         <DialogButton
           onClick={() => navigate("/questions")}
